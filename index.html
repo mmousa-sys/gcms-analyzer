@@ -265,6 +265,7 @@ const AUTHOR_AR = "محمد أسعد محمد عبد القادر (موسى)";
 const ROLE = {ar:"فني مختبرات كيميائي",en:"Chemical Laboratory Technician",de:"Chemielaborant"};
 const SOP_DOI  = "10.13140/RG.2.2.23821.40169";
 const SOP_URL  = "https://doi.org/" + SOP_DOI;
+const ARTICLE_URL = "https://www.researchgate.net/publication/415538359_GC-MS_Essential_Oil_Analyzer_An_Open-Source_Python_Tool_for_KRI_Calculation_Identification_and_Quantification_for_for_over_700_essential_oil_compoundsKRI_GCMS_Calcu_23_10_2026_1_with_pythonpy";
 
 // ============================================================
 //  REFERENCE DATABASE (Adams 2017 ed. 4.1)
@@ -1510,7 +1511,7 @@ desc_preview:"معاينة النص",
 sop_title:"إجراء التشغيل القياسي (SOP) لفحص الزيوت العطرية بـ GC-MS",
 sop_sub:"الإصدار 3.0 • بتاريخ 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"الإصدار",sop_eff:"تاريخ النفاذ",sop_auth:"المؤلف",sop_inst:"المؤسسة",sop_date:"تاريخ النشر",sop_doi:"DOI",
-sop_open:"فتح على ResearchGate",sop_copy:"نسخ DOI",sop_copied:"تم نسخ DOI",
+sop_open:"فتح على ResearchGate",sop_article:"فتح مقال التطبيق على ResearchGate",sop_copy:"نسخ DOI",sop_copied:"تم نسخ DOI",
 sop_desc:"هذا الدليل يشرح الطريقة الكاملة لفحص الزيوت العطرية باستخدام GC-MS، بما في ذلك حساب مؤشر كوفاتس (KRI) وتعريف المركبات.",
 sop_topics:"محتويات الدليل:",
 sop_t1:"تحضير العينة والمعايير",sop_t2:"ظروف التشغيل GC-MS",sop_t3:"حقن معيار الألكانات",
@@ -1551,7 +1552,7 @@ desc_preview:"Text Preview",
 sop_title:"STANDARD OPERATING PROCEDURE (SOP) of Essential Oils by Gas Chromatography-Mass Spectrometry (GC-MS)",
 sop_sub:"Version 3.0 • Effective 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"Version",sop_eff:"Effective Date",sop_auth:"Author",sop_inst:"Institution",sop_date:"Published",sop_doi:"DOI",
-sop_open:"Open on ResearchGate",sop_copy:"Copy DOI",sop_copied:"DOI copied to clipboard",
+sop_open:"Open on ResearchGate",sop_article:"Open analyzer article on ResearchGate",sop_copy:"Copy DOI",sop_copied:"DOI copied to clipboard",
 sop_desc:"This SOP describes the complete workflow for the analysis of essential oils by GC-MS, including Kovats Retention Index (KRI) calculation and compound identification.",
 sop_topics:"SOP Contents:",
 sop_t1:"Sample and standard preparation",sop_t2:"GC-MS operating conditions",sop_t3:"Alkane standard injection",
@@ -1592,7 +1593,7 @@ desc_preview:"Textvorschau",
 sop_title:"STANDARD OPERATING PROCEDURE (SOP) zur Analyse ätherischer Öle mittels GC-MS",
 sop_sub:"Version 3.0 • Gültig ab 22.05.2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"Version",sop_eff:"Gültig ab",sop_auth:"Autor",sop_inst:"Institution",sop_date:"Veröffentlicht",sop_doi:"DOI",
-sop_open:"Auf ResearchGate öffnen",sop_copy:"DOI kopieren",sop_copied:"DOI kopiert",
+sop_open:"Auf ResearchGate öffnen",sop_article:"Analyzer-Artikel auf ResearchGate öffnen",sop_copy:"DOI kopieren",sop_copied:"DOI kopiert",
 sop_desc:"Diese SOP beschreibt den vollständigen Arbeitsablauf zur Analyse ätherischer Öle mittels GC-MS.",
 sop_topics:"SOP-Inhalt:",
 sop_t1:"Proben- und Standardvorbereitung",sop_t2:"GC-MS-Betriebsbedingungen",sop_t3:"Injektion des Alkan-Standards",
@@ -1827,6 +1828,7 @@ function renderSOP(c){
     </table>
     <div class="btn-row" style="margin-top:14px">
       <button class="btn btn-primary" onclick="window.open('${SOP_URL}','_blank')">🔗 ${t("sop_open")}</button>
+      <a class="btn" href="${ARTICLE_URL}" target="_blank" rel="noopener noreferrer">${t("sop_article")}</a>
       <button class="btn" onclick="copyDOI()">📋 ${t("sop_copy")}</button>
     </div>
   </div>
