@@ -1517,6 +1517,11 @@ lab_assistant_info:"مستند Word للمساعدة الشاملة لفنيي �
 lab_assistant_dl:"تنزيل المستند (DOCX)",
 lab_assistant_app:"تشغيل برنامج مساعد فني المختبر",
 lab_assistant_app_info:"افتح التطبيق التفاعلي في المتصفح؛ لا يحتاج إلى تثبيت.",
+lab_assistant_v72_title:"مساعد فني المختبرات v7.2 — Python",
+lab_assistant_v72_info:"نسخة سطح مكتب منفصلة عن تطبيق HTML v9.2. تتطلب Python 3 ومكتبة CustomTkinter، ولا تعمل داخل المتصفح.",
+lab_assistant_v72_dl:"تنزيل الحزمة (ZIP)",
+lab_assistant_v72_source:"تنزيل ملف Python",
+lab_assistant_v72_setup:"دليل التثبيت والتشغيل",
 sop_title:"إجراء التشغيل القياسي (SOP) لفحص الزيوت العطرية بـ GC-MS",
 sop_sub:"الإصدار 3.0 • بتاريخ 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"الإصدار",sop_eff:"تاريخ النفاذ",sop_auth:"المؤلف",sop_inst:"المؤسسة",sop_date:"تاريخ النشر",sop_doi:"DOI",
@@ -1567,6 +1572,11 @@ lab_assistant_info:"Word document with a comprehensive assistant for chemical an
 lab_assistant_dl:"Download document (DOCX)",
 lab_assistant_app:"Open Lab Technician Assistant",
 lab_assistant_app_info:"Open the interactive browser app; no installation required.",
+lab_assistant_v72_title:"Lab Technician Assistant v7.2 — Python",
+lab_assistant_v72_info:"A separate desktop edition from the v9.2 HTML app. Requires Python 3 and CustomTkinter; it does not run in a browser.",
+lab_assistant_v72_dl:"Download package (ZIP)",
+lab_assistant_v72_source:"Download Python source",
+lab_assistant_v72_setup:"Setup and run instructions",
 sop_title:"STANDARD OPERATING PROCEDURE (SOP) of Essential Oils by Gas Chromatography-Mass Spectrometry (GC-MS)",
 sop_sub:"Version 3.0 • Effective 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"Version",sop_eff:"Effective Date",sop_auth:"Author",sop_inst:"Institution",sop_date:"Published",sop_doi:"DOI",
@@ -1617,6 +1627,11 @@ lab_assistant_info:"Word-Dokument mit einem umfassenden Assistenten für Chemie-
 lab_assistant_dl:"Dokument herunterladen (DOCX)",
 lab_assistant_app:"Laborassistent öffnen",
 lab_assistant_app_info:"Öffnen Sie die interaktive Browser-App; keine Installation erforderlich.",
+lab_assistant_v72_title:"Laborassistent v7.2 — Python",
+lab_assistant_v72_info:"Separate Desktopversion der HTML-App v9.2. Erfordert Python 3 und CustomTkinter; läuft nicht im Browser.",
+lab_assistant_v72_dl:"Paket herunterladen (ZIP)",
+lab_assistant_v72_source:"Python-Quelldatei herunterladen",
+lab_assistant_v72_setup:"Installations- und Ausführungshinweise",
 sop_title:"STANDARD OPERATING PROCEDURE (SOP) zur Analyse ätherischer Öle mittels GC-MS",
 sop_sub:"Version 3.0 • Gültig ab 22.05.2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"Version",sop_eff:"Gültig ab",sop_auth:"Autor",sop_inst:"Institution",sop_date:"Veröffentlicht",sop_doi:"DOI",
@@ -1740,6 +1755,7 @@ function renderHome(c){c.innerHTML=`<h2 class="page-title">🔬 ${t("home_w")}</
 <div class="card"><h3>🐍 ${t("python_title")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("python_info")}</p><a class="btn btn-primary" style="display:block;text-align:center;text-decoration:none" href="kri_calculator_12_10_2026.py" download>⬇ ${t("python_dl")}</a><p style="color:var(--muted);font-size:12px;margin:10px 0 0"><code>${t("python_run")}</code></p></div>
 <div class="card"><h3>🧪 ${t("lab_assistant_title")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("lab_assistant_info")}</p><a class="btn btn-primary" style="display:block;text-align:center;text-decoration:none" href="Lab_Technician_Assistant_22_6_2026_2.docx" download>⬇ ${t("lab_assistant_dl")}</a></div>
 <div class="card"><h3>🔬 ${t("lab_assistant_title")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("lab_assistant_app_info")}</p><a class="btn btn-primary" style="display:block;text-align:center;text-decoration:none" href="Lab_Technician_Assistant_22_6_2026_2.html" target="_blank" rel="noopener noreferrer">↗ ${t("lab_assistant_app")}</a></div>
+<div class="card"><h3>🐍 ${t("lab_assistant_v72_title")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("lab_assistant_v72_info")}</p><div class="btn-row"><a class="btn btn-primary" style="display:block;text-align:center;text-decoration:none" href="Lab_Technician_Assistant_v7_2.zip" download>⬇ ${t("lab_assistant_v72_dl")}</a><a class="btn" style="display:block;text-align:center;text-decoration:none" href="Lab_Technician_Assistant_v7_2.py" download>⬇ ${t("lab_assistant_v72_source")}</a><a class="btn" style="display:block;text-align:center;text-decoration:none" href="README-Lab_Technician_Assistant_v7_2.md">📘 ${t("lab_assistant_v72_setup")}</a></div><p style="color:var(--muted);font-size:12px;margin:10px 0 0"><code>python -m pip install -r requirements-lab-technician-assistant-v7.2.txt</code><br><code>python Lab_Technician_Assistant_v7_2.py</code></p></div>
 <div class="card"><h3>📥 ${t("t_desc")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("desc_info")}</p><button class="btn btn-primary" style="width:100%" onclick="downloadDescription()">⬇ ${t("desc_dl")}</button></div>
 <div class="warn-box"><strong>${t("warn")}</strong>${t("warntxt")}</div>`;}
 
