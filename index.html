@@ -1508,6 +1508,10 @@ desc_sub:"تنزيل ملف الوصف الكامل بصيغة TXT",
 desc_info:"ملف نصي جاهز للنشر على ResearchGate يحتوي على شرح الطريقة العلمية والتحقق من النتائج.",
 desc_dl:"تنزيل الملف",desc_view:"عرض",desc_auto:"يُنزّل الملف تلقائيًا عند فتح البرنامج أول مرة في كل جلسة.",
 desc_preview:"معاينة النص",
+python_title:"برنامج Python المكتبي",
+python_info:"حمّل نسخة Python ذات الواجهة الرسومية. يتطلب Python 3 مع Tkinter، ولا يحتاج إلى تثبيت مكتبات إضافية.",
+python_dl:"تنزيل برنامج Python",
+python_run:"بعد التنزيل، شغّله بالأمر: python kri_calculator_12_10_2026.py",
 sop_title:"إجراء التشغيل القياسي (SOP) لفحص الزيوت العطرية بـ GC-MS",
 sop_sub:"الإصدار 3.0 • بتاريخ 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"الإصدار",sop_eff:"تاريخ النفاذ",sop_auth:"المؤلف",sop_inst:"المؤسسة",sop_date:"تاريخ النشر",sop_doi:"DOI",
@@ -1549,6 +1553,10 @@ desc_sub:"Download the full description as a TXT file",
 desc_info:"Plain-text file ready for posting on ResearchGate: scientific rationale, workflow, and verification logic.",
 desc_dl:"Download File",desc_view:"View",desc_auto:"The file downloads automatically the first time the app is opened in each session.",
 desc_preview:"Text Preview",
+python_title:"Python Desktop App",
+python_info:"Download the graphical Python edition. Requires Python 3 with Tkinter; no additional packages are needed.",
+python_dl:"Download Python app",
+python_run:"After downloading, run: python kri_calculator_12_10_2026.py",
 sop_title:"STANDARD OPERATING PROCEDURE (SOP) of Essential Oils by Gas Chromatography-Mass Spectrometry (GC-MS)",
 sop_sub:"Version 3.0 • Effective 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"Version",sop_eff:"Effective Date",sop_auth:"Author",sop_inst:"Institution",sop_date:"Published",sop_doi:"DOI",
@@ -1590,6 +1598,10 @@ desc_sub:"Vollständige Beschreibung als TXT speichern",
 desc_info:"Textdatei zur Veröffentlichung auf ResearchGate: Begründung, Workflow und Verifikation.",
 desc_dl:"Herunterladen",desc_view:"Ansehen",desc_auto:"Die Datei wird beim ersten Öffnen in jeder Sitzung automatisch heruntergeladen.",
 desc_preview:"Textvorschau",
+python_title:"Python-Desktopanwendung",
+python_info:"Laden Sie die grafische Python-Version herunter. Erfordert Python 3 mit Tkinter; zusätzliche Pakete sind nicht nötig.",
+python_dl:"Python-Anwendung herunterladen",
+python_run:"Nach dem Download ausführen: python kri_calculator_12_10_2026.py",
 sop_title:"STANDARD OPERATING PROCEDURE (SOP) zur Analyse ätherischer Öle mittels GC-MS",
 sop_sub:"Version 3.0 • Gültig ab 22.05.2026 • DOI: 10.13140/RG.2.2.23821.40169",
 sop_ver:"Version",sop_eff:"Gültig ab",sop_auth:"Autor",sop_inst:"Institution",sop_date:"Veröffentlicht",sop_doi:"DOI",
@@ -1710,6 +1722,7 @@ function renderHome(c){c.innerHTML=`<h2 class="page-title">🔬 ${t("home_w")}</
 <div class="card"><h3>⚙ ${t("cond")}</h3><table class="gc-table"><tr><td>${t("param")}</td><td>${t("value")}</td></tr>${[1,2,3,4,5,6,7,8,9,10,11].map(i=>`<tr><td>${t("c"+i)}</td><td>${t("c"+i+"v")}</td></tr>`).join("")}</table></div>
 <div class="card"><h3>📚 ${t("refs")}</h3><div>${t("refstxt")}</div><div style="margin-top:10px;color:var(--primary);font-weight:bold">${REF_DB.length} compounds in database</div></div>
 <div class="card" style="border-color:var(--primary)"><h3>📖 ${t("sop_home_title")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("sop_home_info")}</p><div class="btn-row"><button class="btn btn-primary" onclick="state.currentTab='sop';render();">📖 ${t("t_sop")}</button><button class="btn" onclick="window.open('${SOP_URL}','_blank')">🔗 ResearchGate</button></div></div>
+<div class="card"><h3>🐍 ${t("python_title")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("python_info")}</p><a class="btn btn-primary" style="display:block;text-align:center;text-decoration:none" href="kri_calculator_12_10_2026.py" download>⬇ ${t("python_dl")}</a><p style="color:var(--muted);font-size:12px;margin:10px 0 0"><code>${t("python_run")}</code></p></div>
 <div class="card"><h3>📥 ${t("t_desc")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("desc_info")}</p><button class="btn btn-primary" style="width:100%" onclick="downloadDescription()">⬇ ${t("desc_dl")}</button></div>
 <div class="warn-box"><strong>${t("warn")}</strong>${t("warntxt")}</div>`;}
 
