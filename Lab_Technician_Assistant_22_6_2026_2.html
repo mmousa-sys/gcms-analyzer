@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧪 مساعد فني المختبرات الشامل — Lab Assistant Pro v9.2</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f0f4f8;--card:#fff;--sidebar:#0f172a;--sidebar-h:#1e293b;--primary:#0891b2;--primary2:#0e7490;--success:#16a34a;--danger:#dc2626;--warning:#ea580c;--gold:#f59e0b;--text:#0f172a;--text2:#475569;--muted:#94a3b8;--border:#cbd5e1}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;margin:0}
+.sidebar{width:260px;background:var(--sidebar);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;z-index:100;transition:transform .3s ease}
+html[dir="ltr"] .sidebar{right:auto;left:0}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:#334155;border-radius:3px}
+.logo{text-align:center;padding:14px 10px}
+.logo .icon{font-size:40px}
+.logo h1{font-size:12px;margin-top:6px;line-height:1.4}
+.logo .sub{font-size:9px;color:var(--muted);font-style:italic}
+.logo .badge{display:inline-block;background:#1e293b;color:var(--gold);padding:2px 8px;border-radius:10px;font-size:9px;margin-top:4px;font-weight:700}
+.divider{height:1px;background:#1e293b;margin:4px 14px}
+.nav-btn{display:flex;align-items:center;gap:8px;padding:10px 18px;background:transparent;color:var(--muted);border:none;cursor:pointer;font-size:12.5px;font-weight:600;transition:all .15s;text-align:inherit;width:100%;font-family:inherit;border-right:3px solid transparent}
+html[dir="ltr"] .nav-btn{border-right:none;border-left:3px solid transparent}
+.nav-btn:hover{background:var(--sidebar-h);color:var(--primary)}
+.nav-btn.active{background:var(--sidebar-h);color:var(--primary);border-right-color:var(--primary)}
+html[dir="ltr"] .nav-btn.active{border-left-color:var(--primary)}
+.nav-btn .icon{font-size:15px}
+.sidebar-bottom{margin-top:auto;padding:10px;border-top:1px solid #1e293b;background:var(--sidebar-h)}
+.lang-title{font-size:9px;color:var(--muted);font-weight:700;margin-bottom:4px}
+.lang-btns{display:flex;gap:3px;flex-wrap:wrap}
+.lang-btn{flex:1;padding:5px 8px;background:#0f172a;color:#cbd5e1;border:none;border-radius:4px;cursor:pointer;font-size:10.5px;font-weight:600;transition:.15s;font-family:inherit}
+.lang-btn.active{background:var(--primary);color:#fff}
+.author{text-align:center;font-size:8.5px;color:var(--gold);font-style:italic;margin-top:8px}
+.main{flex:1;margin-right:260px;padding:16px;overflow-y:auto;height:100vh}
+html[dir="ltr"] .main{margin-right:0;margin-left:260px}
+.main::-webkit-scrollbar{width:10px}
+.main::-webkit-scrollbar-thumb{background:var(--primary);border-radius:5px}
+.page{display:none}
+.page.active{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{color:var(--primary);font-size:16px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #e0f2f1;display:flex;align-items:center;gap:8px}
+.card h3{color:var(--primary);font-size:13px;margin:12px 0 8px}
+label{display:block;font-weight:600;font-size:12.5px;margin:10px 0 4px;color:var(--text2)}
+input[type="text"],input[type="number"],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--border);border-radius:6px;font-family:Consolas,monospace;font-size:13px;background:#f8fafc;color:var(--text);transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);background:#fff}
+textarea{font-family:Consolas,monospace;resize:vertical}
+button.calc{background:var(--primary);color:#fff;border:none;padding:10px 22px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;margin-top:12px;transition:.15s;font-family:inherit}
+button.calc:hover{background:var(--primary2);transform:translateY(-1px)}
+button.calc.gold{background:var(--gold)}
+button.calc.gold:hover{background:#d97706}
+button.calc.danger{background:var(--danger)}
+button.calc.danger:hover{background:#b91c1c}
+button.calc.muted{background:var(--muted)}
+button.calc.muted:hover{background:var(--text2)}
+.result{background:#ecfeff;border:2px solid var(--primary);border-radius:8px;padding:14px;margin-top:14px;font-family:Consolas,monospace;font-size:14px;color:var(--primary2);font-weight:700;min-height:42px;white-space:pre-wrap;line-height:1.6}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.sidebar{transform:translateX(100%)}html[dir="ltr"] .sidebar{transform:translateX(-100%)}.main{margin:0}}
+.result-box{background:#ecfeff;border:1px solid var(--primary);border-radius:6px;padding:8px 10px;min-height:52px}
+.result-box .lbl{font-size:10px;color:var(--text2);font-weight:700;margin-bottom:2px}
+.result-box .val{font-family:Consolas,monospace;font-size:13px;color:var(--primary2);font-weight:700;word-break:break-all}
+.table-wrap{max-height:480px;overflow:auto;border:1px solid var(--border);border-radius:6px;background:#fff}
+.table-wrap::-webkit-scrollbar{width:8px;height:8px}
+.table-wrap::-webkit-scrollbar-thumb{background:var(--primary);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:8px 10px;text-align:center;border-bottom:1px solid #e2e8f0}
+th{background:var(--primary);color:#fff;position:sticky;top:0;z-index:2;font-size:11px}
+tr:nth-child(even){background:#f8fafc}
+tr:hover{background:#e0f2f1}
+td:first-child{text-align:start}
+.feature-card{background:#f1f5f9;border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:.2s;text-align:start}
+.feature-card:hover{background:#e0f2f1;border-color:var(--primary);transform:translateY(-2px)}
+.feature-card .title{color:var(--primary);font-weight:700;font-size:13px;margin-bottom:4px}
+.feature-card .desc{color:var(--text2);font-size:11px}
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:12px;overflow-x:auto}
+.tab-btn{padding:9px 14px;background:transparent;border:none;cursor:pointer;font-size:12px;font-weight:700;color:var(--text2);border-bottom:3px solid transparent;transition:.15s;white-space:nowrap;font-family:inherit}
+.tab-btn:hover{color:var(--primary);background:#f8fafc}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab-content{display:none}
+.tab-content.active{display:block;animation:fade .25s}
+.badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.badge.ok{background:#064e3b;color:#86efac}
+.badge.tent{background:#78350f;color:#fcd34d}
+.badge.unk{background:#450a0a;color:#fca5a5}
+.alert{padding:10px 14px;border-radius:6px;margin:10px 0;font-size:12.5px}
+.alert-info{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.alert-success{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.alert-error{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.alert-warning{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.example-btn{padding:5px 10px;background:#e2e8f0;color:var(--text);border:none;border-radius:5px;cursor:pointer;font-size:10.5px;margin:2px;font-family:inherit;transition:.15s}
+.example-btn:hover{background:var(--primary);color:#fff}
+.hint{color:var(--muted);font-size:11px;font-style:italic;margin:4px 0}
+.cls-MH{background:#10b981;color:#fff}.cls-MO{background:#06b6d4;color:#fff}
+.cls-SH{background:#8b5cf6;color:#fff}.cls-SO{background:#ec4899;color:#fff}
+.cls-DH{background:#0d9488;color:#fff}.cls-AR{background:#f59e0b;color:#fff}
+.cls-AL{background:#ef4444;color:#fff}.cls-ES{background:#a855f7;color:#fff}
+.cls-FA{background:#eab308;color:#fff}.cls-MS{background:#64748b;color:#fff}
+.canvas-wrap{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;height:480px;position:relative}
+.menu-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--primary);color:#fff;border:none;border-radius:6px;padding:8px 12px;font-size:18px;cursor:pointer}
+html[dir="rtl"] .menu-toggle{left:auto;right:12px}
+@media(max-width:900px){.menu-toggle{display:block}}
+</style>
+</head>
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+<aside class="sidebar" id="sidebar">
+<div class="logo">
+<div class="icon">🧪</div>
+<h1 id="appTitle">مساعد فني المختبرات الشامل</h1>
+<div class="sub" id="appSub">v9.2 — 2026</div>
+<div class="badge" id="dbBadge">📊 Loading...</div>
+</div>
+<div class="divider"></div>
+<nav id="navContainer"></nav>
+<div class="sidebar-bottom">
+<div class="lang-title" id="langLabel">🌐 اللغة</div>
+<div class="lang-btns">
+<button class="lang-btn active" data-lang="ar" onclick="setLang('ar')">العربية</button>
+<button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+<button class="lang-btn" data-lang="de" onclick="setLang('de')">Deutsch</button>
+</div>
+<div class="author">✎ Mohammad A.M. (Mousa) · 2026</div>
+</div>
+</aside>
+<main class="main" id="main"></main>
+<script>
+/* ============================================================
+ملف ترجمة مختصر — أُعيد بناؤه لضمان عدم وجود أخطاء نحوية
+============================================================ */
+const TR={
+ar:{
+title:"🧪 مساعد فني المختبرات الشامل",sub:"v9.2 — 2026",
+nav_home:"🏠 الرئيسية",nav_units:"🔄 تحويل الوحدات",nav_sol:"⚗️ تحضير المحاليل",nav_dil:"💧 التخفيف",
+nav_acid:"🧪 تحضير الأحماض",nav_ph:"🧪 pH والأحماض",nav_pka:"📖 pKa والقواعد",
+nav_buf:"🧫 المحاليل المنظمة",nav_mw:"⚖️ الوزن الجزيئي",nav_stat:"📊 الإحصاء",
+nav_val:"🧬 التحقق التحليلي",nav_kri:"🔬 GC-MS / KRI",nav_plot:"📈 الرسم البياني",
+nav_tables:"📐 الجداول الإحصائية",nav_crc:"📚 المرجع CRC",nav_hist:"📋 السجل",
+acid_prep_title:"⚗️ تحضير الأحماض — M · m · N · % · ppm",
+acid_conv_title:"🔄 خصائص الحمض والتحويلات",
+acid_select:"اختر الحمض",acid_custom:"حمض مخصص",
+acid_mw:"الوزن الجزيئي (g/mol)",acid_density:"الكثافة (g/mL)",
+acid_pct_stock:"تركيز الحمض المركز % w/w",acid_eq:"عدد المكافئات (Basicity)",
+acid_conc_mode:"نمط التركيز المطلوب",
+acid_m_molar:"مولارية M",acid_m_molal:"مولالية m",acid_m_norm:"عيارية N",
+acid_m_pww:"% w/w",acid_m_pwv:"% w/v",acid_m_ppm:"ppm",
+acid_target:"التركيز المطلوب",acid_vol:"الحجم المطلوب (mL)",
+acid_density_final:"كثافة المحلول النهائي (g/mL)",acid_calc:"🧪 احسب التحضير",
+acid_vol_stock:"حجم الحمض المركز المطلوب",acid_vol_water:"حجم الماء المطلوب",
+acid_warning:"⚠️ أضف الحمض إلى الماء دائمًا وليس العكس! (خاصة H₂SO₄)",
+acid_stock_props:"📊 خصائص الحمض المركز:",
+acid_recipe_hdr:"📋 الوصفة العملية:",
+acid_target_in:"🎯 {c} {m} في {v} mL",
+acid_r1:"خذ {v} mL من الحمض المركز",
+acid_r2:"أضفها ببطء إلى ~{w} mL ماء مقطر",
+acid_r3:"أكمل الحجم إلى {v} mL في دورق حجمي",
+acid_r_warn:"⚠️ أضف الحمض إلى الماء — وليس العكس!",
+acid_final_d_hint:"💡 استخدم 1.0 للمحاليل المخففة (&lt; 10%)",
+acid_err_check:"تحقق: MW>0, d>0, 0≤%≤100",
+acid_err_pos:"جميع القيم يجب أن تكون > 0",
+acid_err_mass:"الكتلة يجب أن تكون > 0",
+acid_err_vol:"الكمية ({v} mL) > الحجم النهائي ({t} mL)",
+calc:"احسب",clear:"مسح",save:"حفظ",result:"النتيجة",value:"القيمة",
+from:"من",to:"إلى",convert:"تحويل",swap:"⇄ تبديل",
+error:"خطأ",warning:"تنبيه",info:"معلومة",welcome:"مرحباً بك",
+home_intro:"مجموعة أدوات متكاملة لفني المختبرات الكيميائية:\nحسابات دقيقة · إحصاء شامل · تحقق تحليلي · KRI مع 124+ مركب · pKa لقواعد وأحماض · مرجع CRC كامل.",
+features:"الأدوات المتوفرة (16 وحدة)",cat:"الفئة",
+u_temp:"الحرارة",u_mass:"الكتلة",u_vol:"الحجم",u_len:"الطول",u_pres:"الضغط",u_energy:"الطاقة",u_conc:"التركيز",u_time:"الزمن",
+sol_mode:"النمط",m_molar:"المولارية M",m_molal:"المولالية m",m_norm:"العيارية N",m_pct:"% w/v",m_ppm:"ppm",
+mw_gmol:"الوزن الجزيئي (g/mol)",vol_ml:"الحجم (mL)",conc_lbl:"التركيز",eq_lbl:"عدد المكافئات",
+c1:"C₁",v1:"V₁ (mL)",c2:"C₂",v2:"V₂ (mL)",leave_empty:"اترك حقلًا واحدًا فارغًا",
+strong_a:"حمض قوي",weak_a:"حمض ضعيف",strong_b:"قاعدة قوية",weak_b:"قاعدة ضعيفة",
+conc_M:"التركيز (M)",ka_kb:"Ka أو Kb",pka_lbl:"pKa",ph_lbl:"pH المطلوب",ct_lbl:"التركيز الكلي (M)",
+formula:"الصيغة",formula_ph:"مثال: H2SO4 أو CuSO4·5H2O",
+data_x:"بيانات X:",data_y:"بيانات Y:",function:"الدالة:",
+mean:"المتوسط",median:"الوسيط",mode:"المنوال",stdev:"الانحراف المعياري",variance:"التباين",
+min:"الحد الأدنى",max:"الحد الأقصى",sum:"المجموع",count:"العدد",
+correl:"معامل الارتباط r",r2_lbl:"R²",slope:"الميل",intercept:"التقاطع",steyx:"الخطأ المعياري",
+regression:"الانحدار الخطي",ttest:"اختبار t",ftest:"اختبار F",geomean:"المتوسط الهندسي",
+v_conc:"التراكيز (X):",v_resp:"الاستجابة (Y):",v_blank:"قراءات الفراغ (≥10):",v_compute:"🧪 احسب التحقق",
+v_slope:"الميل S",v_int:"التقاطع b",v_r2:"R²",v_r:"معامل r",v_sy:"الخطأ المعياري sy",
+v_sd:"σ للفراغ",v_lod:"LOD",v_loq:"LOQ",v_range:"المدى",v_rec:"الاسترداد %",v_rsd:"RSD %",
+pka_title:"📖 قاعدة بيانات pKa للأحماض والقواعد",pka_search_ph:"ابحث بالاسم أو الصيغة...",
+pka_strong_acids:"أحماض قوية",pka_weak_acids:"أحماض ضعيفة",pka_strong_bases:"قواعد قوية",pka_weak_bases:"قواعد ضعيفة",
+pka_all:"الكل",pka_name:"الاسم",pka_formula:"الصيغة",pka_value:"pKa",pka_type:"النوع",
+pka_calc_title:"🧮 حاسبة pH من pKa",pka_calc_conc:"التركيز (M):",pka_calc_pka:"pKa (أو pKb):",pka_calc_type:"النوع:",
+pka_calc_acid:"حمض (Ka)",pka_calc_base:"قاعدة (Kb)",pka_calc_btn:"🧮 احسب pH",
+pka_result_ph:"pH",pka_result_poh:"pOH",pka_result_pct:"نسبة التأين %",pka_result_h:"[H⁺] (M)",pka_result_oh:"[OH⁻] (M)",
+pka_buffer_range:"نطاق المنظم الفعّال:",
+kri_title:"حاسبة KRI — Kovats Retention Index",kri_rt:"زمن الاحتباس RT (min):",kri_calc:"🔍 احسب وطابق",
+kri_tol:"التفاوت (KRI):",kri_alk:"معيار الألكانات:",kri_load:"تحميل افتراضي",kri_apply:"تطبيق",
+kri_batch_in:"أدخل RT لكل سطر:",kri_batch_btn:"📊 عالج الكل",
+kri_search:"بحث",kri_calculator:"الحاسبة",kri_alkanes:"الألكانات",kri_batch:"دفعة",kri_stats:"الإحصائيات",
+kri_name:"الاسم",kri_cas:"CAS",kri_formula:"الصيغة",kri_class:"الفئة",kri_best_ref:"أفضل مرجع",
+kri_ref_val:"KRI ref",kri_match:"المطابقة %",kri_status:"الحالة",
+kri_identified:"✓ معرَّف",kri_tentative:"~ مبدئي",kri_unknown:"✗ غير معرَّف",kri_between:"بين",
+kri_filter_class:"تصفية بالفئة:",kri_all_classes:"كل الفئات",kri_filter_type:"تصفية النوع:",
+plot_btn:"📈 ارسم الانحدار",plot_kri_btn:"📈 توزيع KRI",plot_reset:"🧹 مسح",plot_empty:"احسب الانحدار أولاً",
+tables_info:"اختر جدولاً — استخدم عجلة الفأرة",
+hist_title:"السجل",hist_empty:"لا يوجد سجل",hist_clear:"🗑 مسح السجل",hist_exported:"تم تصدير السجل",hist_confirm:"مسح السجل بالكامل؟",
+u_other_examples:"أمثلة سريعة"
+},
+en:{
+title:"🧪 Comprehensive Lab Assistant",sub:"v9.2 — 2026",
+nav_home:"🏠 Home",nav_units:"🔄 Unit Converter",nav_sol:"⚗️ Solutions",nav_dil:"💧 Dilution",
+nav_acid:"🧪 Acid Prep",nav_ph:"🧪 pH & Acids",nav_pka:"📖 pKa & Bases",
+nav_buf:"🧫 Buffers",nav_mw:"⚖️ Molecular Weight",nav_stat:"📊 Statistics",
+nav_val:"🧬 Validation",nav_kri:"🔬 GC-MS / KRI",nav_plot:"📈 Plot",
+nav_tables:"📐 Statistical Tables",nav_crc:"📚 CRC Reference",nav_hist:"📋 History",
+acid_prep_title:"⚗️ Acid Preparation — M · m · N · % · ppm",
+acid_conv_title:"🔄 Acid Properties & Conversions",
+acid_select:"Select acid",acid_custom:"Custom acid",
+acid_mw:"Molecular weight (g/mol)",acid_density:"Density (g/mL)",
+acid_pct_stock:"Stock % w/w",acid_eq:"Equivalents (Basicity)",
+acid_conc_mode:"Target concentration mode",
+acid_m_molar:"Molarity M",acid_m_molal:"Molality m",acid_m_norm:"Normality N",
+acid_m_pww:"% w/w",acid_m_pwv:"% w/v",acid_m_ppm:"ppm",
+acid_target:"Target concentration",acid_vol:"Target volume (mL)",
+acid_density_final:"Final density (g/mL)",acid_calc:"🧪 Calculate",
+acid_vol_stock:"Stock volume needed",acid_vol_water:"Water volume needed",
+acid_warning:"⚠️ Always add acid to water, never water to acid! (especially H₂SO₄)",
+acid_stock_props:"📊 Stock acid properties:",
+acid_recipe_hdr:"📋 Practical recipe:",
+acid_target_in:"🎯 {c} {m} in {v} mL",
+acid_r1:"Take {v} mL of the stock acid",
+acid_r2:"Add slowly to ~{w} mL distilled water",
+acid_r3:"Complete volume to {v} mL in a volumetric flask",
+acid_r_warn:"⚠️ Add acid to water — never the reverse!",
+acid_final_d_hint:"💡 Use 1.0 for dilute solutions (&lt; 10%)",
+acid_err_check:"Check: MW>0, d>0, 0≤%≤100",
+acid_err_pos:"All values must be > 0",
+acid_err_mass:"Mass must be > 0",
+acid_err_vol:"Volume ({v} mL) > final volume ({t} mL)",
+calc:"Calculate",clear:"Clear",save:"Save",result:"Result",value:"Value",
+from:"From",to:"To",convert:"Convert",swap:"⇄ Swap",
+error:"Error",warning:"Warning",info:"Info",welcome:"Welcome",
+home_intro:"Complete toolkit for the chemical laboratory:\ncalculations · statistics · validation · KRI (124+ compounds) · comprehensive pKa · full CRC reference.",
+features:"Available tools (16 modules)",cat:"Category",
+u_temp:"Temperature",u_mass:"Mass",u_vol:"Volume",u_len:"Length",u_pres:"Pressure",u_energy:"Energy",u_conc:"Concentration",u_time:"Time",
+sol_mode:"Mode",m_molar:"Molarity M",m_molal:"Molality m",m_norm:"Normality N",m_pct:"% w/v",m_ppm:"ppm",
+mw_gmol:"Molecular weight (g/mol)",vol_ml:"Volume (mL)",conc_lbl:"Concentration",eq_lbl:"Equivalents",
+c1:"C₁",v1:"V₁ (mL)",c2:"C₂",v2:"V₂ (mL)",leave_empty:"Leave exactly one field empty",
+strong_a:"Strong Acid",weak_a:"Weak Acid",strong_b:"Strong Base",weak_b:"Weak Base",
+conc_M:"Concentration (M)",ka_kb:"Ka or Kb",pka_lbl:"pKa",ph_lbl:"Target pH",ct_lbl:"Total Conc. (M)",
+formula:"Formula",formula_ph:"e.g. H2SO4",
+data_x:"X data:",data_y:"Y data:",function:"Function:",
+mean:"Mean",median:"Median",mode:"Mode",stdev:"Std Deviation",variance:"Variance",
+min:"Minimum",max:"Maximum",sum:"Sum",count:"Count",
+correl:"Correlation r",r2_lbl:"R²",slope:"Slope",intercept:"Intercept",steyx:"Std Error",
+regression:"Regression",ttest:"t-test",ftest:"F-test",geomean:"Geometric Mean",
+v_conc:"Concentrations (X):",v_resp:"Responses (Y):",v_blank:"Blank readings (≥10):",v_compute:"🧪 Compute Validation",
+v_slope:"Slope S",v_int:"Intercept b",v_r2:"R²",v_r:"r",v_sy:"Std error sy",
+v_sd:"Blank σ",v_lod:"LOD",v_loq:"LOQ",v_range:"Range",v_rec:"Recovery %",v_rsd:"RSD %",
+pka_title:"📖 pKa Database — Acids & Bases",pka_search_ph:"Search by name or formula...",
+pka_strong_acids:"Strong Acids",pka_weak_acids:"Weak Acids",pka_strong_bases:"Strong Bases",pka_weak_bases:"Weak Bases",
+pka_all:"All",pka_name:"Name",pka_formula:"Formula",pka_value:"pKa",pka_type:"Type",
+pka_calc_title:"🧮 pH Calculator from pKa",pka_calc_conc:"Concentration (M):",pka_calc_pka:"pKa (or pKb):",pka_calc_type:"Type:",
+pka_calc_acid:"Acid (Ka)",pka_calc_base:"Base (Kb)",pka_calc_btn:"🧮 Calculate pH",
+pka_result_ph:"pH",pka_result_poh:"pOH",pka_result_pct:"Ionization %",pka_result_h:"[H⁺] (M)",pka_result_oh:"[OH⁻] (M)",
+pka_buffer_range:"Effective buffer range:",
+kri_title:"KRI Calculator — Kovats Retention Index",kri_rt:"Retention time RT (min):",kri_calc:"🔍 Compute & match",
+kri_tol:"Tolerance (KRI):",kri_alk:"Alkane standard:",kri_load:"Load defaults",kri_apply:"Apply",
+kri_batch_in:"Enter RT per line:",kri_batch_btn:"📊 Process All",
+kri_search:"Search",kri_calculator:"Calculator",kri_alkanes:"Alkanes",kri_batch:"Batch",kri_stats:"Statistics",
+kri_name:"Name",kri_cas:"CAS",kri_formula:"Formula",kri_class:"Class",kri_best_ref:"Best ref",
+kri_ref_val:"KRI ref",kri_match:"Match %",kri_status:"Status",
+kri_identified:"✓ Identified",kri_tentative:"~ Tentative",kri_unknown:"✗ Unknown",kri_between:"between",
+kri_filter_class:"Filter class:",kri_all_classes:"All classes",kri_filter_type:"Filter type:",
+plot_btn:"📈 Plot Regression",plot_kri_btn:"📈 KRI Distribution",plot_reset:"🧹 Clear",plot_empty:"Compute a regression first",
+tables_info:"Select a table — mouse wheel to scroll",
+hist_title:"History",hist_empty:"No history",hist_clear:"🗑 Clear History",hist_exported:"Exported",hist_confirm:"Clear entire history?",
+u_other_examples:"Quick examples"
+},
+de:{
+title:"🧪 Umfassender Laborassistent",sub:"v9.2 — 2026",
+nav_home:"🏠 Startseite",nav_units:"🔄 Einheiten",nav_sol:"⚗️ Lösungen",nav_dil:"💧 Verdünnung",
+nav_acid:"🧪 Säure-Vorbereitung",nav_ph:"🧪 pH & Säuren",nav_pka:"📖 pKs & Basen",
+nav_buf:"🧫 Puffer",nav_mw:"⚖️ Molmasse",nav_stat:"📊 Statistik",
+nav_val:"🧬 Validierung",nav_kri:"🔬 GC-MS / KRI",nav_plot:"📈 Diagramm",
+nav_tables:"📐 Tabellen",nav_crc:"📚 CRC",nav_hist:"📋 Verlauf",
+acid_prep_title:"⚗️ Säure — M · m · N · % · ppm",
+acid_conv_title:"🔄 Säure-Eigenschaften",
+acid_select:"Säure auswählen",acid_custom:"Eigene Säure",
+acid_mw:"Molmasse (g/mol)",acid_density:"Dichte (g/mL)",
+acid_pct_stock:"Stammsäure % w/w",acid_eq:"Äquivalente",
+acid_conc_mode:"Zielkonzentration",
+acid_m_molar:"Molarität M",acid_m_molal:"Molalität m",acid_m_norm:"Normalität N",
+acid_m_pww:"% w/w",acid_m_pwv:"% w/v",acid_m_ppm:"ppm",
+acid_target:"Zielkonzentration",acid_vol:"Zielvolumen (mL)",
+acid_density_final:"Enddichte (g/mL)",acid_calc:"🧪 Berechnen",
+acid_vol_stock:"Stammsäure-Volumen",acid_vol_water:"Wasservolumen",
+acid_warning:"⚠️ Säure immer ins Wasser, niemals umgekehrt!",
+acid_stock_props:"📊 Stammsäure-Eigenschaften:",
+acid_recipe_hdr:"📋 Praktische Anleitung:",
+acid_target_in:"🎯 {c} {m} in {v} mL",
+acid_r1:"{v} mL Stammsäure entnehmen",
+acid_r2:"Langsam zu ~{w} mL destilliertem Wasser geben",
+acid_r3:"Volumen auf {v} mL im Messkolben auffüllen",
+acid_r_warn:"⚠️ Säure ins Wasser — niemals umgekehrt!",
+acid_final_d_hint:"💡 1.0 für verdünnte Lösungen (&lt; 10%)",
+acid_err_check:"Prüfen: MW>0, d>0, 0≤%≤100",
+acid_err_pos:"Alle Werte müssen > 0 sein",
+acid_err_mass:"Masse muss > 0 sein",
+acid_err_vol:"Volumen ({v} mL) > Endvolumen ({t} mL)",
+calc:"Berechnen",clear:"Löschen",save:"Speichern",result:"Ergebnis",value:"Wert",
+from:"Von",to:"Nach",convert:"Umrechnen",swap:"⇄ Tauschen",
+error:"Fehler",warning:"Warnung",info:"Info",welcome:"Willkommen",
+home_intro:"Komplettes Labor-Toolkit:\nBerechnungen · Statistik · Validierung · KRI (124+) · pKs · CRC.",
+features:"Verfügbare Werkzeuge (16 Module)",cat:"Kategorie",
+u_temp:"Temperatur",u_mass:"Masse",u_vol:"Volumen",u_len:"Länge",u_pres:"Druck",u_energy:"Energie",u_conc:"Konzentration",u_time:"Zeit",
+sol_mode:"Modus",m_molar:"Molarität M",m_molal:"Molalität m",m_norm:"Normalität N",m_pct:"% w/v",m_ppm:"ppm",
+mw_gmol:"Molmasse (g/mol)",vol_ml:"Volumen (mL)",conc_lbl:"Konzentration",eq_lbl:"Äquivalente",
+c1:"C₁",v1:"V₁ (mL)",c2:"C₂",v2:"V₂ (mL)",leave_empty:"Genau EIN Feld leer",
+strong_a:"Starke Säure",weak_a:"Schwache Säure",strong_b:"Starke Base",weak_b:"Schwache Base",
+conc_M:"Konzentration (M)",ka_kb:"Ka oder Kb",pka_lbl:"pKs",ph_lbl:"Ziel-pH",ct_lbl:"Gesamtkonz. (M)",
+formula:"Formel",formula_ph:"z.B. H2SO4",
+data_x:"X-Daten:",data_y:"Y-Daten:",function:"Funktion:",
+mean:"Mittelwert",median:"Median",mode:"Modalwert",stdev:"Std-Abweichung",variance:"Varianz",
+min:"Minimum",max:"Maximum",sum:"Summe",count:"Anzahl",
+correl:"Korrelation r",r2_lbl:"R²",slope:"Steigung",intercept:"Achsenabschnitt",steyx:"Standardfehler",
+regression:"Regression",ttest:"t-Test",ftest:"F-Test",geomean:"Geo-Mittel",
+v_conc:"Konz. (X):",v_resp:"Antworten (Y):",v_blank:"Blank (≥10):",v_compute:"🧪 Validierung",
+v_slope:"Steigung S",v_int:"Achsenabschnitt b",v_r2:"R²",v_r:"r",v_sy:"Std-Fehler",
+v_sd:"Blank σ",v_lod:"LOD",v_loq:"LOQ",v_range:"Bereich",v_rec:"Wiederfindung %",v_rsd:"RSD %",
+pka_title:"📖 pKs-Datenbank",pka_search_ph:"Suche nach Name oder Formel...",
+pka_strong_acids:"Starke Säuren",pka_weak_acids:"Schwache Säuren",pka_strong_bases:"Starke Basen",pka_weak_bases:"Schwache Basen",
+pka_all:"Alle",pka_name:"Name",pka_formula:"Formel",pka_value:"pKs",pka_type:"Typ",
+pka_calc_title:"🧮 pH-Rechner aus pKs",pka_calc_conc:"Konzentration (M):",pka_calc_pka:"pKs (oder pKb):",pka_calc_type:"Typ:",
+pka_calc_acid:"Säure (Ka)",pka_calc_base:"Base (Kb)",pka_calc_btn:"🧮 pH berechnen",
+pka_result_ph:"pH",pka_result_poh:"pOH",pka_result_pct:"Ionisation %",pka_result_h:"[H⁺] (M)",pka_result_oh:"[OH⁻] (M)",
+pka_buffer_range:"Pufferbereich:",
+kri_title:"KRI-Rechner",kri_rt:"Retentionszeit RT (min):",kri_calc:"🔍 Berechnen",
+kri_tol:"Toleranz (KRI):",kri_alk:"Alkan-Standard:",kri_load:"Standard laden",kri_apply:"Anwenden",
+kri_batch_in:"RT pro Zeile:",kri_batch_btn:"📊 Alle",
+kri_search:"Suche",kri_calculator:"Rechner",kri_alkanes:"Alkane",kri_batch:"Stapel",kri_stats:"Statistik",
+kri_name:"Name",kri_cas:"CAS",kri_formula:"Formel",kri_class:"Klasse",kri_best_ref:"Beste Ref",
+kri_ref_val:"KRI ref",kri_match:"Match %",kri_status:"Status",
+kri_identified:"✓ Ident.",kri_tentative:"~ Vorläufig",kri_unknown:"✗ Unbekannt",kri_between:"zwischen",
+kri_filter_class:"Klasse:",kri_all_classes:"Alle",kri_filter_type:"Typ:",
+plot_btn:"📈 Regression",plot_kri_btn:"📈 KRI-Verteilung",plot_reset:"🧹 Löschen",plot_empty:"Zuerst Regression",
+tables_info:"Tabelle wählen — Mausrad",
+hist_title:"Verlauf",hist_empty:"Kein Verlauf",hist_clear:"🗑 Löschen",hist_exported:"Exportiert",hist_confirm:"Verlauf löschen?",
+u_other_examples:"Schnellbeispiele"
+}};
+const UNITS={temp:{"°C":{toK:c=>c+273.15,fromK:k=>k-273.15},"°F":{toK:f=>(f+459.67)*5/9,fromK:k=>k*9/5-459.67},K:{toK:k=>k,fromK:k=>k},"°R":{toK:r=>r*5/9,fromK:k=>k*9/5}},mass:{g:1,mg:1e-3,"µg":1e-6,ng:1e-9,kg:1e3,lb:453.59237,oz:28.349523,ton:1e6},vol:{L:1,mL:1e-3,"µL":1e-6,nL:1e-9,"m³":1000,"cm³":1e-3,"gal(US)":3.785411784,"qt(US)":0.946352946,"fl oz":0.0295735296,cup:0.2365882365},len:{m:1,cm:1e-2,mm:1e-3,"µm":1e-6,nm:1e-9,"Å":1e-10,km:1e3,in:0.0254,ft:0.3048,yd:0.9144,mi:1609.344},pres:{Pa:1,kPa:1e3,MPa:1e6,bar:1e5,mbar:1e2,atm:101325,psi:6894.757,Torr:133.322368,mmHg:133.322368,inHg:3386.389},energy:{J:1,kJ:1e3,MJ:1e6,cal:4.184,kcal:4184,eV:1.602176634e-19,kWh:3.6e6,BTU:1055.05585262},conc:{M:1,mM:1e-3,"µM":1e-6,nM:1e-9,pM:1e-12,ppm:1e-6,ppb:1e-9,ppt:1e-12,"%":1e-2},time:{s:1,ms:1e-3,"µs":1e-6,ns:1e-9,min:60,h:3600,day:86400,yr:3.15576e7}};
+const AM={H:1.008,He:4.0026,Li:6.94,Be:9.0122,B:10.81,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.18,Na:22.99,Mg:24.305,Al:26.982,Si:28.085,P:30.974,S:32.06,Cl:35.45,Ar:39.948,K:39.098,Ca:40.078,Sc:44.956,Ti:47.867,V:50.942,Cr:51.996,Mn:54.938,Fe:55.845,Co:58.933,Ni:58.693,Cu:63.546,Zn:65.38,Ga:69.723,Ge:72.63,As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62,Y:88.906,Zr:91.224,Nb:92.906,Mo:95.95,Ag:107.87,Cd:112.41,In:114.82,Sn:118.71,Sb:121.76,I:126.9,Ba:137.33,Pt:195.08,Au:196.97,Hg:200.59,Pb:207.2,U:238.03};
+const PKA_STRONG_ACIDS=[["Perchloric acid","HClO₄",-10.0],["Hydroiodic acid","HI",-10.0],["Hydrobromic acid","HBr",-9.0],["Hydrochloric acid","HCl",-7.0],["Triflic acid","CF₃SO₃H",-5.9],["Sulfuric acid (1st)","H₂SO₄",-3.0],["Nitric acid","HNO₃",-1.4],["Hydronium ion","H₃O⁺",0.0],["Trichloroacetic acid","CCl₃COOH",0.66],["Chlorous acid","HClO₂",1.94],["Sulfuric acid (2nd)","HSO₄⁻",1.99]];
+const PKA_WEAK_ACIDS=[["Oxalic acid (1st)","H₂C₂O₄",1.25],["Iodic acid","HIO₃",1.64],["Sulfurous acid (1st)","H₂SO₃",1.81],["Phosphoric acid (1st)","H₃PO₄",2.12],["Chloroacetic acid","ClCH₂COOH",2.87],["Bromoacetic acid","BrCH₂COOH",2.90],["Salicylic acid","C₇H₆O₃",2.97],["Tartaric acid (1st)","C₄H₆O₆",3.04],["Citric acid (1st)","C₆H₈O₇",3.13],["Hydrofluoric acid","HF",3.17],["Iodoacetic acid","ICH₂COOH",3.18],["Nitrous acid","HNO₂",3.30],["Malic acid (1st)","C₄H₆O₅",3.40],["Formic acid","HCOOH",3.75],["Lactic acid","C₃H₆O₃",3.86],["Ascorbic acid (1st)","C₆H₈O₆",4.10],["Oxalic acid (2nd)","HC₂O₄⁻",4.14],["Benzoic acid","C₆H₅COOH",4.20],["Succinic acid (1st)","C₄H₆O₄",4.21],["Tartaric acid (2nd)","HC₄H₅O₆",4.37],["Acetic acid","CH₃COOH",4.76],["Citric acid (2nd)","H₂C₆H₆O₇",4.76],["Propionic acid","C₂H₅COOH",4.87],["Butyric acid","C₃H₇COOH",4.83],["Malic acid (2nd)","HC₄H₅O₅",5.11],["Pyridinium","C₅H₅NH⁺",5.19],["Succinic acid (2nd)","HC₄H₅O₄",5.64],["MES buffer","—",6.10],["Carbonic acid (1st)","H₂CO₃",6.35],["Citric acid (3rd)","HC₆H₅O₇",6.40],["Bis-Tris","—",6.50],["PIPES","—",6.80],["Hydrosulfuric acid","H₂S",7.00],["MOPS","—",7.20],["Hypochlorous acid","HClO",7.53],["HEPES","—",7.55],["Hydrocyanic acid","HCN",9.21],["Boric acid (1st)","H₃BO₃",9.24],["Ammonium ion","NH₄⁺",9.25],["CHES","—",9.50],["Glycine (2nd)","NH₃⁺CH₂COO⁻",9.78],["Phenol","C₆H₅OH",9.95],["Carbonic acid (2nd)","HCO₃⁻",10.33],["CAPS","—",10.40],["Triethylammonium","(C₂H₅)₃NH⁺",10.72],["Phosphoric acid (3rd)","HPO₄²⁻",12.32],["Water","H₂O",14.0]];
+const PKA_STRONG_BASES=[["Lithium hydroxide","LiOH",-0.36],["Sodium hydroxide","NaOH",-0.56],["Potassium hydroxide","KOH",-0.70],["Rubidium hydroxide","RbOH",-0.77],["Cesium hydroxide","CsOH",-0.86],["Calcium hydroxide","Ca(OH)₂",-1.51],["Strontium hydroxide","Sr(OH)₂",-1.97],["Barium hydroxide","Ba(OH)₂",-2.02],["Tetramethylammonium","(CH₃)₄NOH",-2.0],["Tetraethylammonium","(C₂H₅)₄NOH",-2.2]];
+const PKA_WEAK_BASES=[["Piperidine","C₅H₁₁N",2.88],["Pyrrolidine","C₄H₉N",2.72],["Diethylamine","(C₂H₅)₂NH",3.02],["Ethylamine","C₂H₅NH₂",3.19],["Dimethylamine","(CH₃)₂NH",3.27],["Methylamine","CH₃NH₂",3.36],["Trimethylamine","(CH₃)₃N",4.20],["Ethylenediamine (1st)","H₂NCH₂CH₂NH₂",4.07],["Ammonia","NH₃",4.75],["Ethanolamine","HOCH₂CH₂NH₂",4.50],["Diethanolamine","(HOCH₂CH₂)₂NH",5.00],["Tris (Tris base)","(HOCH₂)₃CNH₂",5.91],["Morpholine","C₄H₉NO",5.64],["Hydrazine","N₂H₄",5.90],["Hydroxylamine","NH₂OH",5.96],["Triethanolamine","(HOCH₂CH₂)₃N",6.24],["Imidazole","C₃H₄N₂",7.00],["Ethylenediamine (2nd)","H₂NCH₂CH₂NH₂",7.15],["Pyridine","C₅H₅N",8.77],["Aniline","C₆H₅NH₂",9.40],["Adenine","C₅H₅N₅",4.20],["Cytosine","C₄H₅N₃O",4.60],["Guanine","C₅H₅N₅O",3.30],["Urea","CO(NH₂)₂",13.90]];
+/* ===== قاعدة بيانات KRI — مختصرة في هذا الملف لتفادي الأخطاء ===== */
+const DB=[
+["α-Thujene","2867-05-2","C10H16","MH",926,928,1027,924],["α-Pinene","80-56-8","C10H16","MH",935,936,1025,932],["Camphene","79-92-5","C10H16","MH",947,950,1069,946],["Sabinene","3387-41-5","C10H16","MH",968,973,1122,969],["β-Pinene","127-91-3","C10H16","MH",973,978,1110,974],["Myrcene","123-35-3","C10H16","MH",983,989,1161,988],["α-Phellandrene","99-83-2","C10H16","MH",999,1004,1168,1002],["δ-3-Carene","13466-78-9","C10H16","MH",1007,1011,1147,1001],["α-Terpinene","99-86-5","C10H16","MH",1011,1017,1178,1014],["p-Cymene","99-87-6","C10H14","MH",1015,1024,1270,1020],["Limonene","5989-27-5","C10H16","MH",1024,1030,1198,1024],["β-Phellandrene","555-10-2","C10H16","MH",1021,1030,1209,1030],["(Z)-β-Ocimene","3338-55-4","C10H16","MH",1029,1038,1235,1032],["(E)-β-Ocimene","3779-61-1","C10H16","MH",1038,1048,1250,1044],["γ-Terpinene","99-85-4","C10H16","MH",1050,1060,1245,1054],["Terpinolene","586-62-9","C10H16","MH",1079,1087,1282,1086],["α-Fenchene","471-84-1","C10H16","MH",null,945,null,945],["Tricyclene","508-32-7","C10H16","MH",null,921,null,921],["Santene","529-16-8","C9H14","MH",null,884,null,884],["Isolimonene","511-02-3","C10H16","MH",null,980,null,980],["Sylvestrene","1461-27-4","C10H16","MH",null,1025,null,1025],["trans-Pinane","33626-25-4","C10H18","MH",null,969,null,969],["cis-Pinane","6876-13-7","C10H18","MH",null,982,null,982],["o-Cymene","527-84-4","C10H14","MH",null,1022,null,1022],["p-Cymenene","1195-32-0","C10H12","MH",null,1089,null,1089],["allo-Ocimene","7216-56-0","C10H16","MH",null,1128,null,1128],["neo-allo-Ocimene","3016-19-1","C10H16","MH",null,1140,null,1140],["Artemisia triene","18383-70-5","C10H16","MH",null,923,null,923],["Santolina triene","2153-66-4","C10H16","MH",null,906,null,906],["β-Citronellene","2436-90-0","C10H18","MH",null,942,null,942],["(E)-Salvene","33746-69-9","C9H16","MH",null,858,null,858],["(Z)-Salvene","33746-70-2","C9H16","MH",null,847,null,847],["Norbornene","498-66-8","C7H10","MH",null,728,null,728],["2-Carene","554-61-0","C10H16","MH",null,1000,null,1000],["4-Carene","29050-33-7","C10H16","MH",null,1017,null,1017],["α-Pinene oxide","1686-14-2","C10H16O","MH",null,1084,null,1084],["β-Pinene oxide","6935-95-3","C10H16O","MH",null,1040,null,1040],
+["1,8-Cineole","470-82-6","C10H18O","MO",1022,1032,1211,1026],["Eucalyptol","470-82-6","C10H18O","MO",1022,1032,1211,1026],["Linalool","78-70-6","C10H18O","MO",1086,1099,1543,1095],["α-Thujone","546-80-5","C10H16O","MO",1091,1105,1423,1101],["β-Thujone","471-15-8","C10H16O","MO",1098,1115,1440,1112],["Camphor","76-22-2","C10H16O","MO",1125,1143,1515,1141],["Citronellal","106-23-0","C10H18O","MO",1134,1154,1475,1148],["Isoborneol","124-76-5","C10H18O","MO",1148,1158,1659,1155],["Borneol","507-70-0","C10H18O","MO",1153,1166,1700,1165],["Menthone","89-80-5","C10H18O","MO",1137,1151,1465,1148],["Terpinen-4-ol","562-74-3","C10H18O","MO",1165,1177,1601,1174],["Menthol","89-78-1","C10H20O","MO",1163,1177,1630,1167],["α-Terpineol","98-55-5","C10H18O","MO",1176,1190,1694,1186],["Myrtenal","564-94-3","C10H14O","MO",1171,1192,1632,1195],["Verbenone","80-57-9","C10H14O","MO",1184,1206,1721,1204],["Nerol","106-25-2","C10H18O","MO",1216,1229,1795,1227],["Citronellol","106-22-9","C10H20O","MO",1212,1228,1764,1223],["Neral","106-26-3","C10H16O","MO",1220,1242,1679,1235],["Geraniol","106-24-1","C10H18O","MO",1239,1255,1839,1249],["Geranial","141-27-5","C10H16O","MO",1247,1270,1725,1264],["Linalyl acetate","115-95-7","C12H20O2","MO",1242,1255,1554,1254],["Bornyl acetate","76-49-3","C12H20O2","MO",1270,1284,1579,1284],["α-Terpinyl acetate","80-26-2","C12H20O2","MO",1333,1347,1695,1346],["Neryl acetate","141-12-8","C12H20O2","MO",1344,1363,1718,1359],["Geranyl acetate","105-87-3","C12H20O2","MO",1361,1380,1751,1379],["1,4-Cineole","470-67-7","C10H18O","MO",null,1012,null,1012],["Dihydrolinalool","18479-51-1","C10H20O","MO",null,1131,null,1131],["Tetrahydrolinalool","78-69-3","C10H22O","MO",null,1098,null,1098],["endo-Fenchol","14575-74-7","C10H18O","MO",null,1114,null,1114],["exo-Fenchol","22627-95-8","C10H18O","MO",null,1118,null,1118],["cis-Pinocarveol","19889-99-7","C10H16O","MO",null,1182,null,1182],["trans-Pinocarveol","547-61-5","C10H16O","MO",null,1135,null,1135],["cis-Verbenol","1845-30-3","C10H16O","MO",null,1137,null,1137],["trans-Verbenol","1820-09-3","C10H16O","MO",null,1140,null,1140],["Myrtenol","515-00-4","C10H16O","MO",null,1194,null,1194],["Lavandulol","498-16-8","C10H18O","MO",null,1165,null,1165],["β-Terpineol","7299-40-3","C10H18O","MO",null,1159,null,1159],["γ-Terpineol","586-81-2","C10H18O","MO",null,1199,null,1199],["δ-Terpineol","7299-42-5","C10H18O","MO",null,1162,null,1162],["cis-Carveol","1197-06-4","C10H16O","MO",null,1226,null,1226],["trans-Carveol","1197-07-5","C10H16O","MO",null,1215,null,1215],["Dihydrocarveol","38049-26-2","C10H18O","MO",null,1192,null,1192],["cis-Pulegol","22472-80-6","C10H18O","MO",null,1226,null,1226],["trans-Pulegol","22472-79-3","C10H18O","MO",null,1213,null,1213],["Isopulegol","121468-66-4","C10H18O","MO",null,1145,null,1145],["cis-Piperitol","34350-53-3","C10H18O","MO",null,1195,null,1195],["trans-Piperitol","16721-39-4","C10H18O","MO",null,1207,null,1207],["Perillyl alcohol","536-59-4","C10H16O","MO",null,1294,null,1294],["3-Thujanol","3284-85-3","C10H18O","MO",null,1164,null,1164],["cis-Myrtanol","15358-92-6","C10H18O","MO",null,1250,null,1250],["trans-Myrtanol","15358-91-5","C10H18O","MO",null,1258,null,1258],["Nopol","128-50-7","C11H18O","MO",null,1278,null,1278],["cis-Rose oxide","4610-11-1","C10H18O","MO",null,1106,null,1106],["trans-Rose oxide","5258-11-7","C10H18O","MO",null,1122,null,1122],["Fenchone","1195-79-5","C10H16O","MO",null,1083,null,1083],["Isomenthone","491-07-6","C10H18O","MO",null,1158,null,1158],["Pulegone","89-82-7","C10H16O","MO",null,1233,null,1233],["Piperitone","89-81-6","C10H16O","MO",null,1249,null,1249],["Carvone","99-49-0","C10H14O","MO",null,1239,null,1239],["cis-Dihydrocarvone","7764-50-3","C10H16O","MO",null,1191,null,1191],["trans-Dihydrocarvone","5948-04-9","C10H16O","MO",null,1200,null,1200],["Pinocarvone","16812-40-1","C10H14O","MO",null,1160,null,1160],["Chrysanthenone","473-06-3","C10H14O","MO",null,1124,null,1124],["Menthofuran","494-90-6","C10H14O","MO",null,1159,null,1159],["Eucarvone","503-93-5","C10H14O","MO",null,1146,null,1146],["Menthyl acetate","89-48-5","C12H22O2","MO",null,1294,null,1294],["Lavandulyl acetate","20777-39-3","C12H20O2","MO",null,1288,null,1288],["Terpinen-4-ol acetate","4821-04-9","C12H20O2","MO",null,1299,null,1299],["Terpinyl isobutyrate","7774-65-4","C14H24O2","MO",null,1471,null,1471],["α-Campholenal","4501-58-0","C10H16O","MO",null,1130,null,1130],["α-Terpinene-1,4-epoxide","495-85-4","C10H16O","MO",null,1086,null,1086],["Limonene-1,2-epoxide","1195-92-2","C10H16O","MO",null,1128,null,1128],["1,2-Limonene diol","1946-00-5","C10H18O2","MO",null,1350,null,1350],
+["Benzaldehyde","100-52-7","C7H6O","AR",937,963,1519,952],["Methyl chavicol","140-67-0","C10H12O","AR",1178,1196,1671,1195],["(E)-Anethole","4180-23-8","C10H12O","AR",1265,1285,1826,1282],["Eugenol","97-53-0","C10H12O2","AR",1340,1358,2163,1356],["Methyl eugenol","93-15-2","C11H14O2","AR",1376,1402,2006,1403],["(E)-Cinnamaldehyde","14371-10-9","C9H8O","AR",1239,1271,2033,1267],["Benzyl acetate","140-11-4","C9H10O2","AR",1141,1166,1723,1157],["Benzyl alcohol","100-51-6","C7H8O","AR",1015,1037,1865,1026],["2-Phenylethyl alcohol","60-12-8","C8H10O","AR",1088,1115,1904,1106],["Methyl salicylate","119-36-8","C8H8O3","AR",1173,1193,1768,1190],["Vanillin","121-33-5","C8H8O3","AR",1358,1405,2570,1393],["Thymol","89-83-8","C10H14O","AR",1272,1290,2164,1289],["Carvacrol","499-75-2","C10H14O","AR",1283,1300,2211,1298]
+];
+const CLASS_INFO={MH:{icon:"🌿",color:"#10b981",label:{ar:"هيدروكربون أحادي",en:"Monoterpene HC",de:"Monoterpen-KW"}},MO:{icon:"🌺",color:"#06b6d4",label:{ar:"أحادي مؤكسج",en:"Oxygenated mono",de:"O2-Monoterpen"}},SH:{icon:"🍃",color:"#8b5cf6",label:{ar:"هيدروكربون سيسكو",en:"Sesquiterpene HC",de:"Sesquiterpen-KW"}},SO:{icon:"💐",color:"#ec4899",label:{ar:"سيسكو مؤكسج",en:"Oxygenated sesqui",de:"O2-Sesquiterpen"}},DH:{icon:"🌲",color:"#0d9488",label:{ar:"دايتربين",en:"Diterpene",de:"Diterpen"}},AR:{icon:"🟠",color:"#f59e0b",label:{ar:"عطري/فينولي",en:"Aromatic",de:"Aromatisch"}},AL:{icon:"⚗️",color:"#ef4444",label:{ar:"أليفاتي",en:"Aliphatic",de:"Aliphatisch"}},ES:{icon:"🧴",color:"#a855f7",label:{ar:"إستر",en:"Ester",de:"Ester"}},FA:{icon:"🧈",color:"#eab308",label:{ar:"حمض دهني",en:"Fatty acid",de:"Fettsäure"}},MS:{icon:"🧬",color:"#64748b",label:{ar:"متفرقات",en:"Misc",de:"Sonstige"}}};
+const DEFAULT_ALK=[[8,4.66],[9,8.12],[10,12.25],[11,16.33],[12,20.15],[13,23.71],[14,27.05],[15,30.19],[16,33.16],[17,35.97],[18,38.65],[19,41.19],[20,43.62],[21,45.94],[22,48.16],[23,50.29],[24,52.34],[25,54.29],[26,56.18],[27,58.01],[28,59.77],[29,60.78],[30,61.48]];
+const STAT_TABLES={
+"t-distribution":{headers:["df","0.10","0.05","0.025","0.01","0.005"],rows:[[1,6.314,12.706,12.706,31.821,63.657],[2,2.920,4.303,4.303,6.965,9.925],[3,2.353,3.182,3.182,4.541,5.841],[4,2.132,2.776,2.776,3.747,4.604],[5,2.015,2.571,2.571,3.365,4.032],[10,1.812,2.228,2.228,2.764,3.169],[20,1.725,2.086,2.086,2.528,2.845],[30,1.697,2.042,2.042,2.457,2.750],["∞",1.645,1.960,1.960,2.326,2.576]]},
+"Chi-square":{headers:["df","0.95","0.90","0.10","0.05","0.01"],rows:[[1,0.004,0.016,2.706,3.841,6.635],[2,0.103,0.211,4.605,5.991,9.210],[3,0.352,0.584,6.251,7.815,11.345],[4,0.711,1.064,7.779,9.488,13.277],[5,1.145,1.610,9.236,11.070,15.086],[10,3.940,4.865,15.987,18.307,23.209],[20,10.851,12.443,28.412,31.410,37.566]]},
+"F (α=0.05)":{headers:["df1\\df2","1","2","3","4","5","10","∞"],rows:[[1,161.4,199.5,215.7,224.6,230.2,241.9,254.3],[2,18.51,19.00,19.16,19.25,19.30,19.40,19.50],[3,10.13,9.55,9.28,9.12,9.01,8.79,8.53],[4,7.71,6.94,6.59,6.39,6.26,5.96,5.63],[5,6.61,5.79,5.41,5.19,5.05,4.74,4.37]]},
+"Dixon Q":{headers:["n","Q 90%","Q 95%","Q 99%"],rows:[[3,0.941,0.970,0.994],[4,0.765,0.829,0.926],[5,0.642,0.710,0.821],[6,0.560,0.625,0.740],[7,0.507,0.568,0.680],[8,0.468,0.526,0.634],[10,0.412,0.466,0.568],[20,0.300,0.342,0.425]]},
+"z critical":{headers:["Confidence","α","z"],rows:[["80%",0.20,1.282],["90%",0.10,1.645],["95%",0.05,1.960],["98%",0.02,2.326],["99%",0.01,2.576]]}
+};
+const CRC_DATA={
+"IR":{headers:["Group","Wavenumber (cm⁻¹)","Intensity"],rows:[["O-H alcohol (free)","3600-3650","s, sharp"],["O-H carboxylic acid","2500-3300","s, v.broad"],["C-H alkyne","3200-3310","s"],["C-H alkene/aromatic","3000-3100","m"],["C≡N nitrile","2210-2260","w-m"],["C=O ketone","1705-1725","s"],["C=O aldehyde","1720-1740","s"],["C=O ester","1735-1750","s"],["C=C alkene","1620-1680","w-m"],["C=C aromatic","1450-1600","m"],["N=O nitro","1350-1560","s"],["C-O alcohol/ether","1000-1260","s"]]},
+"NMR ¹H":{headers:["Proton type","δ (ppm)"],rows:[["Alkane -CH3","0.7-1.0"],["Alkane -CH2-","1.1-1.4"],["Aromatic H","6.9-8.5"],["Aldehyde R-CHO","9.5-10.0"],["Carboxylic acid R-COOH","10.5-12.5"],["Amine R-NH2","0.5-3.0"]]},
+"Constants":{headers:["Constant","Symbol","Value"],rows:[["Avogadro","N_A","6.02214076e23 mol⁻¹"],["Boltzmann","k","1.380649e-23 J/K"],["Faraday","F","96485.33212 C/mol"],["Gas constant","R","8.314462618 J/(mol·K)"],["Planck","h","6.62607015e-34 J·s"],["Speed of light","c","299792458 m/s"]]},
+"Redox":{headers:["Half reaction","E° (V)"],rows:[["F2 + 2e⁻ → 2F⁻","+2.87"],["MnO4⁻ + 8H⁺ + 5e⁻ → Mn²⁺","+1.51"],["Cl2 + 2e⁻ → 2Cl⁻","+1.36"],["O2 + 4H⁺ + 4e⁻ → 2H2O","+1.23"],["Cu²⁺ + 2e⁻ → Cu","+0.34"],["2H⁺ + 2e⁻ → H2","0.00"],["Zn²⁺ + 2e⁻ → Zn","-0.76"],["Na⁺ + e⁻ → Na","-2.71"]]}
+};
+let LANG="ar";
+let alkanes=[...DEFAULT_ALK];
+let lastSlope=null,lastIntercept=null,lastX=[],lastY=[];
+let history=JSON.parse(localStorage.getItem("labAssistantHistory")||"[]");
+let chartRegression=null,chartKRI=null;
+function t(k){return (TR[LANG]&&TR[LANG][k])||k}
+function tf(key,vars){
+let s=t(key);
+if(!vars) return s;
+for(const k in vars) s=s.split('{'+k+'}').join(vars[k]);
+return s;
+}
+function $id(id){return document.getElementById(id)}
+function $$(s){return document.querySelectorAll(s)}
+function pNum(s){if(s===null||s===undefined)return NaN;return parseFloat(String(s).replace(",",".").trim())}
+function parseNums(s){s=String(s).replace(/;/g,",").replace(/\n/g,",");return s.split(/[,\s]+/).filter(x=>x.trim()).map(Number).filter(x=>!isNaN(x))}
+function mean(a){return a.reduce((x,y)=>x+y,0)/a.length}
+function stdev(a){if(a.length<2)return 0;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1))}
+function regression(x,y){const n=x.length,mx=mean(x),my=mean(y);let num=0,den=0;for(let i=0;i<n;i++){num+=(x[i]-mx)*(y[i]-my);den+=(x[i]-mx)**2}const s=den?num/den:0;return[s,my-s*mx]}
+function r2value(x,y,s,b){const my=mean(y);let ssr=0,sst=0;for(let i=0;i<x.length;i++){const p=s*x[i]+b;ssr+=(y[i]-p)**2;sst+=(y[i]-my)**2}return sst?1-ssr/sst:0}
+function steyxFn(x,y,s,b){const n=x.length;if(n<=2)return 0;let sse=0;for(let i=0;i<n;i++)sse+=(y[i]-(s*x[i]+b))**2;return Math.sqrt(sse/(n-2))}
+function parseFormula(f){f=f.trim();if(!f)throw new Error("Empty formula");const parts=f.split(/[·.*]/);let total=0;for(const part of parts){const m=part.match(/^(\d+)(.+)$/);const mult=m?parseInt(m[1]):1;const sub=m?m[2]:part;total+=mult*parseSimpleFormula(sub)}return total}
+function parseSimpleFormula(f){let total=0,i=0;while(i<f.length){const c=f[i];if(c==="("){let d=1,j=i+1;while(j<f.length&&d>0){if(f[j]==="(")d++;else if(f[j]===")")d--;j++}const inner=f.slice(i+1,j-1);let k=j,nm="";while(k<f.length&&/\d/.test(f[k])){nm+=f[k];k++}total+=parseSimpleFormula(inner)*(nm?parseInt(nm):1);i=k}else if(/[A-Z]/.test(c)){let s=c;i++;while(i<f.length&&/[a-z]/.test(f[i])){s+=f[i];i++}let nm="";while(i<f.length&&/\d/.test(f[i])){nm+=f[i];i++}if(!AM[s])throw new Error("Unknown element: "+s);total+=AM[s]*(nm?parseInt(nm):1)}else i++}return total}
+function kriFromRt(rt,alks){const pts=[...alks].sort((a,b)=>a[1]-b[1]);if(pts.length<2||rt<=pts[0][1]||rt>=pts[pts.length-1][1])return null;for(let i=0;i<pts.length-1;i++){const[c1,t1]=pts[i],[c2,t2]=pts[i+1];if(t1<=rt&&rt<=t2&&t2>t1){const kri=100*c1+100*(c2-c1)*(rt-t1)/(t2-t1);return[kri,c1,c2]}}return null}
+function matchPct(kc,kr){if(kc===null||kr===null)return null;return Math.max(0,100-Math.abs(kc-kr)*2)}
+function bestRef(kc,row){if(kc===null)return null;let best=null;const refs=[["DB-1",row[4]],["DB-5",row[5]],["PEG",row[6]],["Adams",row[7]]];for(const[k,val]of refs){const m=matchPct(kc,val);if(m===null)continue;if(best===null||m>best[2])best=[k,val,m]}return best}
+function statusKey(m,d){if(m===null)return["kri_unknown","unk"];if(m>=80&&d<=10)return["kri_identified","ok"];if(m>=60&&d<=20)return["kri_tentative","tent"];return["kri_unknown","unk"]}
+function searchDB(q){const s=(q||"").trim().toLowerCase();if(!s)return DB.slice();return DB.filter(row=>String(row[0]).toLowerCase().includes(s)||String(row[1]).toLowerCase().includes(s)||String(row[2]).toLowerCase().includes(s))}
+function addHistory(cat,detail){history.push({t:new Date().toLocaleString(),cat:cat,detail:detail});if(history.length>500)history=history.slice(-500);localStorage.setItem("labAssistantHistory",JSON.stringify(history))}
+function fmt(x,digits=6){if(x===null||x===undefined||isNaN(x))return"—";if(Math.abs(x)>=1e6||(Math.abs(x)<1e-4&&x!==0))return x.toExponential(digits-1);const s=x.toPrecision(digits);return parseFloat(s).toString()}
+function setLang(lang){
+LANG=lang;
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+$$(".lang-btn").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+$id("appTitle").textContent=t("title");
+$id("appSub").textContent=t("sub");
+$id("langLabel").textContent="🌐 "+(lang==="ar"?"اللغة":lang==="en"?"Language":"Sprache");
+$id("dbBadge").textContent="📊 "+DB.length+" KRI | pKa DB";
+const active=document.querySelector(".page.active");
+const page=active?active.id.replace("page-",""):"home";
+buildNav();
+render(page);
+const newPage=$id("page-"+page);
+if(newPage)newPage.classList.add("active");
+$$(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+$id("main").scrollTop=0;
+}
+const PAGES=[["home","nav_home"],["units","nav_units"],["sol","nav_sol"],["dil","nav_dil"],["acid","nav_acid"],["ph","nav_ph"],["pka","nav_pka"],["buf","nav_buf"],["mw","nav_mw"],["stat","nav_stat"],["val","nav_val"],["kri","nav_kri"],["plot","nav_plot"],["tables","nav_tables"],["crc","nav_crc"],["hist","nav_hist"]];
+function buildNav(){
+const nav=$id("navContainer");
+nav.innerHTML="";
+for(const[key,trKey]of PAGES){
+const b=document.createElement("button");
+b.className="nav-btn";
+b.dataset.page=key;
+b.innerHTML="<span>"+t(trKey)+"</span>";
+b.onclick=function(){showPage(key);toggleSidebar(true)};
+nav.appendChild(b);
+}
+}
+function showPage(key){
+$$(".page").forEach(p=>p.classList.remove("active"));
+let page=$id("page-"+key);
+if(!page){render(key);page=$id("page-"+key)}
+if(page)page.classList.add("active");
+$$(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===key));
+$id("main").scrollTop=0;
+if(key==="plot")setTimeout(function(){if(chartRegression)chartRegression.resize();if(chartKRI)chartKRI.resize()},50);
+}
+function toggleSidebar(forceClose){
+const sb=$id("sidebar");
+const isRTL=document.documentElement.dir==="rtl";
+const hidden=isRTL?"translateX(100%)":"translateX(-100%)";
+if(window.innerWidth<=900){
+if(forceClose)sb.style.transform=hidden;
+else sb.style.transform=sb.style.transform===hidden?"translateX(0)":hidden;
+}else sb.style.transform="translateX(0)";
+}
+window.addEventListener("resize",function(){const sb=$id("sidebar");if(window.innerWidth>900)sb.style.transform="translateX(0)"});
+function render(key){
+const main=$id("main");
+const existing=$id("page-"+key);
+if(existing)existing.remove();
+const page=document.createElement("div");
+page.className="page";
+page.id="page-"+key;
+main.appendChild(page);
+const builders={home:buildHome,units:buildUnits,sol:buildSol,dil:buildDil,acid:buildAcid,ph:buildPh,pka:buildPka,buf:buildBuf,mw:buildMW,stat:buildStat,val:buildVal,kri:buildKRI,plot:buildPlot,tables:buildTables,crc:buildCRC,hist:buildHist};
+if(builders[key])builders[key](page);
+}
+function buildHome(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>🧪 '+t("welcome")+'</h2>'+
+'<p style="line-height:1.7; color:#475569; white-space:pre-line;">'+t("home_intro")+'</p>'+
+'</div>'+
+'<div class="card">'+
+'<h2>🛠️ '+t("features")+'</h2>'+
+'<div class="grid-3" id="featGrid"></div>'+
+'</div>';
+const feats=[
+["🔄","units","8 categories"],["⚗️","sol","M · m · N · % · ppm"],
+["💧","dil","C₁V₁ = C₂V₂"],["🧪","acid","M·m·N·%·ppm"],["🧪","ph","Strong/Weak"],
+["📖","pka","Acids & Bases"],["🧫","buf","Henderson-Hasselbalch"],["⚖️","mw","From formula"],
+["📊","stat","18 functions"],["🧬","val","LOD · LOQ · RSD"],
+["🔬","kri",DB.length+" compounds"],["📈","plot","Regression + KRI"],
+["📐","tables","5 tables"],["📚","crc","4 CRC tables"],["📋","hist","Activity log"]
+];
+const grid=$id("featGrid");
+for(const f of feats){
+const card=document.createElement("div");
+card.className="feature-card";
+card.onclick=function(){showPage(f[1])};
+card.innerHTML='<div class="title">'+t("nav_"+f[1])+'</div><div class="desc">'+f[2]+'</div>';
+grid.appendChild(card);
+}
+}
+function buildUnits(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>🔄 '+t("nav_units")+'</h2>'+
+'<label>'+t("cat")+'</label>'+
+'<select id="uCat"></select>'+
+'<div class="grid-2" style="margin-top:10px;">'+
+'<div><label>'+t("from")+'</label><select id="uFrom"></select></div>'+
+'<div><label>'+t("to")+'</label><select id="uTo"></select></div>'+
+'</div>'+
+'<label>'+t("value")+'</label>'+
+'<input type="text" id="uVal" value="1">'+
+'<div style="margin-top:8px;">'+
+'<button class="calc" onclick="convertUnits()">'+t("convert")+'</button>'+
+'<button class="calc muted" onclick="swapUnits()">'+t("swap")+'</button>'+
+'</div>'+
+'<div class="result" id="uResult">—</div>'+
+'</div>'+
+'<div class="card">'+
+'<h2>'+t("u_other_examples")+'</h2>'+
+'<div id="uExamples"></div>'+
+'</div>';
+const catMap={u_temp:"temp",u_mass:"mass",u_vol:"vol",u_len:"len",u_pres:"pres",u_energy:"energy",u_conc:"conc",u_time:"time"};
+const catSel=$id("uCat");
+for(const trKey in catMap){
+const o=document.createElement("option");
+o.value=catMap[trKey];o.textContent=t(trKey);
+catSel.appendChild(o);
+}
+catSel.value="mass";
+catSel.onchange=refreshUnitLists;
+refreshUnitLists();
+const examples=[["1 kg → g","mass","kg","g","1"],["100 °C → °F","temp","°C","°F","100"],["1 atm → Pa","pres","atm","Pa","1"],["1 M → mM","conc","M","mM","1"],["1 L → mL","vol","L","mL","1"],["1 mi → km","len","mi","km","1"]];
+const exCont=$id("uExamples");
+for(const ex of examples){
+const btn=document.createElement("button");
+btn.className="example-btn";btn.textContent=ex[0];
+btn.onclick=function(){catSel.value=ex[1];refreshUnitLists();$id("uFrom").value=ex[2];$id("uTo").value=ex[3];$id("uVal").value=ex[4];convertUnits()};
+exCont.appendChild(btn);
+}
+}
+function refreshUnitLists(){
+const cat=$id("uCat").value;
+let units;
+if(cat==="temp")units=Object.keys(UNITS.temp);else units=Object.keys(UNITS[cat]);
+const fromSel=$id("uFrom"),toSel=$id("uTo");
+fromSel.innerHTML="";toSel.innerHTML="";
+for(const u of units){fromSel.innerHTML+='<option>'+u+'</option>';toSel.innerHTML+='<option>'+u+'</option>'}
+fromSel.value=units[0];toSel.value=units[1]||units[0];
+}
+function swapUnits(){const f=$id("uFrom").value;const tt=$id("uTo").value;$id("uFrom").value=tt;$id("uTo").value=f}
+function convertUnits(){
+try{
+const v=pNum($id("uVal").value);
+const cat=$id("uCat").value;
+const fu=$id("uFrom").value,tu=$id("uTo").value;
+let r;
+if(cat==="temp"){const k=UNITS.temp[fu].toK(v);r=UNITS.temp[tu].fromK(k)}
+else r=v*UNITS[cat][fu]/UNITS[cat][tu];
+$id("uResult").textContent=v+" "+fu+"  =  "+fmt(r)+" "+tu;
+addHistory("Convert",v+" "+fu+" → "+tu);
+}catch(e){alert("Error: "+e.message)}
+}
+function buildSol(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>⚗️ '+t("nav_sol")+'</h2>'+
+'<label>'+t("sol_mode")+'</label>'+
+'<div id="solModes" style="display:flex; gap:8px; flex-wrap:wrap; margin:6px 0;"></div>'+
+'<div class="grid-2">'+
+'<div><label>'+t("mw_gmol")+'</label><input id="solMW" value="58.44"></div>'+
+'<div><label>'+t("vol_ml")+'</label><input id="solV" value="500"></div>'+
+'</div>'+
+'<div class="grid-2">'+
+'<div><label>'+t("conc_lbl")+'</label><input id="solC" value="0.5"></div>'+
+'<div><label>'+t("eq_lbl")+'</label><input id="solEq" value="2"></div>'+
+'</div>'+
+'<button class="calc" onclick="calcSol()">'+t("calc")+'</button>'+
+'<div class="result" id="solResult">—</div>'+
+'</div>';
+const modes=[["m","m_molar"],["mm","m_molal"],["n","m_norm"],["p","m_pct"],["ppm","m_ppm"]];
+const cont=$id("solModes");
+for(const m of modes){
+const lbl=document.createElement("label");
+lbl.style.cssText="display:inline-flex; align-items:center; gap:4px; font-weight:600; cursor:pointer; margin:0;";
+lbl.innerHTML='<input type="radio" name="solMode" value="'+m[0]+'"'+(m[0]==="m"?" checked":"")+'> '+t(m[1]);
+cont.appendChild(lbl);
+}
+}
+function calcSol(){
+try{
+const mw=pNum($id("solMW").value),v=pNum($id("solV").value),c=pNum($id("solC").value),eq=pNum($id("solEq").value);
+const mode=document.querySelector('input[name="solMode"]:checked').value;
+const vL=v/1000;
+let res;
+if(mode==="m")res="Molarity: mass = "+fmt(c*vL*mw)+" g";
+else if(mode==="mm")res="Molality: mass = "+fmt(c*vL*mw)+" g";
+else if(mode==="n"){const M=c/eq;res="Normality: M = "+fmt(M)+", mass = "+fmt(M*vL*mw)+" g"}
+else if(mode==="p")res="% w/v: mass = "+fmt(c*v/100)+" g";
+else res="ppm: mass = "+fmt(c*vL)+" mg";
+$id("solResult").textContent=res;
+addHistory("Solution",res);
+}catch(e){alert("Error: "+e.message)}
+}
+function buildDil(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>💧 '+t("nav_dil")+'</h2>'+
+'<p style="color:#0891b2; font-style:italic; font-size:15px; margin-bottom:8px;">C₁ · V₁ = C₂ · V₂</p>'+
+'<div class="grid-2">'+
+'<div><label>'+t("c1")+'</label><input id="d_c1" value="1"></div>'+
+'<div><label>'+t("v1")+'</label><input id="d_v1" value="50"></div>'+
+'<div><label>'+t("c2")+'</label><input id="d_c2" value="0.1"></div>'+
+'<div><label>'+t("v2")+' ('+t("leave_empty")+')</label><input id="d_v2"></div>'+
+'</div>'+
+'<button class="calc" onclick="calcDil()">'+t("calc")+'</button>'+
+'<div class="result" id="dResult">—</div>'+
+'</div>';
+}
+function calcDil(){
+try{
+const c1=$id("d_c1").value.trim(),v1=$id("d_v1").value.trim(),c2=$id("d_c2").value.trim(),v2=$id("d_v2").value.trim();
+const vals={c1:c1?pNum(c1):null,v1:v1?pNum(v1):null,c2:c2?pNum(c2):null,v2:v2?pNum(v2):null};
+const empties=Object.keys(vals).filter(k=>vals[k]===null);
+if(empties.length!==1)throw new Error(t("leave_empty"));
+const k=empties[0];
+let res;
+if(k==="c1")res="C₁ = "+fmt(vals.c2*vals.v2/vals.v1);
+else if(k==="v1")res="V₁ = "+fmt(vals.c2*vals.v2/vals.c1)+" mL";
+else if(k==="c2")res="C₂ = "+fmt(vals.c1*vals.v1/vals.v2);
+else res="V₂ = "+fmt(vals.c1*vals.v1/vals.c2)+" mL";
+$id("dResult").textContent=res;
+addHistory("Dilution",res);
+}catch(e){alert("Error: "+e.message)}
+}
+function buildPh(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>🧪 '+t("nav_ph")+'</h2>'+
+'<div id="phModes" style="display:flex; gap:8px; flex-wrap:wrap; margin:6px 0;"></div>'+
+'<label>'+t("conc_M")+'</label>'+
+'<input id="phC" value="0.1">'+
+'<label>'+t("ka_kb")+'</label>'+
+'<input id="phK" value="1.8e-5">'+
+'<button class="calc" onclick="calcPH()">'+t("calc")+'</button>'+
+'<div class="result" id="phResult">—</div>'+
+'</div>';
+const modes=[["sa","strong_a"],["wa","weak_a"],["sb","strong_b"],["wb","weak_b"]];
+const cont=$id("phModes");
+for(const m of modes){
+const lbl=document.createElement("label");
+lbl.style.cssText="display:inline-flex; align-items:center; gap:4px; font-weight:600; cursor:pointer; margin:0;";
+lbl.innerHTML='<input type="radio" name="phMode" value="'+m[0]+'"'+(m[0]==="sa"?" checked":"")+'> '+t(m[1]);
+cont.appendChild(lbl);
+}
+}
+function calcPH(){
+try{
+const c=pNum($id("phC").value),k=pNum($id("phK").value);
+const mode=document.querySelector('input[name="phMode"]:checked').value;
+let res;
+if(mode==="sa"){const ph=-Math.log10(c);res="pH = "+ph.toFixed(4)+"\npOH = "+(14-ph).toFixed(4)}
+else if(mode==="sb"){const poh=-Math.log10(c);res="pH = "+(14-poh).toFixed(4)+"\npOH = "+poh.toFixed(4)}
+else{
+const x=(-k+Math.sqrt(k*k+4*k*c))/2;
+if(mode==="wa"){const ph=-Math.log10(x);res="pH = "+ph.toFixed(4)+"\n[H⁺] = "+x.toExponential(3)+" M\nIonization = "+(x/c*100).toFixed(3)+"%"}
+else{const poh=-Math.log10(x);res="pH = "+(14-poh).toFixed(4)+"\npOH = "+poh.toFixed(4)+"\nIonization = "+(x/c*100).toFixed(3)+"%"}
+}
+$id("phResult").textContent=res;
+addHistory("pH",res.split("\n")[0]);
+}catch(e){alert("Error: "+e.message)}
+}
+function buildPka(page){
+page.innerHTML=
+'<div class="card">'+
+'<div class="tabs">'+
+'<button class="tab-btn active" data-tab="pka-db" onclick="switchTab(this,\'pka-db\')">📖 Database</button>'+
+'<button class="tab-btn" data-tab="pka-calc" onclick="switchTab(this,\'pka-calc\')">🧮 Calculator</button>'+
+'<button class="tab-btn" data-tab="pka-buffers" onclick="switchTab(this,\'pka-buffers\')">🧫 Buffers</button>'+
+'</div>'+
+'<div class="tab-content active" id="pka-db">'+
+'<h2>📖 '+t("pka_title")+'</h2>'+
+'<input type="text" id="pkaSearch" placeholder="'+t("pka_search_ph")+'">'+
+'<label>'+t("pka_type")+'</label>'+
+'<select id="pkaFilter">'+
+'<option value="all">'+t("pka_all")+'</option>'+
+'<option value="sa">'+t("pka_strong_acids")+'</option>'+
+'<option value="wa">'+t("pka_weak_acids")+'</option>'+
+'<option value="sb">'+t("pka_strong_bases")+'</option>'+
+'<option value="wb">'+t("pka_weak_bases")+'</option>'+
+'</select>'+
+'<div class="table-wrap" style="margin-top:8px;"><table id="pkaTable"></table></div>'+
+'</div>'+
+'<div class="tab-content" id="pka-calc">'+
+'<h2>🧮 '+t("pka_calc_title")+'</h2>'+
+'<label>'+t("pka_calc_type")+'</label>'+
+'<div style="display:flex; gap:12px; margin:6px 0;">'+
+'<label style="display:inline-flex; align-items:center; gap:4px; margin:0;"><input type="radio" name="pkaType" value="acid" checked> '+t("pka_calc_acid")+'</label>'+
+'<label style="display:inline-flex; align-items:center; gap:4px; margin:0;"><input type="radio" name="pkaType" value="base"> '+t("pka_calc_base")+'</label>'+
+'</div>'+
+'<div class="grid-2">'+
+'<div><label>'+t("pka_calc_conc")+'</label><input id="pkaConc" value="0.1"></div>'+
+'<div><label>'+t("pka_calc_pka")+'</label><input id="pkaPk" value="4.76"></div>'+
+'</div>'+
+'<button class="calc" onclick="calcPka()">'+t("pka_calc_btn")+'</button>'+
+'<div class="grid-3" id="pkaResults" style="margin-top:12px;"></div>'+
+'</div>'+
+'<div class="tab-content" id="pka-buffers">'+
+'<h2>🧫 Common buffers</h2>'+
+'<div id="bufferList"></div>'+
+'</div>'+
+'</div>';
+$id("pkaSearch").oninput=renderPkaTable;
+$id("pkaFilter").onchange=renderPkaTable;
+renderPkaTable();
+renderBufferList();
+}
+function renderPkaTable(){
+const q=($id("pkaSearch").value||"").trim().toLowerCase();
+const filter=$id("pkaFilter").value;
+const sections=[["sa","pka_strong_acids",PKA_STRONG_ACIDS],["wa","pka_weak_acids",PKA_WEAK_ACIDS],["sb","pka_strong_bases",PKA_STRONG_BASES],["wb","pka_weak_bases",PKA_WEAK_BASES]];
+let html='<thead><tr><th>'+t("pka_name")+'</th><th>'+t("pka_formula")+'</th><th>'+t("pka_type")+'</th><th>'+t("pka_value")+' / pKb</th></tr></thead><tbody>';
+for(const sec of sections){
+const code=sec[0],nameKey=sec[1],data=sec[2];
+if(filter!=="all"&&filter!==code)continue;
+for(const row of data){
+if(q && !String(row[0]).toLowerCase().includes(q) && !String(row[1]).toLowerCase().includes(q)) continue;
+const bg=code==="sa"?"#fee2e2":code==="wa"?"#fef3c7":code==="sb"?"#dbeafe":"#e0e7ff";
+const col=code==="sa"?"#991b1b":code==="wa"?"#92400e":code==="sb"?"#1e40af":"#3730a3";
+const tType=code.startsWith("s")?"acid":"base";
+html+='<tr style="background:'+bg+'; color:'+col+'; cursor:pointer;" ondblclick=\'usePka('+JSON.stringify(row[0])+', '+row[2]+', "'+tType+'")\'><td><strong>'+row[0]+'</strong></td><td><code>'+row[1]+'</code></td><td>'+t(nameKey)+'</td><td><strong>'+row[2].toFixed(2)+'</strong></td></tr>';
+}
+}
+html+="</tbody>";
+$id("pkaTable").innerHTML=html;
+}
+function usePka(name,pk,type){
+showPage("pka");
+switchTab(document.querySelector('[data-tab="pka-calc"]'),"pka-calc");
+$id("pkaPk").value=pk.toString();
+document.querySelector('input[name="pkaType"][value="'+type+'"]').checked=true;
+addHistory("pKa use",name+" → pK="+pk);
+}
+function renderBufferList(){
+const buffers=[["Citrate (pKa1)","C₆H₈O₇",3.13,"2.1 – 4.1"],["Formate","HCOOH",3.75,"2.8 – 4.8"],["Acetate","CH₃COOH",4.76,"3.8 – 5.8"],["Citrate (pKa2)","C₆H₈O₇",4.76,"3.8 – 5.8"],["Succinate (pKa1)","C₄H₆O₄",4.21,"3.2 – 5.2"],["Succinate (pKa2)","C₄H₆O₄",5.64,"4.6 – 6.6"],["MES","—",6.10,"5.1 – 7.1"],["Bis-Tris","—",6.50,"5.5 – 7.5"],["PIPES","—",6.80,"5.8 – 7.8"],["MOPS","—",7.20,"6.2 – 8.2"],["Phosphate (pKa2)","H₃PO₄",7.21,"6.2 – 8.2"],["HEPES","—",7.55,"6.6 – 8.6"],["Tris","(HOCH₂)₃CNH₂",8.07,"7.1 – 9.1"],["Glycylglycine","—",8.40,"7.4 – 9.4"],["Borate (pKa1)","H₃BO₃",9.24,"8.2 – 10.2"],["CHES","—",9.50,"8.5 – 10.5"],["Glycine (pKa2)","NH₂CH₂COOH",9.78,"8.8 – 10.8"],["CAPS","—",10.40,"9.4 – 11.4"],["Phosphate (pKa3)","H₃PO₄",12.32,"11.3 – 13.3"]];
+const cont=$id("bufferList");
+cont.innerHTML="";
+for(const b of buffers){
+const r=document.createElement("div");
+r.style.cssText="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:10px; margin:4px 0; display:flex; flex-wrap:wrap; align-items:center; gap:12px;";
+r.innerHTML='<strong style="color:#0891b2; min-width:180px;">'+b[0]+'</strong><code style="color:#475569; min-width:130px;">'+b[1]+'</code><span style="font-family:Consolas; color:#0f172a;">pKa = '+b[2]+'</span><span style="color:#f59e0b; font-weight:700;">📊 '+b[3]+'</span><button class="example-btn" onclick="usePka(\''+b[0]+'\', '+b[2]+', \'acid\')">Use</button>';
+cont.appendChild(r);
+}
+}
+function calcPka(){
+try{
+const c=pNum($id("pkaConc").value),pk=pNum($id("pkaPk").value);
+const type=document.querySelector('input[name="pkaType"]:checked').value;
+if(c<=0)throw new Error("Concentration must be > 0");
+let ph,poh;
+if(type==="acid"){ph=0.5*(pk-Math.log10(c));poh=14-ph}
+else{poh=0.5*(pk-Math.log10(c));ph=14-poh}
+const h=Math.pow(10,-ph),oh=Math.pow(10,-poh),pct=h/c*100;
+$id("pkaResults").innerHTML=
+'<div class="result-box"><div class="lbl">'+t("pka_result_ph")+'</div><div class="val">'+ph.toFixed(4)+'</div></div>'+
+'<div class="result-box"><div class="lbl">'+t("pka_result_poh")+'</div><div class="val">'+poh.toFixed(4)+'</div></div>'+
+'<div class="result-box"><div class="lbl">'+t("pka_result_h")+'</div><div class="val">'+h.toExponential(3)+'</div></div>'+
+'<div class="result-box"><div class="lbl">'+t("pka_result_oh")+'</div><div class="val">'+oh.toExponential(3)+'</div></div>'+
+'<div class="result-box"><div class="lbl">'+t("pka_result_pct")+'</div><div class="val">'+pct.toFixed(3)+'%</div></div>'+
+'<div class="result-box"><div class="lbl">'+t("pka_buffer_range")+'</div><div class="val">'+(pk-1).toFixed(2)+' – '+(pk+1).toFixed(2)+'</div></div>';
+addHistory("pKa calc","pH="+ph.toFixed(3)+" (c="+c+", pK="+pk+", "+type+")");
+}catch(e){alert("Error: "+e.message)}
+}
+function buildBuf(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>🧫 '+t("nav_buf")+'</h2>'+
+'<p style="color:#0891b2; font-style:italic; font-size:15px; margin-bottom:8px;">pH = pKa + log([A⁻]/[HA])</p>'+
+'<div class="grid-2">'+
+'<div><label>'+t("pka_lbl")+'</label><input id="b_pka" value="4.76"></div>'+
+'<div><label>'+t("ph_lbl")+'</label><input id="b_ph" value="5.0"></div>'+
+'</div>'+
+'<label>'+t("ct_lbl")+'</label>'+
+'<input id="b_ct" value="0.1">'+
+'<button class="calc" onclick="calcBuf()">'+t("calc")+'</button>'+
+'<div class="result" id="bResult">—</div>'+
+'</div>';
+}
+function calcBuf(){
+try{
+const pk=pNum($id("b_pka").value),ph=pNum($id("b_ph").value),ct=pNum($id("b_ct").value);
+const ratio=Math.pow(10,ph-pk);
+const cA=ct*ratio/(1+ratio),cHA=ct-cA;
+const res="[A⁻]/[HA] = "+ratio.toFixed(4)+"\n[A⁻] = "+cA.toFixed(4)+" M\n[HA] = "+cHA.toFixed(4)+" M";
+$id("bResult").textContent=res;
+addHistory("Buffer",res.split("\n")[0]);
+}catch(e){alert("Error: "+e.message)}
+}
+function buildMW(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>⚖️ '+t("nav_mw")+'</h2>'+
+'<label>'+t("formula")+'</label>'+
+'<input id="mwFormula" value="CuSO4·5H2O" placeholder="'+t("formula_ph")+'">'+
+'<button class="calc" onclick="calcMW()">'+t("calc")+'</button>'+
+'<div class="result" id="mwResult">—</div>'+
+'<div style="margin-top:12px;" id="mwExamples"></div>'+
+'</div>';
+const exs=["H2SO4","NaOH","CuSO4·5H2O","Ca(OH)2","KMnO4","NaCl","C6H12O6","Fe2(SO4)3"];
+const cont=$id("mwExamples");
+for(const ex of exs){
+const b=document.createElement("button");
+b.className="example-btn";b.textContent=ex;
+b.onclick=function(){$id("mwFormula").value=ex;calcMW()};
+cont.appendChild(b);
+}
+}
+function calcMW(){
+try{
+const f=$id("mwFormula").value;
+const mw=parseFormula(f);
+$id("mwResult").textContent="MW = "+mw.toFixed(4)+" g/mol";
+addHistory("MW",f+" = "+mw.toFixed(4));
+}catch(e){alert("Error: "+e.message)}
+}
+function buildStat(page){
+const funcs=["mean","median","mode","stdev","variance","min","max","sum","count","geomean","correl","r2_lbl","slope","intercept","steyx","regression","ttest","ftest"];
+let opts="";
+for(const f of funcs)opts+='<option value="'+f+'">'+t(f)+'</option>';
+page.innerHTML=
+'<div class="card">'+
+'<h2>📊 '+t("nav_stat")+'</h2>'+
+'<label>'+t("function")+'</label>'+
+'<select id="statFunc">'+opts+'</select>'+
+'<label>'+t("data_x")+'</label>'+
+'<input id="statX" value="1, 2, 3, 4, 5">'+
+'<label>'+t("data_y")+'</label>'+
+'<input id="statY" value="2.1, 4.0, 6.2, 7.9, 10.1">'+
+'<button class="calc" onclick="calcStat()">'+t("calc")+'</button>'+
+'<div class="result" id="statResult">—</div>'+
+'</div>';
+}
+function calcStat(){
+try{
+const x=parseNums($id("statX").value);
+const y=parseNums($id("statY").value);
+const key=$id("statFunc").value;
+if(!x.length&&key!=="count")throw new Error("No X data");
+let r,s=0,b=0;
+if(key==="mean")r=mean(x);
+else if(key==="median"){const sx=[...x].sort((a,b)=>a-b);const n=sx.length;r=n%2?sx[(n-1)/2]:(sx[n/2-1]+sx[n/2])/2}
+else if(key==="mode"){const freq={};x.forEach(v=>freq[v]=(freq[v]||0)+1);r=parseInt(Object.entries(freq).sort((a,b)=>b[1]-a[1])[0][0])}
+else if(key==="stdev")r=stdev(x);
+else if(key==="variance")r=stdev(x)**2;
+else if(key==="min")r=Math.min(...x);
+else if(key==="max")r=Math.max(...x);
+else if(key==="sum")r=x.reduce((a,b)=>a+b,0);
+else if(key==="count")r=x.length;
+else if(key==="geomean")r=Math.pow(x.reduce((a,b)=>a*b,1),1/x.length);
+else{
+if(x.length!==y.length||x.length<2)throw new Error("X and Y same length ≥ 2");
+[s,b]=regression(x,y);
+if(key==="correl"||key==="r2_lbl"){
+const n=x.length,mx=mean(x),my=mean(y);
+let num=0,dx=0,dy=0;
+for(let i=0;i<n;i++){num+=(x[i]-mx)*(y[i]-my);dx+=(x[i]-mx)**2;dy+=(y[i]-my)**2}
+const rv=dx&&dy?num/Math.sqrt(dx*dy):0;
+r=key==="correl"?rv:rv*rv;
+}
+else if(key==="slope")r=s;
+else if(key==="intercept")r=b;
+else if(key==="steyx")r=steyxFn(x,y,s,b);
+else if(key==="regression"){$id("statResult").textContent="y = "+b.toFixed(4)+" + "+s.toFixed(4)+"x";lastSlope=s;lastIntercept=b;lastX=x;lastY=y;addHistory("Regression","y = "+b.toFixed(4)+" + "+s.toFixed(4)+"x");return}
+else if(key==="ttest"){const vx=stdev(x)**2,vy=stdev(y)**2;r=(mean(x)-mean(y))/Math.sqrt(vx/x.length+vy/y.length||1)}
+else if(key==="ftest"){const vx=stdev(x)**2,vy=stdev(y)**2;r=vy?vx/vy:0}
+}
+$id("statResult").textContent=fmt(r);
+addHistory("Stat",key+": "+fmt(r));
+if(["slope","intercept","steyx","regression","correl","r2_lbl"].includes(key)){lastSlope=s;lastIntercept=b;lastX=x;lastY=y}
+}catch(e){alert("Error: "+e.message)}
+}
+function buildVal(page){
+const keys=["v_slope","v_int","v_r2","v_r","v_sy","v_sd","v_lod","v_loq","v_range","v_rec","v_rsd"];
+page.innerHTML=
+'<div class="card">'+
+'<h2>🧬 '+t("nav_val")+'</h2>'+
+'<label>'+t("v_conc")+'</label>'+
+'<input id="vConc" value="0.5, 1, 2, 5, 10, 20, 50">'+
+'<label>'+t("v_resp")+'</label>'+
+'<input id="vResp" value="1520, 3050, 6080, 15210, 30420, 60810, 152050">'+
+'<label>'+t("v_blank")+'</label>'+
+'<input id="vBlank" value="42, 48, 39, 45, 51, 44, 47, 43, 46, 49">'+
+'<button class="calc" onclick="calcVal()">'+t("v_compute")+'</button>'+
+'<div class="grid-4" id="vGrid" style="margin-top:14px;"></div>'+
+'</div>';
+const grid=$id("vGrid");
+for(const k of keys){
+const box=document.createElement("div");
+box.className="result-box";
+box.innerHTML='<div class="lbl">'+t(k)+'</div><div class="val" id="vv-'+k+'">—</div>';
+grid.appendChild(box);
+}
+}
+function calcVal(){
+try{
+const x=parseNums($id("vConc").value),y=parseNums($id("vResp").value),blank=parseNums($id("vBlank").value);
+if(x.length<3||x.length!==y.length)throw new Error("Need ≥3 X & Y of equal length");
+const[s,b]=regression(x,y);
+const r2v=r2value(x,y,s,b);
+const r=Math.sqrt(Math.max(0,r2v));
+const sy=steyxFn(x,y,s,b);
+const sd=blank.length>=3?stdev(blank):sy;
+const lod=s?3.3*sd/s:0,loq=s?10*sd/s:0;
+const recs=x.map((xi,i)=>{const pred=s*xi+b;return pred?y[i]/pred*100:null}).filter(v=>v!==null);
+const rec=recs.length?mean(recs):0;
+const my=mean(y);
+const rsd=my?stdev(y)/my*100:0;
+const set=function(k,v){$id("vv-"+k).textContent=v};
+set("v_slope",fmt(s));set("v_int",fmt(b));set("v_r2",r2v.toFixed(6));
+set("v_r",r.toFixed(6));set("v_sy",fmt(sy));set("v_sd",fmt(sd));
+set("v_lod",fmt(lod));set("v_loq",fmt(loq));
+set("v_range",Math.min(...x)+" – "+Math.max(...x));
+set("v_rec",rec.toFixed(2));set("v_rsd",rsd.toFixed(2));
+lastSlope=s;lastIntercept=b;lastX=x;lastY=y;
+addHistory("Validation","LOD="+fmt(lod)+", LOQ="+fmt(loq)+", R²="+r2v.toFixed(6));
+}catch(e){alert("Error: "+e.message)}
+}
+function buildKRI(page){
+page.innerHTML=
+'<div class="card">'+
+'<div class="tabs">'+
+'<button class="tab-btn active" data-tab="kri-calc" onclick="switchTab(this,\'kri-calc\')">🔍 '+t("kri_calculator")+'</button>'+
+'<button class="tab-btn" data-tab="kri-search" onclick="switchTab(this,\'kri-search\')">🔎 '+t("kri_search")+'</button>'+
+'<button class="tab-btn" data-tab="kri-alk" onclick="switchTab(this,\'kri-alk\')">⛽ '+t("kri_alkanes")+'</button>'+
+'<button class="tab-btn" data-tab="kri-batch" onclick="switchTab(this,\'kri-batch\')">📋 '+t("kri_batch")+'</button>'+
+'<button class="tab-btn" data-tab="kri-stats" onclick="switchTab(this,\'kri-stats\')">📊 '+t("kri_stats")+'</button>'+
+'</div>'+
+'<div class="tab-content active" id="kri-calc">'+
+'<h2>🔬 '+t("kri_title")+'</h2>'+
+'<div class="alert alert-info">📊 Database: '+DB.length+' compounds · 4 references</div>'+
+'<div class="grid-2">'+
+'<div><label>'+t("kri_rt")+'</label><input id="kriRt" value="14.4240"></div>'+
+'<div><label>'+t("kri_tol")+'</label><input id="kriTol" value="30"></div>'+
+'</div>'+
+'<button class="calc" onclick="calcKRI()">'+t("kri_calc")+'</button>'+
+'<div class="result" id="kriResult">—</div>'+
+'<div class="table-wrap" style="margin-top:12px; max-height:400px;">'+
+'<table id="kriMatchTable">'+
+'<thead><tr><th>'+t("kri_name")+'</th><th>'+t("kri_cas")+'</th><th>'+t("kri_class")+'</th><th>'+t("kri_best_ref")+'</th><th>'+t("kri_ref_val")+'</th><th>'+t("kri_match")+'</th><th>'+t("kri_status")+'</th></tr></thead>'+
+'<tbody id="kriMatchBody"></tbody>'+
+'</table>'+
+'</div>'+
+'</div>'+
+'<div class="tab-content" id="kri-search">'+
+'<h2>🔎 '+t("kri_search")+'</h2>'+
+'<input type="text" id="kriSearch" placeholder="Search by name, CAS, or formula...">'+
+'<div class="grid-2" style="margin-top:8px;">'+
+'<div><label>'+t("kri_filter_class")+'</label><select id="kriClassFilter"><option value="">'+t("kri_all_classes")+'</option></select></div>'+
+'</div>'+
+'<div class="table-wrap" style="margin-top:8px; max-height:520px;">'+
+'<table id="kriSearchTable">'+
+'<thead><tr><th>'+t("kri_name")+'</th><th>'+t("kri_cas")+'</th><th>'+t("kri_formula")+'</th><th>'+t("kri_class")+'</th><th>DB-1</th><th>DB-5</th><th>PEG</th><th>Adams</th></tr></thead>'+
+'<tbody id="kriSearchBody"></tbody>'+
+'</table>'+
+'</div>'+
+'<div class="hint" id="kriCount"></div>'+
+'</div>'+
+'<div class="tab-content" id="kri-alk">'+
+'<h2>⛽ '+t("kri_alk")+'</h2>'+
+'<textarea id="kriAlkText" rows="10"></textarea>'+
+'<button class="calc" onclick="applyAlkanes()">'+t("kri_apply")+'</button>'+
+'<button class="calc muted" onclick="loadDefaultAlkanes()">'+t("kri_load")+'</button>'+
+'</div>'+
+'<div class="tab-content" id="kri-batch">'+
+'<h2>📋 '+t("kri_batch")+'</h2>'+
+'<label>'+t("kri_batch_in")+'</label>'+
+'<textarea id="kriBatchIn" rows="8">14.4240\n15.1240\n16.3200\n18.5500\n23.0246</textarea>'+
+'<button class="calc" onclick="doBatch()">'+t("kri_batch_btn")+'</button>'+
+'<div class="table-wrap" style="margin-top:12px;">'+
+'<table id="kriBatchTable">'+
+'<thead><tr><th>RT</th><th>KRI</th><th>Between</th><th>Best</th><th>Ref</th><th>Match%</th><th>Status</th></tr></thead>'+
+'<tbody id="kriBatchBody"></tbody>'+
+'</table>'+
+'</div>'+
+'</div>'+
+'<div class="tab-content" id="kri-stats">'+
+'<h2>📊 '+t("kri_stats")+'</h2>'+
+'<div class="alert alert-info" style="font-size:16px;">Total: <strong>'+DB.length+'</strong> compounds</div>'+
+'<div class="grid-3" id="kriStatsGrid"></div>'+
+'</div>'+
+'</div>';
+const classFilter=$id("kriClassFilter");
+for(const code in CLASS_INFO){
+const info=CLASS_INFO[code];
+classFilter.innerHTML+='<option value="'+code+'">'+info.icon+' '+info.label[LANG]+'</option>';
+}
+$id("kriSearch").oninput=renderKriSearch;
+classFilter.onchange=renderKriSearch;
+$id("kriAlkText").value=alkanes.map(a=>a[0]+":"+a[1]).join(", ");
+renderKriSearch();
+renderKriStats();
+}
+function renderKriSearch(){
+const q=$id("kriSearch").value.trim().toLowerCase();
+const cls=$id("kriClassFilter").value;
+let results=searchDB(q);
+if(cls)results=results.filter(r=>r[3]===cls);
+const tbody=$id("kriSearchBody");
+tbody.innerHTML="";
+for(const row of results){
+const info=CLASS_INFO[row[3]];
+const tr=document.createElement("tr");
+tr.innerHTML='<td><strong>'+row[0]+'</strong></td><td>'+row[1]+'</td><td><code>'+row[2]+'</code></td><td><span class="badge cls-'+row[3]+'">'+info.icon+' '+row[3]+'</span></td><td>'+(row[4]!==null?row[4].toFixed(1):"—")+'</td><td>'+(row[5]!==null?row[5].toFixed(1):"—")+'</td><td>'+(row[6]!==null?row[6].toFixed(1):"—")+'</td><td>'+(row[7]!==null?row[7].toFixed(1):"—")+'</td>';
+tbody.appendChild(tr);
+}
+$id("kriCount").textContent=results.length+" / "+DB.length+" compounds";
+}
+function renderKriStats(){
+const cnt={};
+DB.forEach(r=>cnt[r[3]]=(cnt[r[3]]||0)+1);
+const grid=$id("kriStatsGrid");
+grid.innerHTML="";
+const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+for(const pair of sorted){
+const cls=pair[0],n=pair[1];
+const info=CLASS_INFO[cls];
+const box=document.createElement("div");
+box.className="result-box";
+box.style.borderColor=info.color;
+box.innerHTML='<div class="lbl">'+info.icon+' '+info.label[LANG]+'</div><div class="val" style="color:'+info.color+'; font-size:22px;">'+n+'</div>';
+grid.appendChild(box);
+}
+}
+function calcKRI(){
+try{
+const rt=pNum($id("kriRt").value),tol=pNum($id("kriTol").value)||30;
+const res=kriFromRt(rt,alkanes);
+if(!res){$id("kriResult").textContent="⚠ RT out of range";return}
+const kc=res[0],c1=res[1],c2=res[2];
+$id("kriResult").textContent="KRI = "+kc.toFixed(2)+"   ("+t("kri_between")+" C"+c1+"–C"+c2+")";
+const cands=[];
+for(const row of DB){
+const b=bestRef(kc,row);
+if(!b)continue;
+const d=Math.abs(kc-b[1]);
+if(d<=tol)cands.push([row,b[0],b[1],b[2],d]);
+}
+cands.sort((a,b)=>b[3]-a[3]);
+const tbody=$id("kriMatchBody");
+tbody.innerHTML="";
+for(const c of cands.slice(0,40)){
+const row=c[0],rk=c[1],rv=c[2],m=c[3],d=c[4];
+const sk=statusKey(m,d);
+const info=CLASS_INFO[row[3]];
+const tr=document.createElement("tr");
+tr.innerHTML='<td>'+row[0]+'</td><td>'+row[1]+'</td><td><span class="badge cls-'+row[3]+'">'+info.icon+' '+row[3]+'</span></td><td>'+rk+'</td><td>'+rv.toFixed(1)+'</td><td><strong>'+m.toFixed(1)+'%</strong></td><td><span class="badge '+sk[1]+'">'+t(sk[0])+'</span></td>';
+tbody.appendChild(tr);
+}
+addHistory("KRI","RT="+rt.toFixed(4)+" → KRI="+kc.toFixed(2));
+}catch(e){alert("Error: "+e.message)}
+}
+function applyAlkanes(){
+try{
+const txt=$id("kriAlkText").value.trim();
+const pairs=[];
+for(const part of txt.split(",")){
+const p=part.trim();
+if(p.indexOf(":")>=0){const ab=p.split(":");pairs.push([parseInt(ab[0].trim()),pNum(ab[1].trim())])}
+}
+if(pairs.length<2)throw new Error("Need ≥ 2 alkanes");
+alkanes=pairs;
+alert("✓ "+pairs.length+" alkanes loaded");
+}catch(e){alert("Error: "+e.message)}
+}
+function loadDefaultAlkanes(){alkanes=[...DEFAULT_ALK];$id("kriAlkText").value=alkanes.map(a=>a[0]+":"+a[1]).join(", ")}
+function doBatch(){
+const lines=$id("kriBatchIn").value.split("\n").filter(l=>l.trim());
+const tbody=$id("kriBatchBody");
+tbody.innerHTML="";
+for(const line of lines){
+const rt=pNum(line);
+const tr=document.createElement("tr");
+if(isNaN(rt)){tr.innerHTML='<td>'+line+'</td><td colspan="6">Invalid</td>';tbody.appendChild(tr);continue}
+const res=kriFromRt(rt,alkanes);
+if(!res){tr.innerHTML='<td>'+rt.toFixed(4)+'</td><td colspan="6">Out of range</td>';tbody.appendChild(tr);continue}
+const kc=res[0],c1=res[1],c2=res[2];
+let best=null;
+for(const row of DB){const b=bestRef(kc,row);if(!b)continue;if(best===null||b[2]>best[3])best=[row,b[0],b[1],b[2]]}
+if(best===null){tr.innerHTML='<td>'+rt.toFixed(4)+'</td><td>'+kc.toFixed(1)+'</td><td>C'+c1+'-C'+c2+'</td><td colspan="4">—</td>'}
+else{
+const row=best[0],rk=best[1],rv=best[2],m=best[3];
+const sk=statusKey(m,Math.abs(kc-rv));
+tr.innerHTML='<td>'+rt.toFixed(4)+'</td><td>'+kc.toFixed(1)+'</td><td>C'+c1+'-C'+c2+'</td><td>'+row[0]+'</td><td>'+rk+'</td><td>'+m.toFixed(1)+'%</td><td><span class="badge '+sk[1]+'">'+t(sk[0])+'</span></td>';
+}
+tbody.appendChild(tr);
+}
+}
+function buildPlot(page){
+if(chartRegression){try{chartRegression.destroy()}catch(e){}chartRegression=null}
+if(chartKRI){try{chartKRI.destroy()}catch(e){}chartKRI=null}
+page.innerHTML=
+'<div class="card">'+
+'<h2>📈 '+t("nav_plot")+'</h2>'+
+'<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">'+
+'<button class="calc gold" onclick="plotRegression()">'+t("plot_btn")+'</button>'+
+'<button class="calc" onclick="plotKRI()">'+t("plot_kri_btn")+'</button>'+
+'<button class="calc muted" onclick="resetPlot()">'+t("plot_reset")+'</button>'+
+'</div>'+
+'<div class="canvas-wrap"><canvas id="plotCanvas"></canvas></div>'+
+'</div>';
+window._plotCanvas=$id("plotCanvas");
+}
+function plotRegression(){
+if(lastSlope===null){alert(t("plot_empty"));return}
+const ctx=window._plotCanvas.getContext("2d");
+if(chartRegression)chartRegression.destroy();
+if(chartKRI){chartKRI.destroy();chartKRI=null}
+const xmin=Math.min(...lastX),xmax=Math.max(...lastX);
+const data=lastX.map((x,i)=>({x:x,y:lastY[i]}));
+const lineData=[{x:xmin,y:lastSlope*xmin+lastIntercept},{x:xmax,y:lastSlope*xmax+lastIntercept}];
+const r2v=r2value(lastX,lastY,lastSlope,lastIntercept);
+chartRegression=new Chart(ctx,{type:"scatter",data:{datasets:[{label:"Data points",data:data,backgroundColor:"#0891b2",borderColor:"#0f172a",borderWidth:1,pointRadius:8},{label:"y = "+lastIntercept.toFixed(4)+" + "+lastSlope.toFixed(4)+"x  (R²="+r2v.toFixed(5)+")",data:lineData,type:"line",borderColor:"#dc2626",backgroundColor:"transparent",borderWidth:2.5,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom"}},scales:{x:{title:{display:true,text:"X"},grid:{color:"#e2e8f0"}},y:{title:{display:true,text:"Y"},grid:{color:"#e2e8f0"}}}}});
+}
+function plotKRI(){
+const ctx=window._plotCanvas.getContext("2d");
+if(chartRegression){chartRegression.destroy();chartRegression=null}
+if(chartKRI)chartKRI.destroy();
+const byClass={};
+DB.forEach((row,i)=>{if(row[5]===null)return;(byClass[row[3]]=byClass[row[3]]||[]).push({x:i,y:row[5]})});
+const datasets=Object.entries(byClass).map(e=>({label:CLASS_INFO[e[0]].icon+" "+CLASS_INFO[e[0]].label[LANG]+" ("+e[1].length+")",data:e[1],backgroundColor:CLASS_INFO[e[0]].color,pointRadius:3,pointHoverRadius:5}));
+chartKRI=new Chart(ctx,{type:"scatter",data:{datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"top",labels:{font:{size:10}}}},scales:{x:{title:{display:true,text:"Compound index (DB-5)"},grid:{color:"#e2e8f0"}},y:{title:{display:true,text:"KRI (DB-5)"},grid:{color:"#e2e8f0"}}}}});
+}
+function resetPlot(){
+if(chartRegression){chartRegression.destroy();chartRegression=null}
+if(chartKRI){chartKRI.destroy();chartKRI=null}
+const ctx=window._plotCanvas.getContext("2d");
+const c=window._plotCanvas;
+ctx.clearRect(0,0,c.width,c.height);
+}
+function buildTables(page){
+let tabsHtml="",contentsHtml="",first=true;
+for(const name in STAT_TABLES){
+const data=STAT_TABLES[name];
+const tid="tbl-"+name.replace(/[^a-z0-9]/gi,"_");
+tabsHtml+='<button class="tab-btn '+(first?"active":"")+'" data-tab="'+tid+'" onclick="switchTab(this,\''+tid+'\')">'+name+'</button>';
+let thead="",tbody="";
+for(const h of data.headers)thead+='<th>'+h+'</th>';
+for(const r of data.rows){tbody+='<tr>';for(const v of r)tbody+='<td>'+v+'</td>';tbody+='</tr>';}
+contentsHtml+='<div class="tab-content '+(first?"active":"")+'" id="'+tid+'"><div class="table-wrap"><table><thead><tr>'+thead+'</tr></thead><tbody>'+tbody+'</tbody></table></div></div>';
+first=false;
+}
+page.innerHTML='<div class="card"><div class="alert alert-info">'+t("tables_info")+'</div><div class="tabs">'+tabsHtml+'</div>'+contentsHtml+'</div>';
+}
+function buildCRC(page){
+let tabsHtml="",contentsHtml="",first=true;
+for(const name in CRC_DATA){
+const data=CRC_DATA[name];
+const tid="crc-"+name.replace(/[^a-z0-9]/gi,"_");
+tabsHtml+='<button class="tab-btn '+(first?"active":"")+'" data-tab="'+tid+'" onclick="switchTab(this,\''+tid+'\')">'+name+'</button>';
+let thead="",tbody="";
+for(const h of data.headers)thead+='<th>'+h+'</th>';
+for(const r of data.rows){tbody+='<tr>';for(const v of r)tbody+='<td>'+v+'</td>';tbody+='</tr>';}
+contentsHtml+='<div class="tab-content '+(first?"active":"")+'" id="'+tid+'"><div class="table-wrap"><table><thead><tr>'+thead+'</tr></thead><tbody>'+tbody+'</tbody></table></div></div>';
+first=false;
+}
+page.innerHTML='<div class="card"><h2>📚 '+t("nav_crc")+'</h2><div class="tabs">'+tabsHtml+'</div>'+contentsHtml+'</div>';
+}
+function buildHist(page){
+page.innerHTML=
+'<div class="card">'+
+'<h2>📋 '+t("hist_title")+'</h2>'+
+'<div style="margin-bottom:10px;">'+
+'<button class="calc" onclick="exportHistory()">💾 CSV</button>'+
+'<button class="calc danger" onclick="clearHistory()">'+t("hist_clear")+'</button>'+
+'</div>'+
+'<div class="table-wrap"><table><thead><tr><th>Time</th><th>Category</th><th>Detail</th></tr></thead><tbody id="histBody"></tbody></table></div>'+
+'</div>';
+renderHistory();
+}
+function renderHistory(){
+const tbody=$id("histBody");
+if(!tbody)return;
+tbody.innerHTML="";
+if(!history.length){tbody.innerHTML='<tr><td colspan="3" style="text-align:center; color:#94a3b8;">'+t("hist_empty")+'</td></tr>';return}
+for(const r of [...history].reverse()){
+const tr=document.createElement("tr");
+tr.innerHTML='<td>'+r.t+'</td><td>'+r.cat+'</td><td style="text-align:start;">'+r.detail+'</td>';
+tbody.appendChild(tr);
+}
+}
+function exportHistory(){
+if(!history.length){alert(t("hist_empty"));return}
+const csv=[["Time","Category","Detail"]].concat(history.map(r=>[r.t,r.cat,r.detail])).map(row=>row.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(",")).join("\n");
+const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="history_"+new Date().toISOString().slice(0,19).replace(/[:T]/g,"")+".csv";
+a.click();
+URL.revokeObjectURL(url);
+}
+function clearHistory(){
+if(!confirm(t("hist_confirm")))return;
+history=[];
+localStorage.removeItem("labAssistantHistory");
+renderHistory();
+}
+function switchTab(btn,tabId){
+const container=btn.parentElement.parentElement;
+container.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+container.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+const target=$id(tabId);
+if(target)target.classList.add("active");
+}
+/* ===== ACID MODULE ===== */
+const ACID_DB=[
+{ar:"حمض الهيدروكلوريك", en:"Hydrochloric acid",  formula:"HCl",      mw:36.46,  d:1.19,  pct:37,  eq:1},
+{ar:"حمض الكبريتيك",     en:"Sulfuric acid",      formula:"H₂SO₄",    mw:98.08,  d:1.84,  pct:98,  eq:2},
+{ar:"حمض النيتريك",      en:"Nitric acid",        formula:"HNO₃",     mw:63.01,  d:1.42,  pct:70,  eq:1},
+{ar:"حمض الفوسفوريك",    en:"Phosphoric acid",    formula:"H₃PO₄",    mw:98.00,  d:1.685, pct:85,  eq:3},
+{ar:"حمض الخليك الثلجي", en:"Glacial acetic acid",formula:"CH₃COOH",  mw:60.05,  d:1.05,  pct:100, eq:1},
+{ar:"حمض الهيدروبروميك", en:"Hydrobromic acid",   formula:"HBr",      mw:80.91,  d:1.49,  pct:48,  eq:1},
+{ar:"حمض البيركلوريك",   en:"Perchloric acid",    formula:"HClO₄",    mw:100.46, d:1.67,  pct:70,  eq:1},
+{ar:"حمض الهيدروفلوريك", en:"Hydrofluoric acid",  formula:"HF",       mw:20.01,  d:1.15,  pct:48,  eq:1},
+{ar:"حمض الفورميك",      en:"Formic acid",        formula:"HCOOH",    mw:46.03,  d:1.22,  pct:98,  eq:1},
+{ar:"حمض اللاكتيك",      en:"Lactic acid",        formula:"C₃H₆O₃",   mw:90.08,  d:1.21,  pct:85,  eq:1}
+];
+function buildAcid(page){
+let opts="";
+for(let i=0;i<ACID_DB.length;i++){
+const a=ACID_DB[i];
+const name=LANG==="ar"?a.ar:a.en;
+opts+='<option value="'+i+'">'+name+' — '+a.formula+' ('+a.pct+'%, d='+a.d+')</option>';
+}
+page.innerHTML=
+'<div class="card">'+
+'<div class="tabs">'+
+'<button class="tab-btn active" data-tab="acid-prep" onclick="switchTab(this,\'acid-prep\')">⚗️ '+t("acid_prep_title")+'</button>'+
+'<button class="tab-btn" data-tab="acid-conv" onclick="switchTab(this,\'acid-conv\')">🔄 '+t("acid_conv_title")+'</button>'+
+'</div>'+
+'<div class="tab-content active" id="acid-prep">'+
+'<h2>⚗️ '+t("acid_prep_title")+'</h2>'+
+'<div class="alert alert-warning">'+t("acid_warning")+'</div>'+
+'<label>'+t("acid_select")+'</label>'+
+'<select id="acidPrepSel" onchange="fillAcidProps(\'prep\')"><option value="-1">'+t("acid_custom")+'</option>'+opts+'</select>'+
+'<div class="grid-4">'+
+'<div><label>'+t("acid_mw")+'</label><input id="acidPrepMW" value="36.46"></div>'+
+'<div><label>'+t("acid_density")+'</label><input id="acidPrepD" value="1.19"></div>'+
+'<div><label>'+t("acid_pct_stock")+'</label><input id="acidPrepPct" value="37"></div>'+
+'<div><label>'+t("acid_eq")+'</label><input id="acidPrepEq" value="1"></div>'+
+'</div>'+
+'<label>'+t("acid_conc_mode")+'</label>'+
+'<div id="acidModes" style="display:flex;gap:10px;flex-wrap:wrap;margin:6px 0;"></div>'+
+'<div class="grid-2">'+
+'<div><label>'+t("acid_target")+'</label><input id="acidPrepTarget" value="1"></div>'+
+'<div><label>'+t("acid_vol")+'</label><input id="acidPrepVol" value="500"></div>'+
+'</div>'+
+'<div id="acidFinalDBox" style="display:none;">'+
+'<label>'+t("acid_density_final")+'</label>'+
+'<input id="acidPrepFinalD" value="1.0">'+
+'<div class="hint">'+t("acid_final_d_hint")+'</div>'+
+'</div>'+
+'<button class="calc" onclick="calcAcidPrep()">'+t("acid_calc")+'</button>'+
+'<div class="result" id="acidPrepResult">—</div>'+
+'<div class="alert alert-success" id="acidRecipe" style="display:none;margin-top:10px;"></div>'+
+'</div>'+
+'<div class="tab-content" id="acid-conv">'+
+'<h2>🔄 '+t("acid_conv_title")+'</h2>'+
+'<label>'+t("acid_select")+'</label>'+
+'<select id="acidConvSel" onchange="fillAcidProps(\'conv\')"><option value="-1">'+t("acid_custom")+'</option>'+opts+'</select>'+
+'<div class="grid-4">'+
+'<div><label>'+t("acid_mw")+'</label><input id="acidConvMW" value="36.46"></div>'+
+'<div><label>'+t("acid_density")+'</label><input id="acidConvD" value="1.19"></div>'+
+'<div><label>'+t("acid_pct_stock")+'</label><input id="acidConvPct" value="37"></div>'+
+'<div><label>'+t("acid_eq")+'</label><input id="acidConvEq" value="1"></div>'+
+'</div>'+
+'<div class="alert alert-info" style="margin-top:10px;font-family:Consolas,monospace;line-height:1.9;">'+
+'💡 M = (10 × d × %w/w) / MW<br>💡 N = M × eq<br>💡 m = (1000 × %w/w) / [MW × (100 − %w/w)]<br>💡 % w/v = %w/w × d'+
+'</div>'+
+'<button class="calc" onclick="convAcid()">'+t("calc")+'</button>'+
+'<div class="result" id="acidConvResult">—</div>'+
+'</div>'+
+'</div>';
+const modes=[["M","acid_m_molar"],["m","acid_m_molal"],["N","acid_m_norm"],["pww","acid_m_pww"],["pwv","acid_m_pwv"],["ppm","acid_m_ppm"]];
+const cont=$id("acidModes");
+for(const m of modes){
+const lbl=document.createElement("label");
+lbl.style.cssText="display:inline-flex;align-items:center;gap:4px;font-weight:600;cursor:pointer;margin:0;padding:6px 10px;background:#f1f5f9;border-radius:5px;border:1px solid #cbd5e1;";
+lbl.innerHTML='<input type="radio" name="acidPrepMode" value="'+m[0]+'"'+(m[0]==="M"?" checked":"")+' onchange="toggleAcidFinalD()"> '+t(m[1]);
+cont.appendChild(lbl);
+}
+}
+function fillAcidProps(side){
+const selId=side==="prep"?"acidPrepSel":"acidConvSel";
+const mwId=side==="prep"?"acidPrepMW":"acidConvMW";
+const dId=side==="prep"?"acidPrepD":"acidConvD";
+const pctId=side==="prep"?"acidPrepPct":"acidConvPct";
+const eqId=side==="prep"?"acidPrepEq":"acidConvEq";
+const i=parseInt($id(selId).value);
+if(i>=0&&ACID_DB[i]){
+const a=ACID_DB[i];
+$id(mwId).value=a.mw;
+$id(dId).value=a.d;
+$id(pctId).value=a.pct;
+$id(eqId).value=a.eq;
+}
+}
+function toggleAcidFinalD(){
+const md=document.querySelector('input[name="acidPrepMode"]:checked').value;
+$id("acidFinalDBox").style.display=(md==="pww")?"block":"none";
+}
+function convAcid(){
+try{
+const mw=pNum($id("acidConvMW").value),d=pNum($id("acidConvD").value),pct=pNum($id("acidConvPct").value),eq=pNum($id("acidConvEq").value)||1;
+if(mw<=0||d<=0||pct<0||pct>100)throw new Error(t("acid_err_check"));
+const M=(10*d*pct)/mw,N=M*eq,molal=(1000*pct)/(mw*(100-pct)),pwv=pct*d,ppm=pwv*1e4;
+$id("acidConvResult").textContent=
+"M  = (10 × "+d+" × "+pct+") / "+mw+" = "+M.toFixed(4)+" mol/L\n"+
+"N  = "+M.toFixed(4)+" × "+eq+" = "+N.toFixed(4)+" eq/L\n"+
+"m  = (1000 × "+pct+") / ("+mw+" × (100−"+pct+")) = "+molal.toFixed(4)+" mol/kg\n"+
+"% w/v = "+pct+" × "+d+" = "+pwv.toFixed(3)+" g/100mL\n"+
+"ppm = "+pwv.toFixed(3)+" × 10⁴ = "+ppm.toFixed(0)+" ppm";
+addHistory("Acid conv","M="+M.toFixed(4)+", N="+N.toFixed(4)+", m="+molal.toFixed(4));
+}catch(e){alert("Error: "+e.message)}
+}
+function calcAcidPrep(){
+try{
+const mw=pNum($id("acidPrepMW").value),d=pNum($id("acidPrepD").value),ps=pNum($id("acidPrepPct").value),eq=pNum($id("acidPrepEq").value)||1;
+const mode=document.querySelector('input[name="acidPrepMode"]:checked').value;
+const target=pNum($id("acidPrepTarget").value),vT=pNum($id("acidPrepVol").value);
+if(mw<=0||d<=0||ps<=0||ps>100||target<=0||vT<=0)throw new Error(t("acid_err_pos"));
+const Ms=(10*d*ps)/mw,Ns=Ms*eq,ms=(1000*ps)/(mw*(100-ps)),pwv_s=ps*d;
+let massPure=0,moles=0,calc="";
+if(mode==="M"){moles=(target*vT)/1000;massPure=moles*mw;calc="n = "+target+"×"+vT+"/1000 = "+moles.toFixed(6)+" mol\nm_pure = "+massPure.toFixed(4)+" g"}
+else if(mode==="m"){moles=(target*vT)/(1000+target*mw);massPure=moles*mw;calc="n = "+target+"×"+vT+"/(1000+"+target+"×"+mw+") = "+moles.toFixed(6)+" mol\nm_pure = "+massPure.toFixed(4)+" g\nm_solvent ≈ "+(vT-massPure).toFixed(2)+" g"}
+else if(mode==="N"){const e=(target*vT)/1000;moles=e/eq;massPure=moles*mw;calc="eq = "+target+"×"+vT+"/1000 = "+e.toFixed(6)+" mol\nn = "+e.toFixed(6)+"/"+eq+" = "+moles.toFixed(6)+" mol\nm_pure = "+massPure.toFixed(4)+" g"}
+else if(mode==="pww"){const df=pNum($id("acidPrepFinalD").value)||1.0;const mT=vT*df;massPure=mT*target/100;moles=massPure/mw;calc="m_total = "+vT+"×"+df+" = "+mT.toFixed(2)+" g\nm_pure = "+mT.toFixed(2)+"×"+target+"/100 = "+massPure.toFixed(4)+" g"}
+else if(mode==="pwv"){massPure=(target*vT)/100;moles=massPure/mw;calc="m_pure = "+target+"×"+vT+"/100 = "+massPure.toFixed(4)+" g"}
+else{massPure=(target*vT)/1e6;moles=massPure/mw;calc="m_pure = "+target+"×"+vT+"/10⁶ = "+massPure.toFixed(6)+" g ("+(massPure*1000).toFixed(4)+" mg)"}
+if(massPure<=0)throw new Error(t("acid_err_mass"));
+const massStock=massPure/(ps/100),vS=massStock/d,vW=vT-vS;
+if(vS>vT+1e-6)throw new Error(tf("acid_err_vol",{v:vS.toFixed(2),t:vT}));
+const mL=mode==="pww"?"% w/w":mode==="pwv"?"% w/v":mode==="ppm"?"ppm":mode==="N"?"N":mode==="m"?"m":"M";
+$id("acidPrepResult").textContent=
+t("acid_stock_props")+"\n   M="+Ms.toFixed(4)+" | N="+Ns.toFixed(4)+" | m="+ms.toFixed(4)+"\n   % w/v = "+pwv_s.toFixed(3)+" g/100mL\n━━━━━━━━━━━━━━━━━━━━\n"+
+tf("acid_target_in",{c:target,m:mL,v:vT})+"\n"+
+calc+"\n"+
+"━━━━━━━━━━━━━━━━━━━━\n"+
+"✅ "+t("acid_vol_stock")+" = "+vS.toFixed(3)+" mL\n"+
+"✅ "+t("acid_vol_water")+" ≈ "+Math.max(0,vW).toFixed(3)+" mL";
+const r=$id("acidRecipe");r.style.display="block";
+r.innerHTML=
+"<strong>"+t("acid_recipe_hdr")+"</strong><br>"+
+'<span style="font-size:15px;">1️⃣ '+tf("acid_r1",{v:vS.toFixed(3)})+'</span><br>'+
+'<span style="font-size:15px;">2️⃣ '+tf("acid_r2",{w:Math.max(0,Math.floor(vW*0.7))})+'</span><br>'+
+'<span style="font-size:15px;">3️⃣ '+tf("acid_r3",{v:vT})+'</span><br>'+
+'<span style="color:#dc2626;font-weight:700;">'+t("acid_r_warn")+'</span>';
+addHistory("Acid prep",mode+"="+target+", V="+vT+"mL → "+vS.toFixed(2)+"mL + "+Math.max(0,vW).toFixed(2)+"mL H₂O");
+}catch(e){alert("Error: "+e.message)}
+}
+document.addEventListener("DOMContentLoaded",function(){
+setLang("ar");
+document.addEventListener("keydown",function(e){
+if(e.key==="/"&&!["INPUT","TEXTAREA"].includes(e.target.tagName)){
+e.preventDefault();
+const s=$id("kriSearch")||$id("pkaSearch");
+if(s)s.focus();
+}
+});
+});
+</script>
+</body>
+</html>
