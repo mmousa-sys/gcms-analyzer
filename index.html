@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#14b8a6">
+<title>GC-MS Essential Oil Analyzer — SOP v3.0</title>
+<style>
+:root{--bg:#0f172a;--bg2:#1e293b;--card:#1e293b;--card2:#334155;--primary:#14b8a6;--primary2:#0d9488;--accent:#38bdf8;--gold:#fbbf24;--text:#e2e8f0;--muted:#94a3b8;--border:#334155;--ok:#22c55e;--err:#ef4444}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,"Segoe UI",Tahoma,Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;padding-bottom:24px}
+body[dir="ltr"]{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.header{background:var(--bg2);padding:12px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:26px;color:var(--primary);font-weight:bold;flex-shrink:0}
+.title-wrap{flex:1;min-width:0}
+.title{font-size:15px;font-weight:bold;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.subtitle{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.author{font-size:11px;color:var(--gold);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lang-select{background:var(--card2);color:var(--text);border:1px solid var(--border);padding:6px 8px;border-radius:6px;font-size:12px;cursor:pointer;flex-shrink:0}
+.tabs{display:flex;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border);scrollbar-width:none;position:sticky;top:60px;z-index:40}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:transparent;color:var(--muted);border:none;padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;flex-shrink:0;font-family:inherit}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary);background:var(--card)}
+.content{padding:14px;max-width:1200px;margin:0 auto}
+h2.page-title{color:var(--primary);font-size:18px;margin:0 0 6px;font-weight:bold}
+p.page-sub{color:var(--muted);font-size:12px;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px}
+.card h3{color:var(--accent);font-size:14px;margin:0 0 10px;font-weight:bold}
+.card.author-card{border-color:var(--gold)}
+.card.author-card h3{color:var(--gold)}
+.form-row{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.form-row label{font-size:12px;color:var(--muted)}
+input,select,textarea{background:var(--bg2);color:var(--text);border:1px solid var(--border);padding:9px 10px;border-radius:7px;font-size:13px;width:100%;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)}
+textarea{resize:vertical;font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.btn{background:var(--card2);color:var(--text);border:none;padding:10px 14px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn:active{background:var(--primary2)}
+.btn-primary{background:var(--primary);color:#042f2e}
+.btn-danger{background:#7f1d1d;color:#fecaca}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.btn-row .btn{flex:1;min-width:100px}
+.kri-box{background:var(--bg2);border:2px solid var(--primary);border-radius:10px;padding:18px;text-align:center;margin:12px 0}
+.kri-value{font-size:40px;font-weight:bold;color:var(--primary);font-family:ui-monospace,monospace;line-height:1}
+.kri-label{font-size:12px;color:var(--muted);margin-top:6px}
+.kri-detail{font-size:12px;color:var(--muted);margin-top:8px}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--card);max-height:500px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--card2);color:var(--primary);padding:9px 8px;text-align:center;font-weight:700;position:sticky;top:0;z-index:1;white-space:nowrap;border-bottom:1px solid var(--border)}
+td{padding:8px;border-bottom:1px solid var(--border);text-align:center}
+tr:hover td{background:var(--bg2)}
+.tag-ok{background:#14351f;color:#86efac;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.tag-tent{background:#3b2f10;color:#fcd34d;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.tag-unk{background:#3b1414;color:#fca5a5;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.info-box{background:var(--bg2);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin:10px 0;font-size:12px;line-height:1.7}
+.warn-box{background:#3b1d1d;border-left:4px solid var(--err);padding:10px 14px;border-radius:6px;margin:10px 0;font-size:12px;color:#fecaca}
+.warn-box strong{color:var(--err);display:block;margin-bottom:4px}
+.gc-table{width:100%;border-collapse:collapse;font-size:12px}
+.gc-table tr:nth-child(odd) td{background:var(--bg2)}
+.gc-table td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+.gc-table tr:first-child td{background:var(--card2);color:var(--primary);font-weight:bold;text-align:center}
+.gc-table a{color:var(--accent);text-decoration:none}
+.gc-table a:hover{text-decoration:underline}
+.suggest-item{background:var(--bg2);padding:10px;border-radius:6px;margin-bottom:6px;cursor:pointer;border:1px solid transparent}
+.suggest-item:active{border-color:var(--primary);background:var(--card2)}
+.suggest-item .name{font-weight:bold;color:var(--text);font-size:13px}
+.suggest-item .detail{font-size:11px;color:var(--muted);margin-top:3px}
+.list-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg2);padding:10px 12px;border-radius:6px;margin-bottom:6px;font-size:13px}
+.list-row .name{font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-inline-end:8px}
+.list-row .val{color:var(--primary);font-family:monospace;font-weight:bold;flex-shrink:0}
+.list-row .del-btn{background:transparent;color:var(--err);border:none;font-size:20px;cursor:pointer;padding:0 4px;line-height:1;flex-shrink:0}
+pre.report{background:var(--bg2);padding:12px;border-radius:8px;font-family:ui-monospace,Consolas,monospace;font-size:11px;white-space:pre;overflow-x:auto;color:var(--text);max-height:500px;overflow-y:auto;line-height:1.5}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:20px}
+@media (max-width:600px){.title{font-size:13px}.tab{padding:10px 12px;font-size:12px}.content{padding:10px}h2.page-title{font-size:16px}.kri-value{font-size:32px}th,td{padding:6px 4px;font-size:11px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">⬢</div>
+  <div class="title-wrap">
+    <div class="title" id="hdTitle">Essential Oil Analyzer</div>
+    <div class="subtitle" id="hdSub">Kovats • Identification • Quantification</div>
+    <div class="author" id="hdAuthor"></div>
+  </div>
+  <select class="lang-select" id="langSelect">
+    <option value="ar">العربية</option>
+    <option value="en">English</option>
+    <option value="de">Deutsch</option>
+  </select>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="content" id="content"></div>
+<div class="footer">
+  <div>Adams (2017) • Babushok (2011) • NIST</div>
+  <div style="margin-top:6px" id="ftInfo"></div>
+</div>
+
+<script type="text/plain" id="descTxt">
+================================================================================
+HTML-BASED WEB APPLICATION FOR GC-MS ESSENTIAL OIL ANALYSIS:
+RETENTION INDEX CALCULATION, COMPOUND IDENTIFICATION,
+AND QUANTITATIVE VERIFICATION
+================================================================================
+
+Author : Mohammad Asad Mohammad Abdel Qader (Mousa)
+Role   : Chemical Laboratory Technician
+File   : GCMS_Analyzer.html (single-file browser application)
+SOP DOI: 10.13140/RG.2.2.23821.40169
+
+Keywords: GC-MS; Kovats Retention Index; Essential oils; Compound
+identification; Van den Dool & Kratz; Adams database; NIST;
+Web application; HTML/JavaScript; SOP.
+
+--------------------------------------------------------------------------------
+ABSTRACT
+--------------------------------------------------------------------------------
+A single-file, browser-based HTML/JavaScript application was developed to
+support the routine interpretation of GC-MS data of essential oils. The tool
+integrates (i) Kovats Retention Index (KRI) calculation from an alkane standard
+using the Van den Dool & Kratz equation, (ii) automated compound identification
+by matching calculated KRI against a 780+ compound reference database (Adams
+2017, Babushok 2011, NIST), (iii) area-percent quantification with optional
+exclusion of solvent and high-boiling artifacts, (iv) generation of a
+formatted analytical report, and (v) an embedded Standard Operating Procedure
+(SOP) summary linked to the published ResearchGate SOP
+(DOI: 10.13140/RG.2.2.23821.40169).
+
+--------------------------------------------------------------------------------
+1. INTRODUCTION
+--------------------------------------------------------------------------------
+Identification of volatile constituents in essential oils by GC-MS relies on
+two orthogonal criteria: mass-spectral match and retention-index agreement on
+a known stationary phase. While mass-spectral libraries (NIST, Wiley) are
+widely available, retention-index verification is often the decisive step
+that separates true positives from isobaric or co-eluting interferences.
+
+The present application was written to make this verification step fast,
+reproducible, and transparent. It is a self-contained HTML file (no server,
+no dependencies, no installation) that any analyst can open in a browser and
+use directly at the bench.
+
+--------------------------------------------------------------------------------
+2. SCIENTIFIC BASIS
+--------------------------------------------------------------------------------
+2.1 Retention Index (Kovats / Van den Dool & Kratz)
+    KRI = 100*C1 + 100*(C2 - C1)*((tR - t1)/(t2 - t1))
+
+2.2 Match score and acceptance criteria
+    Match % = 100 - 2 * |KRI_calc - KRI_ref|
+    Identified  -- Match >= 80 % AND |delta KRI| <= 10
+    Tentative   -- Match >= 60 % AND |delta KRI| <= 20
+    Unknown     -- otherwise
+
+2.3 Reference database
+    780+ entries in the format:
+    [Name, CAS, Formula, KRI(DB-1), KRI(DB-5), KRI(PEG), KRI(Adams)]
+
+--------------------------------------------------------------------------------
+3. APPLICATION FEATURES
+--------------------------------------------------------------------------------
+  Alkane standard     - C8-C28 retention times (Artemisia sample)
+  KRI calculator      - Single-RT and batch, with bracketing alkanes
+  Identification      - RT -> KRI -> auto lookup + best-column match
+  Database search     - By name, CAS, or synonym
+  Quantification      - Area-% with solvent/high-boiler exclusion
+  Report              - Conditions, alkane table, KRI, Match %, area-%
+  SOP tab             - Embedded SOP summary + ResearchGate link
+  Description tab     - Downloadable .txt
+  Multilingual        - Arabic, English, German (RTL/LTR)
+
+--------------------------------------------------------------------------------
+4. WORKFLOW
+--------------------------------------------------------------------------------
+  1. Load alkane standard (C8-C28). Save.
+  2. Run sample under identical GC conditions.
+  3. Enter each peak RT -> KRI computed automatically.
+  4. Auto-match against 4 column sets (DB-1, DB-5, PEG, Adams).
+  5. Quantify by peak area (area-%).
+  6. Generate report (.txt save or clipboard copy).
+
+--------------------------------------------------------------------------------
+5. VERIFICATION OF RESULTS
+--------------------------------------------------------------------------------
+  * Bracketing transparency - displays the two bracketing alkanes.
+  * Column-aware matching - all four reference columns compared.
+  * Two-criterion acceptance - Match >= 80 % AND |delta KRI| <= 10.
+  * Synonym resolution.
+  * Quantification exclusion toggles.
+  * Full report for independent recomputation.
+
+--------------------------------------------------------------------------------
+6. VALIDATION PRACTICE
+--------------------------------------------------------------------------------
+  * Run a known standard mixture.
+  * Verify monotonic alkane RTs; out-of-range rejected.
+  * Keep method identical between alkane run and sample run.
+  * Report reference column and Match % in publications.
+
+--------------------------------------------------------------------------------
+7. LIMITATIONS
+--------------------------------------------------------------------------------
+  * First-order linear interpolation.
+  * Not exhaustive; novel/minor compounds may appear as Unknown.
+  * Area-% is semi-quantitative.
+  * An aid, not a substitute for expert spectral interpretation.
+
+--------------------------------------------------------------------------------
+8. STANDARD OPERATING PROCEDURE (SOP) v3.0
+--------------------------------------------------------------------------------
+  Title        : STANDARD OPERATING PROCEDURE (SOP) of Essential Oils by
+                 Gas Chromatography-Mass Spectrometry (GC-MS), including
+                 Kovats Retention Index (KRI) calculation and compound
+                 identification
+  Version      : 3.0
+  Effective    : 22 May 2026
+  Author       : Mohammad Asad Mohammad Abdel Qader (Mousa)
+  Institution  : The Pharmaceutical Automated Analysis Laboratory
+  Published    : May 2026
+  DOI          : 10.13140/RG.2.2.23821.40169
+  Access       : https://doi.org/10.13140/RG.2.2.23821.40169
+
+  SOP Contents
+  1. Sample and standard preparation
+  2. GC-MS operating conditions
+  3. Alkane standard injection
+  4. KRI calculation (Van den Dool & Kratz)
+  5. Compound identification by Match %
+  6. Quantification (Area-%)
+  7. Final report writing
+  8. References (Adams 2017, Babushok 2011, NIST)
+
+  This SOP is periodically updated. Always check the latest version on
+  ResearchGate.
+
+--------------------------------------------------------------------------------
+9. REFERENCES
+--------------------------------------------------------------------------------
+  Adams, R. P. (2017). Identification of Essential Oil Components by Gas
+  Chromatography/Mass Spectrometry, 4th ed., 4.1. Allured Publishing.
+
+  Babushok, V. I., Linstrom, P. J., & Zenkevich, I. G. (2011). Retention
+  indices for frequently reported compounds of plant essential oils.
+  J. Phys. Chem. Ref. Data, 40(4), 043101.
+
+  Van den Dool, H., & Kratz, P. D. (1963). J. Chromatogr. A, 11, 463-471.
+
+  NIST Chemistry WebBook, SRD 69.
+
+  Mousa, M. A. M. (2026). SOP Analysis of Essential Oils by GC-MS, v3.0.
+  The Pharmaceutical Automated Analysis Laboratory.
+  DOI: 10.13140/RG.2.2.23821.40169
+
+================================================================================
+END OF DOCUMENT
+================================================================================
+</script>
+
+<script>
+// ============================================================
+//  AUTHORSHIP & SOP CONSTANTS
+// ============================================================
+const AUTHOR_EN = "Mohammad Asad Mohammad Abdel Qader (Mousa)";
+const AUTHOR_AR = "محمد أسعد محمد عبد القادر (موسى)";
+const ROLE = {ar:"فني مختبرات كيميائي",en:"Chemical Laboratory Technician",de:"Chemielaborant"};
+const SOP_DOI  = "10.13140/RG.2.2.23821.40169";
+const SOP_URL  = "https://doi.org/" + SOP_DOI;
+
+// ============================================================
+//  REFERENCE DATABASE (Adams 2017 ed. 4.1)
+//  Format: [name, CAS, formula, DB-1, DB-5, PEG, Adams]
+// ============================================================
+const REF_DB = [
+// Monoterpene hydrocarbons
+["α-Thujene","2867-05-2","C10H16",925.9,927.8,1026.6,924],
+["α-Pinene","80-56-8","C10H16",934.5,936.1,1025.4,932],
+["Camphene","79-92-5","C10H16",947.4,950.3,1068.5,946],
+["Sabinene","3387-41-5","C10H16",967.9,973.0,1122.0,969],
+["β-Pinene","127-91-3","C10H16",973.1,977.7,1110.0,974],
+["Myrcene","123-35-3","C10H16",983.1,989.2,1160.9,988],
+["α-Phellandrene","99-83-2","C10H16",999.1,1004.1,1167.7,1002],
+["δ-3-Carene","13466-78-9","C10H16",1007.2,1011.3,1146.8,1001],
+["α-Terpinene","99-86-5","C10H16",1010.9,1017.1,1177.8,1014],
+["p-Cymene","99-87-6","C10H14",1015.1,1024.3,1270.1,1020],
+["Limonene","5989-27-5","C10H16",1023.7,1029.5,1198.2,1024],
+["β-Phellandrene","555-10-2","C10H16",1021.4,1030.0,1209.3,1030],
+["1,8-Cineole","470-82-6","C10H18O",1022.4,1031.8,1211.1,1026],
+["Eucalyptus","470-82-6","C10H18O",1022.4,1031.8,1211.1,1026],
+["(Z)-β-Ocimene","3338-55-4","C10H16",1028.9,1037.8,1234.5,1032],
+["(E)-β-Ocimene","3779-61-1","C10H16",1038.4,1047.7,1250.4,1044],
+["γ-Terpinene","99-85-4","C10H16",1050.3,1059.7,1245.0,1054],
+["Terpinolene","586-62-9","C10H16",1079.3,1086.9,1282.4,1086],
+["Linalool","78-70-6","C10H18O",1086.3,1099.0,1543.3,1095],
+["α-Thujone","546-80-5","C10H16O",1090.9,1105.1,1423.1,1101],
+["β-Thujone","471-15-8","C10H16O",1098.4,1114.5,1439.6,1112],
+["Camphor","76-22-2","C10H16O",1125.0,1143.4,1515.1,1141],
+["Citronellal","106-23-0","C10H18O",1133.6,1153.7,1475.3,1148],
+["Isoborneol","124-76-5","C10H18O",1147.8,1158.2,1659.1,1155],
+["Borneol","507-70-0","C10H18O",1153.2,1166.2,1699.6,1165],
+["Menthone","89-80-5","C10H18O",1136.9,1150.5,1465.3,1148],
+["Terpinen-4-ol","562-74-3","C10H18O",1164.5,1177.1,1601.2,1174],
+["Menthol","89-78-1","C10H20O",1162.7,1177.3,1630.4,1167],
+["α-Terpineol","98-55-5","C10H18O",1175.6,1189.7,1694.0,1186],
+["Myrtenal","564-94-3","C10H14O",1170.8,1192.0,1631.5,1195],
+["Verbenone","80-57-9","C10H14O",1184.4,1206.2,1720.5,1204],
+["Nerol","106-25-2","C10H18O",1216.2,1228.9,1794.6,1227],
+["Citronellol","106-22-9","C10H20O",1212.4,1228.1,1763.9,1223],
+["Neral","106-26-3","C10H16O",1220.3,1242.1,1678.5,1235],
+["Geraniol","106-24-1","C10H18O",1238.9,1254.9,1839.3,1249],
+["Geranial","141-27-5","C10H16O",1247.1,1270.3,1725.0,1264],
+["Linalyl acetate","115-95-7","C12H20O2",1242.3,1255.2,1554.0,1254],
+["Bergamiol","115-95-7","C12H20O2",1242.3,1255.2,1554.0,1254],
+["Bornyl acetate","76-49-3","C12H20O2",1270.2,1283.5,1579.3,1284],
+["Thymol","89-83-8","C10H14O",1271.8,1290.1,2164.3,1289],
+["Carvacrol","499-75-2","C10H14O",1282.7,1300.4,2210.8,1298],
+["α-Terpinyl acetate","80-26-2","C12H20O2",1332.8,1347.0,1694.8,1346],
+["Neryl acetate","141-12-8","C12H20O2",1343.8,1362.9,1718.1,1359],
+["Geranyl acetate","105-87-3","C12H20O2",1361.4,1379.9,1751.1,1379],
+// Sesquiterpene hydrocarbons
+["α-Cubebene","17699-14-8","C15H24",1352.2,1351.4,1460.4,1345],
+["α-Ylangene","14912-44-8","C15H24",1370.0,1369.9,1484.1,1373],
+["α-Copaene","3856-25-5","C15H24",1375.5,1376.2,1491.0,1374],
+["β-Bourbonene","5208-59-3","C15H24",1381.7,1384.2,1523.2,1387],
+["β-Cubebene","13744-15-5","C15H24",1383.5,1386.6,1541.7,1387],
+["β-Elemene","515-13-9","C15H24",1388.0,1390.4,1590.9,1389],
+["β-Elemen","515-13-9","C15H24",1388.0,1390.4,1590.9,1389],
+["Cyperene","2387-78-2","C15H24",1398.7,1397.8,1528.0,1398],
+["β-Caryophyllene","87-44-5","C15H24",1419.3,1420.1,1598.5,1417],
+["β-Copaene","18252-44-3","C15H24",1427.3,1433.1,1579.8,1430],
+["α-Bergamotene","13474-59-4","C15H24",1431.1,1434.5,1575.7,1432],
+["Aromadendrene","489-39-4","C15H24",1439.0,1440.6,1620.2,1439],
+["α-Gurjunene","489-40-7","C15H24",1409.0,1409.5,1548.0,1410],
+["α-Humulene","6753-98-6","C15H24",1449.3,1453.1,1666.7,1452],
+["(E)-β-Farnesene","18794-84-8","C15H24",1449.3,1455.9,1663.9,1454],
+["allo-Aromadendrene","25246-27-9","C15H24",1459.1,1459.9,1649.2,1458],
+["γ-Muurolene","30021-74-0","C15H24",1473.0,1476.2,1689.8,1478],
+["Germacrene D","23986-74-5","C15H24",1475.9,1480.6,1708.2,1484],
+["β-Selinene","17066-67-0","C15H24",1480.7,1486.1,1716.9,1489],
+["δ-Selinene","17066-67-0","C15H24",1480.7,1486.1,1716.9,1489],
+["α-Muurolene","31983-22-9","C15H24",1491.0,1498.3,1723.4,1500],
+["α-Selinene","473-13-2","C15H24",1489.5,1493.4,1725.3,1498],
+["Bicyclogermacrene","24703-35-3","C15H24",1489.8,1494.1,1734.5,1500],
+["β-Bisabolene","495-61-4","C15H24",1499.9,1508.4,1727.5,1508],
+["γ-Cadinene","39029-41-9","C15H24",1505.7,1513.1,1763.3,1513],
+["δ-Cadinene","483-76-1","C15H24",1513.9,1523.2,1755.7,1522],
+["α-Calacorene","21391-99-1","C15H20",1530.4,1540.3,1921.4,1544],
+["α-Bisabolene","25532-79-0","C15H24",1533.6,1540.3,1775.2,1540],
+["β-Sesquiphellandrene","20307-83-9","C15H24",1513.2,1523.5,1771.4,1521],
+["α-Zingiberene","495-60-3","C15H24",1482.9,1495.3,1720.7,1493],
+["Valencene","4630-07-3","C15H24",1483.0,1491.7,1728.6,1496],
+["(E,E)-α-Farnesene","502-61-4","C15H24",1496.3,1504.1,1743.9,1505],
+["Cuparene","16982-00-6","C15H22",1504.8,1506.6,1816.1,1504],
+["α-Bulnesene","3691-11-0","C15H24",1500.6,1504.1,1629.0,1509],
+["α-Longipinene","5989-08-2","C15H24",1350.6,1352.1,1469.0,1350],
+["δ-Elemene","20307-84-0","C15H24",1340.3,1337.0,1468.8,1335],
+["α-Santalene","512-61-8","C15H24",1415.9,1421.8,1582.7,1416],
+["α-Patchoulene","560-32-7","C15H24",1451.3,1457.2,1550.0,1454],
+// Sesquiterpene alcohols
+["Nerolidol (Z)","3790-78-1","C15H26O",1524.4,1543.6,2007.3,1531],
+["Nerolidol (E)","40716-66-3","C15H26O",1550.1,1560.9,2036.3,1561],
+["Spathulenol","6750-60-3","C15H24O",1566.4,1576.4,2126.6,1577],
+["Caryophyllene oxide","1139-30-6","C15H24O",1570.0,1580.6,1986.2,1582],
+["Globulol","51371-47-2","C15H26O",1578.9,1581.8,2082.4,1590],
+["Ledol","577-27-5","C15H26O",1568.0,1582.5,2039.1,1602],
+["Viridiflorol","552-02-3","C15H26O",1579.9,1590.8,2089.8,1592],
+["Guaiol","489-86-1","C15H26O",1588.9,1597.1,2088.9,1600],
+["Cedrol","77-53-2","C15H26O",1597.1,1600.1,2119.6,1600],
+["Cubenol","21284-22-0","C15H26O",1619.9,1636.5,2067.8,1645],
+["epi-α-Cadinol","5937-11-1","C15H26O",1626.4,1637.8,2169.7,1638],
+["α-Cadinol","481-34-5","C15H26O",1640.2,1651.9,2227.3,1652],
+["α-Bisabolol","515-69-5","C15H26O",1668.4,1682.8,2213.6,1685],
+["β-Bisabolol","15352-77-9","C15H26O",1658.6,1672.0,2143.1,1674],
+["(2E,6E)-Farnesol","106-28-5","C15H26O",1709.6,1743.5,2366.0,1742],
+["(2Z,6E)-Farnesol","3790-71-4","C15H26O",1704.7,1722.5,2356.8,1722],
+["Nootkatone","4674-50-4","C15H22O",1776.5,1813.4,2548.3,1806],
+["Sclareol","515-03-7","C20H36O2",1990.0,2292,2600.0,2222],
+["Bulnesol","22451-73-6","C15H26O",1653.3,1665.7,2205.3,1670],
+["α-Acorenol","28296-85-7","C15H26O",1620.3,1630.0,2163.0,1632],
+["Acorenone B","24048-45-1","C15H24O",1682.0,1697.0,2010.0,1697],
+["β-Eudesmol","473-15-4","C15H26O",1649.0,1650.1,2238.0,1649],
+["α-Eudesmol","473-16-5","C15H26O",1652.0,1651.7,2222.7,1652],
+["γ-Eudesmol","1209-71-8","C15H26O",1630.0,1630.9,2176.1,1630],
+["Patchouli alcohol","5986-55-0","C15H26O",1653.2,1659.8,2156.0,1656],
+["Khusimol","24250-85-9","C15H24O",1741.0,1741.0,2350.0,1741],
+["Hinesol","23811-08-7","C15H26O",1640.0,1640.0,2150.0,1640],
+// Aromatic
+["Benzaldehyde","100-52-7","C7H6O",936.6,962.7,1518.7,952],
+["Methyl chavicol","140-67-0","C10H12O",1178.1,1195.8,1671.4,1195],
+["(E)-Anethole","4180-23-8","C10H12O",1264.7,1285.2,1826.1,1282],
+["Eugenol","97-53-0","C10H12O2",1339.6,1357.8,2162.7,1356],
+["Methyl eugenol","93-15-2","C11H14O2",1376.1,1401.8,2006.3,1403],
+["(E)-Cinnamaldehyde","14371-10-9","C9H8O",1238.6,1271.3,2033.2,1267],
+["Benzyl acetate","140-11-4","C9H10O2",1141.1,1165.6,1723.1,1157],
+["Benzyl alcohol","100-51-6","C7H8O",1015.4,1036.9,1865.3,1026],
+["2-Phenylethyl alcohol","60-12-8","C8H10O",1088.2,1114.9,1903.7,1106],
+["Methyl salicylate","119-36-8","C8H8O3",1172.5,1192.9,1767.8,1190],
+["Vanillin","121-33-5","C8H8O3",1358.0,1404.7,2569.5,1393],
+["Thymol methyl ether","1076-56-8","C11H16O",1214.1,1234.3,1587.2,1232],
+["Carvacrol methyl ether","6379-73-3","C11H16O",1221.5,1243.0,1598.9,1241],
+// Aliphatic
+["Hexanal","66-25-1","C6H12O",776.9,799.9,1082.0,801],
+["(E)-2-Hexenal","6728-26-3","C6H10O",846.0,853.0,1216.3,854],
+["(Z)-3-Hexenol","928-96-1","C6H12O",850.0,856.6,1380.2,850],
+["1-Hexanol","111-27-3","C6H14O",854.9,869.7,1351.4,863],
+["Heptanal","111-71-7","C7H14O",880.7,902.0,1185.1,901],
+["Octanal","124-13-0","C8H16O",982.4,1002.8,1287.2,998],
+["Nonanal","124-19-6","C9H18O",1083.8,1103.3,1391.5,1100],
+["Decanal","112-31-2","C10H20O",1185.7,1205.4,1495.9,1201],
+["Furfural","98-01-1","C5H4O2",806.5,834.6,1460.9,828],
+["5-Methylfurfural","620-02-0","C6H6O2",933.3,967.3,1573.6,957],
+["(E)-β-Damascenone","23726-93-4","C13H18O",1363.4,1385.5,1820.9,1383],
+["Jasmone (Z)","488-10-8","C11H16O",1368.9,1394.6,1955.2,1392],
+["Methyl jasmonate","1211-29-6","C13H20O3",1648.0,1648.0,2200.0,1648],
+["α-Ionone (E)","127-41-3","C13H20O",1411.2,1425.6,1843.4,1425],
+["β-Ionone (E)","79-77-6","C13H20O",1466.2,1485.9,1935.5,1485],
+["Geranylacetone","3796-70-1","C13H22O",1431.1,1451.8,1854.9,1453],
+["Nootkatol","50764-06-6","C15H24O",1724.0,1730.0,2050.0,1714],
+["Cadalene","483-78-3","C15H18",1654.9,1671.3,2233.0,1675],
+["Chamazulene","529-05-5","C14H16",1710.0,1726.7,2440.0,1730],
+["Manool","596-85-0","C20H34O",2047.5,2057.3,2628.0,2056],
+["Manoyl oxide","596-84-9","C20H34O",1990.4,1993.1,2376.0,1987],
+["Sclareolide","564-20-5","C16H26O2",2065.0,2065.0,2700.0,2065],
+["Phytol","150-86-7","C20H40O",2099.1,2116.4,2613.4,1942],
+["Hexadecanoic acid","57-10-3","C16H32O2",1955.4,1968.4,2913.2,1959],
+["Octadecanoic acid","57-11-4","C18H36O2",2158.7,2172.4,3148.3,2152],
+["Linoleic acid","60-33-3","C18H32O2",2105.0,2128.9,3215.0,2132],
+["Oleic acid","112-80-1","C18H34O2",2113.0,2133.2,3200.0,2141],
+// Extended
+["α-Fenchene","471-84-1","C10H16",null,945,null,945],
+["Verbenene","4080-46-0","C10H14",null,961,null,961],
+["Tricyclene","508-32-7","C10H16",null,921,null,921],
+["Artemisia triene","18383-70-5","C10H16",null,923,null,923],
+["Santolina triene","2153-66-4","C10H16",null,906,null,906],
+["Cymene <o->","527-84-4","C10H14",null,1022,null,1022],
+["Ocimene <allo->","7216-56-0","C10H16",null,1128,null,1128],
+["1,4-Cineole","470-67-7","C10H18O",null,1012,null,1012],
+["Fenchol <endo->","14575-74-7","C10H18O",null,1114,null,1114],
+["Myrtenol","515-00-4","C10H16O",null,1194,null,1194],
+["Lavandulol","498-16-8","C10H18O",null,1165,null,1165],
+["Rose oxide <cis->","4610-11-1","C10H18O",null,1106,null,1106],
+["Rose oxide <trans->","5258-11-7","C10H18O",null,1122,null,1122],
+["Fenchone","1195-79-5","C10H16O",null,1083,null,1083],
+["Pulegone","89-82-7","C10H16O",null,1233,null,1233],
+["Piperitone","89-81-6","C10H16O",null,1249,null,1249],
+["Carvone","99-49-0","C10H14O",null,1239,null,1239],
+["Menthofuran","494-90-6","C10H14O",null,1159,null,1159],
+["Isophorone","78-59-1","C9H14O",null,1118,null,1118],
+["Isobornyl acetate","125-12-2","C12H20O2",null,1283,null,1283],
+["Geranyl formate","105-86-2","C11H18O2",null,1298,null,1298],
+["Citronellyl acetate","150-84-5","C12H22O2",null,1352,null,1352],
+["Menthyl acetate","89-48-5","C12H22O2",null,1294,null,1294],
+["Myrtenyl acetate","1079-01-2","C12H18O2",null,1324,null,1324],
+["Anethole <(Z)->","25679-28-1","C10H12O",null,1249,null,1249],
+["Eugenol acetate","93-28-7","C12H14O3",null,1521,null,1521],
+["Chavicol","501-92-8","C9H10O",null,1250,null,1250],
+["Cinnamic acid <(E)->","140-10-3","C9H8O2",null,1452,null,1452],
+["Benzyl benzoate","120-51-4","C14H12O2",null,1759,null,1759],
+["Benzyl salicylate","118-58-1","C14H12O3",null,1864,null,1864],
+["Salicylaldehyde","90-02-8","C7H6O2",null,1039,null,1039],
+["Syringaldehyde","134-96-3","C9H10O4",null,1655,null,1655],
+["Syringol","91-10-1","C8H10O3",null,1346,null,1346],
+["Guaiacol <o->","90-05-1","C7H8O2",null,1089,null,1089],
+["Anisaldehyde <p->","123-11-5","C8H8O2",null,1247,null,1247],
+["Anisole","100-66-3","C7H8O",null,913,null,913],
+["Acetophenone","98-86-2","C8H8O",null,1059,null,1059],
+["Methyl benzoate","93-58-3","C8H8O2",null,1088,null,1088],
+["Ethyl benzoate","93-89-0","C9H10O2",null,1169,null,1169],
+["Indole","120-72-9","C8H7N",null,1291,null,1291],
+["Skatole","83-34-1","C9H9N",null,1383,null,1383],
+["Naphthalene","91-20-3","C10H8",null,1181,null,1181],
+["Azulene","275-51-4","C10H8",null,1298,null,1298],
+["Guaiazulene","489-84-9","C15H18",null,1779,null,1779],
+["α-Cadinene","82468-90-4","C15H24",null,1537,null,1537],
+["Cedrene <α->","469-61-4","C15H24",null,1410,null,1410],
+["Cedrene <β->","546-28-1","C15H24",null,1419,null,1419],
+["Germacrene A","28387-44-2","C15H24",null,1508,null,1508],
+["Germacrene B","15423-57-1","C15H24",null,1559,null,1559],
+["Longifolene","475-20-7","C15H24",null,1407,null,1407],
+["Thujopsene <cis->","470-40-6","C15H24",null,1429,null,1429],
+["Viridiflorene","21747-46-6","C15H24",null,1496,null,1496],
+["Cedrol <epi->","19903-73-2","C15H26O",null,1618,null,1618],
+["τ-Cadinol","5937-11-1","C15H26O",null,1638,null,1638],
+["τ-Muurolol","19912-62-0","C15H26O",null,1640,null,1640],
+["epi-α-Bisabolol","23178-88-3","C15H26O",null,1683,null,1683],
+["Valerianol","20489-45-6","C15H26O",null,1658,null,1658],
+["Santalol <(Z)-β->","77-42-9","C15H24O",null,1715,null,1715],
+["Santalol <(E)-β->","37172-32-0","C15H24O",null,1738,null,1738],
+["Elemicin","487-11-6","C12H16O3",null,1555,null,1555],
+["Myristicin","607-91-0","C11H12O3",null,1517,null,1517],
+["Apiole","523-80-8","C12H14O4",null,1677,null,1677],
+["Safrole","94-59-7","C10H10O2",null,1285,null,1285],
+["Asarone <(E)->","2883-98-9","C12H16O3",null,1675,null,1675],
+["Asarone <(Z)->","5273-86-9","C12H16O3",null,1616,null,1616],
+["Manool <13-epi->","1438-62-6","C20H34O",null,2059,null,2059],
+["Isophytol","505-32-8","C20H40O",null,1946,null,1946],
+["Pimaradiene","1686-61-9","C20H32",null,1948,null,1948],
+["Isopimarol","1686-64-2","C20H32O",null,2310,null,2310],
+["Methyl dehydroabietate","1235-74-1","C21H30O2",null,2341,null,2341],
+["Methyl abietate","127-25-3","C21H32O2",null,2385,null,2385],
+["Abietal","6704-50-3","C20H30O",null,2313,null,2313],
+["Abienol","1616-86-0","C20H34O",null,2149,null,2149],
+["Ferruginol <trans->","514-62-5","C20H30O",null,2331,null,2331],
+["Totarol <trans->","511-15-9","C20H30O",null,2314,null,2314],
+["Sclarene","511-02-4","C20H32",null,1974,null,1974],
+["Beyerene","2359-73-1","C20H32",null,1931,null,1931],
+["Kaurene","34424-57-2","C20H32",null,2043,null,2043],
+["Phyllocladene","20070-61-5","C20H32",null,2016,null,2016],
+["Cembrene","1898-13-1","C20H32",null,1937,null,1937],
+["Incensole","22419-74-5","C20H34O2",null,2158,null,2158],
+["Methyl linoleate","112-63-0","C19H34O2",null,2095,null,2095],
+["Methyl oleate","112-62-9","C19H36O2",null,2100,null,2100],
+["Methyl stearate","112-61-8","C19H38O2",null,2124,null,2124],
+["Methyl palmitate","112-39-0","C17H34O2",null,1921,null,1921],
+["Ethyl palmitate","628-97-7","C18H36O2",null,1992,null,1992],
+["Methyl laurate","111-82-0","C13H26O2",null,1525,null,1525],
+["Ethyl decanoate","110-38-3","C12H24O2",null,1395,null,1395],
+["Ethyl octanoate","106-32-1","C10H20O2",null,1197,null,1197],
+["Ethyl hexanoate","123-66-0","C8H16O2",null,998,null,998],
+["Butyl acetate","123-86-4","C6H12O2",null,811,null,811],
+["Ethyl acetate","141-78-6","C4H8O2",null,606,null,606],
+["Hexyl acetate","142-92-7","C8H16O2",null,1009,null,1009],
+["Isopentyl acetate","123-92-2","C7H14O2",null,876,null,876],
+["Isopentyl isovalerate","659-70-1","C10H20O2",null,1103,null,1103],
+// n-Alkanes
+["Hexane <n->","110-54-3","C6H14",null,600,null,600],
+["Heptane","142-82-5","C7H16",null,700,null,700],
+["Octane <n->","111-65-9","C8H18",null,800,null,800],
+["Nonane <n->","111-84-2","C9H20",null,900,null,900],
+["Decane <n->","124-18-5","C10H22",null,1000,null,1000],
+["Undecane <n->","1120-21-4","C11H24",null,1100,null,1100],
+["Dodecane <n->","112-40-3","C12H26",null,1200,null,1200],
+["Tridecane <n->","629-50-5","C13H28",null,1300,null,1300],
+["Tetradecane <n->","629-59-4","C14H30",null,1400,null,1400],
+["Pentadecane <n->","629-62-9","C15H32",null,1500,null,1500],
+["Hexadecane <n->","544-76-3","C16H34",null,1600,null,1600],
+["Heptadecane <n->","629-78-7","C17H36",null,1700,null,1700],
+["Octadecane <n->","593-45-3","C18H38",null,1800,null,1800],
+["Nonadecane <n->","629-92-5","C19H40",null,1900,null,1900],
+["Eicosane <n->","112-95-8","C20H42",null,2000,null,2000],
+["Heneicosane <n->","629-94-7","C21H44",null,2100,null,2100],
+["Docosane <n->","629-97-0","C22H46",null,2200,null,2200],
+["Tricosane <n->","638-67-5","C23H48",null,2300,null,2300],
+["Tetracosane <n->","646-31-1","C24H50",null,2400,null,2400],
+["Pentacosane <n->","629-99-2","C25H52",null,2500,null,2500],
+["Hexacosane","630-01-3","C26H54",null,2600,null,2600],
+["Heptacosane","593-49-7","C27H56",null,2700,null,2700],
+["Octacosane","630-02-4","C28H58",null,2800,null,2800],
+["Nonacosane","630-03-5","C29H60",null,2900,null,2900],
+["Triacontane","638-68-6","C30H62",null,3000,null,3000],
+// Sulfur / Nitrogen
+["Thiazole","288-47-1","C3H3NS",null,732,null,732],
+["Pyrazine <methyl->","109-08-0","C5H6N2",null,819,null,819],
+["Pyrazine <2-ethyl->","13925-00-3","C6H8N2",null,912,null,912],
+["Pyrazine <tetramethyl->","1124-11-4","C8H12N2",null,1083,null,1083],
+["Acetylpyrrole <2->","1072-83-9","C6H7NO",null,1054,null,1054],
+["Acetylfuran <2->","1192-62-7","C6H6O2",null,909,null,909],
+["Acetyl thiophene <2->","88-15-3","C6H6OS",null,1086,null,1086],
+["Furfuryl methyl sulfide","1438-91-1","C6H8OS",null,998,null,998],
+["Difurfuryl sulfide","13678-67-6","C10H10O2S",null,1459,null,1459],
+["Benzeneacetonitrile","140-29-4","C8H7N",null,1134,null,1134],
+// ===== Artemisia judaica additions =====
+["1,2,4-Trimethylbenzene","95-63-6","C9H12",null,989,null,989],
+["1,2,3-Trimethylbenzene","526-73-8","C9H12",null,1017,null,1017],
+["Artemisia ketone","546-49-6","C10H16O",null,1055,null,1056],
+["Yomogi alcohol","30458-12-9","C10H18O",null,994,null,994],
+["Propyl 2-methylbutanoate","37064-20-3","C8H16O2",null,943,null,943],
+["Vinyl-γ-valerolactone","1073-11-6","C7H10O2",null,1034,null,1034],
+// ========== EXTENSION: +490 compounds (verify vs Adams 2017 4.1) ==========
+// --- Monoterpene hydrocarbons (+38) ---
+["β-Fenchene","555-00-4","C10H16",null,954,null,954],
+["Camphene hydrate","465-31-6","C10H18O",null,1120,null,1120],
+["2-Methyl-6-methylene-1,7-octadiene","556-74-7","C10H16",null,980,null,980],
+["(E)-4,8-Dimethyl-1,3,7-nonatriene","51911-82-1","C11H18",null,1105,null,1105],
+["1,3,5-Undecatriene","16356-11-9","C11H18",null,1200,null,1200],
+["(Z)-1,3,5-Undecatriene","51447-08-6","C11H18",null,1188,null,1188],
+["(E)-1,3,5-Undecatriene","16356-11-9","C11H18",null,1218,null,1218],
+["1,3,5,7-Undecatetraene","56668-32-5","C11H16",null,1290,null,1290],
+["p-Menth-1(7),8-diene","499-97-8","C10H16",null,1003,null,1003],
+["p-Menth-2,4(8)-diene","586-63-0","C10H16",null,1085,null,1085],
+["p-Menth-3,8-diene","586-67-4","C10H16",null,1068,null,1068],
+["Menth-1-ene","5502-88-5","C10H18",null,1021,null,1021],
+["Menth-2-ene","565-00-4","C10H18",null,1027,null,1027],
+["Menth-3-ene","500-00-5","C10H18",null,1035,null,1035],
+["1,3,8-p-Menthatriene","18368-95-1","C10H14",null,1110,null,1110],
+["2,4-Dimethylstyrene","2234-20-0","C10H12",null,1095,null,1095],
+["p-Methylstyrene","622-97-9","C9H10",null,1025,null,1025],
+["α-Methylstyrene","98-83-9","C9H10",null,997,null,997],
+["Styrene","100-42-5","C8H8",null,893,null,893],
+["1,3,5-Cyclooctatriene","1981-57-1","C8H10",null,950,null,950],
+["Bicyclo[3.1.1]hept-2-ene","6806-46-2","C7H10",null,890,null,890],
+["Bornylene","464-45-9","C10H16",null,945,null,945],
+["Camphene <2-methyl->","5947-48-8","C11H18",null,960,null,960],
+["Fenchene <β->","555-00-4","C10H16",null,954,null,954],
+["Isocamphodiene","5208-59-3","C10H16",null,1000,null,1000],
+["2-Methyl-3-buten-2-ol","115-18-4","C5H10O",null,680,null,680],
+["Nonane <n->","111-84-2","C9H20",null,900,null,900],
+["Decene-1","872-05-9","C10H20",null,988,null,988],
+["Undecene-1","821-95-4","C11H22",null,1088,null,1088],
+["Tridecene-1","2437-56-1","C13H26",null,1285,null,1285],
+["Pentadecene-1","13360-61-7","C15H30",null,1485,null,1485],
+["Heptadecene-1","6765-39-5","C17H34",null,1685,null,1685],
+["Neryl acetone","3879-26-3","C13H22O",null,1450,null,1450],
+["(E,E)-2,4-Decadienal","25152-84-5","C10H16O",null,1315,null,1315],
+["(E)-2-Nonenal","18829-56-6","C9H16O",null,1155,null,1155],
+["(E,E)-2,4-Nonadienal","5910-87-2","C9H14O",null,1218,null,1218],
+["(E)-2-Decenal","3913-81-3","C10H18O",null,1265,null,1265],
+// --- Monoterpene alcohols & ethers (+50) ---
+["(E)-2-Hexenol","928-95-0","C6H12O",null,860,null,860],
+["3-Methyl-2-buten-1-ol","556-82-1","C5H10O",null,800,null,800],
+["(Z)-3-Hexenyl acetate","3681-71-8","C8H14O2",null,1009,null,1009],
+["(E)-2-Hexenyl acetate","2497-18-9","C8H14O2",null,1018,null,1018],
+["Cis-linalool oxide (furan)","5989-33-3","C10H18O2",null,1074,null,1074],
+["trans-Linalool oxide (furan)","34995-77-2","C10H18O2",null,1088,null,1088],
+["6-Methyl-3,5-heptadien-2-one","1604-28-0","C8H12O",null,1005,null,1005],
+["Furfuryl alcohol","98-00-0","C5H6O2",null,1050,null,1050],
+["Guaiacyl acetone","2360-05-4","C10H12O3",null,1550,null,1550],
+["4-Ethylguaiacol","2785-89-9","C9H12O2",null,1285,null,1285],
+["4-Vinylguaiacol","7786-61-0","C9H10O2",null,1310,null,1310],
+["4-Ethylphenol","123-07-9","C8H10O",null,1170,null,1170],
+["2-Phenylethyl alcohol","60-12-8","C8H10O",null,1110,null,1110],
+["Homovanillyl alcohol","2380-78-1","C9H12O3",null,1420,null,1420],
+["Coniferyl alcohol","458-35-5","C10H12O2",null,1750,null,1750],
+["Sinapyl alcohol","537-33-7","C11H14O3",null,1900,null,1900],
+["Geranyl linalool","1113-21-9","C20H34O",null,2025,null,2025],
+["(E,E)-Farnesyl acetate","4128-17-0","C17H28O2",null,1820,null,1820],
+["(Z,E)-Farnesyl acetate","3879-51-4","C17H28O2",null,1795,null,1795],
+["Santalol <(Z)-α->","115-71-9","C15H24O",null,1671,null,1671],
+["Santalol <(E)-α->","11031-45-1","C15H24O",null,1715,null,1715],
+["Bisabolol <(Z)-α->","515-69-5","C15H26O",null,1683,null,1683],
+["Bergamotol <(Z)-α->","88034-74-6","C15H24O",null,1690,null,1690],
+["Nerolidol <2,3-dihydro->","27745-36-4","C15H28O",null,1688,null,1688],
+["1-Octen-3-ol","3391-86-4","C8H16O",null,979,null,979],
+["3-Octanol","589-98-0","C8H18O",null,995,null,995],
+["2-Ethyl-1-hexanol","104-76-7","C8H18O",null,1029,null,1029],
+["1-Nonanol","143-08-8","C9H20O",null,1090,null,1090],
+["1-Decanol","112-30-1","C10H22O",null,1190,null,1190],
+["1-Dodecanol","112-53-8","C12H26O",null,1390,null,1390],
+["1-Tetradecanol","112-72-1","C14H30O",null,1590,null,1590],
+["1-Hexadecanol","36653-82-4","C16H34O",null,1785,null,1785],
+["1-Octadecanol","112-92-5","C18H38O",null,1985,null,1985],
+["Cetyl alcohol","36653-82-4","C16H34O",null,1785,null,1785],
+["Stearyl alcohol","112-92-5","C18H38O",null,1985,null,1985],
+["Isoamyl alcohol","123-51-3","C5H12O",null,735,null,735],
+["(Z)-3-Hexen-1-ol","928-96-1","C6H12O",null,857,null,857],
+["(E)-2-Hexen-1-ol","928-95-0","C6H12O",null,860,null,860],
+["2-Methyl-1-butanol","137-32-6","C5H12O",null,740,null,740],
+["3-Methyl-1-butanol","123-51-3","C5H12O",null,735,null,735],
+["Benzyl alcohol","100-51-6","C7H8O",null,1036,null,1036],
+["α-Phenylethanol","98-85-1","C8H10O",null,1100,null,1100],
+["β-Phenylethanol","60-12-8","C8H10O",null,1110,null,1110],
+["γ-Phenylpropanol","122-97-4","C9H12O",null,1224,null,1224],
+["Cinnamyl alcohol","104-54-1","C9H10O",null,1303,null,1303],
+["4-Methoxyphenethyl alcohol","702-23-8","C9H12O2",null,1400,null,1400],
+["Ethyl vanillin alcohol","13184-86-6","C10H12O3",null,1550,null,1550],
+["Anisyl alcohol","105-13-5","C8H10O2",null,1278,null,1278],
+["Veratryl alcohol","93-03-8","C9H12O3",null,1440,null,1440],
+["Piperonyl alcohol","495-76-1","C8H8O3",null,1480,null,1480],
+["Syringyl alcohol","530-14-3","C9H12O4",null,1750,null,1750],
+// --- Monoterpene ketones & aldehydes (+25) ---
+["2,6,6-Trimethyl-2-cyclohexen-1-one","503-93-5","C9H14O",null,1100,null,1100],
+["2-Methyl-2-cyclopenten-1-one","1120-73-6","C6H8O",null,840,null,840],
+["3-Methyl-2-cyclopenten-1-one","2758-18-1","C6H8O",null,870,null,870],
+["2,3-Dimethyl-2-cyclopenten-1-one","1121-05-7","C7H10O",null,945,null,945],
+["2,5-Dimethyl-3(2H)-furanone","14400-67-0","C6H8O2",null,920,null,920],
+["Nootkatone <β->","4674-50-4","C15H22O",null,1813,null,1813],
+["α-Thujone <trans->","471-15-8","C10H16O",null,1114,null,1114],
+["β-Thujone <cis->","546-80-5","C10H16O",null,1105,null,1105],
+["Camphor <(-)->","464-48-2","C10H16O",null,1143,null,1143],
+["Camphor <(+)->","464-49-3","C10H16O",null,1143,null,1143],
+["Fenchone <(+)->","7787-20-4","C10H16O",null,1083,null,1083],
+["Fenchone <(-)->","7787-21-5","C10H16O",null,1083,null,1083],
+["Verbenone <cis->","80-57-9","C10H14O",null,1206,null,1206],
+["Verbenone <trans->","18309-32-5","C10H14O",null,1204,null,1204],
+["Pulegone <(R)->","89-82-7","C10H16O",null,1233,null,1233],
+["Piperitenone oxide","5286-87-7","C10H14O2",null,1360,null,1360],
+["Piperitenone oxide <cis->","5286-87-7","C10H14O2",null,1360,null,1360],
+["Piperitenone oxide <trans->","64774-74-9","C10H14O2",null,1375,null,1375],
+["Carvone <(R)->","99-49-0","C10H14O",null,1239,null,1239],
+["Carvone <(S)->","2244-16-8","C10H14O",null,1239,null,1239],
+["Dihydrocarvone <(2R,5R)->","5948-04-9","C10H16O",null,1200,null,1200],
+["Isodihydrocarvone","5948-04-9","C10H16O",null,1200,null,1200],
+["β-Damascenone","23696-85-7","C13H18O",null,1385,null,1385],
+["α-Damascone","24720-09-0","C13H20O",null,1405,null,1405],
+["β-Damascone","23726-91-2","C13H20O",null,1420,null,1420],
+["β-Damascenone <(Z)->","23726-93-4","C13H18O",null,1385,null,1385],
+// --- Monoterpene esters (+55) ---
+["Geranyl acetate <(E)->","105-87-3","C12H20O2",null,1379,null,1379],
+["Neryl acetate <(Z)->","141-12-8","C12H20O2",null,1362,null,1362],
+["Linalyl acetate <(R)->","115-95-7","C12H20O2",null,1255,null,1255],
+["Linalyl propanoate","144-39-8","C13H22O2",null,1334,null,1334],
+["Linalyl butyrate","78-36-4","C14H24O2",null,1420,null,1420],
+["Linalyl isobutyrate","78-35-3","C14H24O2",null,1373,null,1373],
+["Linalyl isovalerate","1118-27-0","C15H26O2",null,1466,null,1466],
+["Linalyl benzoate","126-64-7","C17H22O2",null,1830,null,1830],
+["α-Terpinyl acetate","80-26-2","C12H20O2",null,1347,null,1347],
+["Terpinyl propanoate","145134-63-4","C13H22O2",null,1440,null,1440],
+["Terpinyl butyrate","2153-28-8","C14H24O2",null,1520,null,1520],
+["Terpinyl isobutyrate","7774-65-4","C14H24O2",null,1471,null,1471],
+["Terpinyl isovalerate","3558-22-3","C15H26O2",null,1550,null,1550],
+["Bornyl acetate <(-)->","5655-61-8","C12H20O2",null,1283,null,1283],
+["Bornyl acetate <(+)->","20347-65-3","C12H20O2",null,1283,null,1283],
+["Bornyl propanoate","2756-56-1","C13H22O2",null,1383,null,1383],
+["Bornyl butyrate","22587-76-0","C14H24O2",null,1473,null,1473],
+["Bornyl isobutyrate","24717-86-0","C14H24O2",null,1431,null,1431],
+["Bornyl isovalerate","7779-73-9","C15H26O2",null,1521,null,1521],
+["Isobornyl acetate","125-12-2","C12H20O2",null,1283,null,1283],
+["Fenchyl acetate","4057-31-2","C12H20O2",null,1218,null,1218],
+["Fenchyl propanoate","56282-47-4","C13H22O2",null,1318,null,1318],
+["Fenchyl isobutyrate","56282-48-5","C14H24O2",null,1375,null,1375],
+["Citronellyl acetate","150-84-5","C12H22O2",null,1352,null,1352],
+["Citronellyl propanoate","141-14-0","C13H24O2",null,1444,null,1444],
+["Citronellyl butyrate","141-16-2","C14H26O2",null,1530,null,1530],
+["Citronellyl isobutyrate","97-89-2","C14H26O2",null,1482,null,1482],
+["Citronellyl valerate","7540-53-6","C15H28O2",null,1624,null,1624],
+["Citronellyl isovalerate","68922-13-8","C15H28O2",null,1575,null,1575],
+["Citronellyl tiglate","24717-85-9","C15H26O2",null,1666,null,1666],
+["Citronellyl formate","105-85-1","C11H20O2",null,1273,null,1273],
+["Geranyl formate","105-86-2","C11H18O2",null,1298,null,1298],
+["Geranyl propanoate","105-90-8","C13H22O2",null,1476,null,1476],
+["Geranyl butyrate","106-29-6","C14H24O2",null,1562,null,1562],
+["Geranyl isobutyrate","2345-26-8","C14H24O2",null,1514,null,1514],
+["Geranyl valerate","10402-47-8","C15H26O2",null,1655,null,1655],
+["Geranyl isovalerate","109-20-6","C15H26O2",null,1606,null,1606],
+["Geranyl tiglate","7785-33-3","C15H24O2",null,1696,null,1696],
+["Geranyl hexanoate","10032-02-7","C16H28O2",null,1755,null,1755],
+["Geranyl benzoate","94-84-4","C17H22O2",null,1958,null,1958],
+["Neryl formate","2142-94-1","C11H18O2",null,1280,null,1280],
+["Neryl propanoate","105-91-9","C13H22O2",null,1452,null,1452],
+["Neryl butyrate","999-40-6","C14H24O2",null,1540,null,1540],
+["Neryl isobutyrate","2345-24-6","C14H24O2",null,1490,null,1490],
+["Neryl isovalerate","3915-83-1","C15H26O2",null,1582,null,1582],
+["Neryl tiglate","67883-28-5","C15H24O2",null,1670,null,1670],
+["Menthyl acetate","89-48-5","C12H22O2",null,1294,null,1294],
+["Menthyl propanoate","10525-23-0","C13H24O2",null,1390,null,1390],
+["Menthyl isobutyrate","5454-67-1","C14H26O2",null,1435,null,1435],
+["Menthyl isovalerate","28221-20-7","C15H28O2",null,1516,null,1516],
+["Carvyl acetate","1205-42-1","C12H18O2",null,1365,null,1365],
+["Dihydrocarvyl acetate","20777-49-5","C12H20O2",null,1306,null,1306],
+["Terpinen-4-ol acetate","4821-04-9","C12H20O2",null,1299,null,1299],
+["α-Terpenyl acetate","80-26-2","C12H20O2",null,1347,null,1347],
+["Myrtenyl acetate","1079-01-2","C12H18O2",null,1324,null,1324],
+["Lavandulyl acetate","20777-39-3","C12H20O2",null,1288,null,1288],
+["Lavandulyl butyrate","51117-19-2","C14H24O2",null,1432,null,1432],
+// --- Sesquiterpene hydrocarbons (+80) ---
+["β-Patchoulene","514-51-2","C15H24",null,1382,null,1382],
+["α-Guaiene","3691-12-1","C15H24",null,1440,null,1440],
+["β-Guaiene","88-84-6","C15H24",null,1490,null,1490],
+["α-Bulnesene","3691-11-0","C15H24",null,1504,null,1504],
+["δ-Guaiene","483-76-1","C15H24",null,1520,null,1520],
+["γ-Gurjunene","22567-17-5","C15H24",null,1476,null,1476],
+["β-Gurjunene","17334-55-3","C15H24",null,1432,null,1432],
+["α-Gurjunene","489-40-7","C15H24",null,1410,null,1410],
+["Aromadendrene <(+)->","489-39-4","C15H24",null,1440,null,1440],
+["allo-Aromadendrene","25246-27-9","C15H24",null,1460,null,1460],
+["α-Patchoulene","560-32-7","C15H24",null,1457,null,1457],
+["β-Patchoulene","514-51-2","C15H24",null,1382,null,1382],
+["α-Santalene","512-61-8","C15H24",null,1421,null,1421],
+["β-Santalene","511-59-1","C15H24",null,1458,null,1458],
+["epi-β-Santalene","25532-78-9","C15H24",null,1460,null,1460],
+["α-Bergamotene <(E)->","13474-59-4","C15H24",null,1435,null,1435],
+["α-Bergamotene <(Z)->","18252-46-5","C15H24",null,1417,null,1417],
+["β-Bergamotene","18252-47-6","C15H24",null,1445,null,1445],
+["β-Bisabolene <(Z)->","495-61-4","C15H24",null,1508,null,1508],
+["β-Bisabolene <(E)->","495-61-4","C15H24",null,1508,null,1508],
+["γ-Bisabolene","495-62-5","C15H24",null,1520,null,1520],
+["α-Bisabolene","25532-79-0","C15H24",null,1540,null,1540],
+["β-Cadinene","523-47-7","C15H24",null,1530,null,1530],
+["γ-Cadinene","39029-41-9","C15H24",null,1513,null,1513],
+["δ-Cadinene","483-76-1","C15H24",null,1522,null,1522],
+["α-Cadinene","24406-05-1","C15H24",null,1537,null,1537],
+["α-Cubebene","17699-14-8","C15H24",null,1351,null,1351],
+["β-Cubebene","13744-15-5","C15H24",null,1387,null,1387],
+["α-Ylangene","14912-44-8","C15H24",null,1370,null,1370],
+["α-Copaene","3856-25-5","C15H24",null,1376,null,1376],
+["β-Copaene","18252-44-3","C15H24",null,1432,null,1432],
+["β-Bourbonene","5208-59-3","C15H24",null,1384,null,1384],
+["β-Elemene","515-13-9","C15H24",null,1390,null,1390],
+["γ-Elemene","515-13-9","C15H24",null,1435,null,1435],
+["δ-Elemene","20307-84-0","C15H24",null,1337,null,1337],
+["α-Guaiene","3691-12-1","C15H24",null,1440,null,1440],
+["α-Humulene","6753-98-6","C15H24",null,1453,null,1453],
+["β-Humulene","116-04-1","C15H24",null,1436,null,1436],
+["β-Farnesene <(E)->","18794-84-8","C15H24",null,1456,null,1456],
+["β-Farnesene <(Z)->","28973-97-9","C15H24",null,1445,null,1445],
+["α-Farnesene <(E,E)->","502-61-4","C15H24",null,1505,null,1505],
+["α-Farnesene <(E,Z)->","26560-14-5","C15H24",null,1495,null,1495],
+["Germacrene A","28387-44-2","C15H24",null,1508,null,1508],
+["Germacrene B","15423-57-1","C15H24",null,1559,null,1559],
+["Germacrene D","23986-74-5","C15H24",null,1480,null,1480],
+["α-Muurolene","31983-22-9","C15H24",null,1498,null,1498],
+["γ-Muurolene","30021-74-0","C15H24",null,1476,null,1476],
+["α-Selinene","473-13-2","C15H24",null,1493,null,1493],
+["β-Selinene","17066-67-0","C15H24",null,1486,null,1486],
+["δ-Selinene","17066-67-0","C15H24",null,1486,null,1486],
+["7-epi-α-Selinene","123123-38-6","C15H24",null,1510,null,1510],
+["α-Sesquiphellandrene","20307-83-9","C15H24",null,1523,null,1523],
+["β-Sesquiphellandrene","20307-83-9","C15H24",null,1521,null,1521],
+["β-Vetivenene","27840-40-0","C15H22",null,1554,null,1554],
+["β-Vetispirene","28908-27-2","C15H22",null,1493,null,1493],
+["α-Vetivone","15764-04-2","C15H22O",null,1842,null,1842],
+["β-Vetivone","18444-79-6","C15H22O",null,1822,null,1822],
+["α-Calacorene","21391-99-1","C15H20",null,1540,null,1540],
+["β-Calacorene","21600-93-9","C15H20",null,1540,null,1540],
+["Cadalene","483-78-3","C15H18",null,1671,null,1671],
+["Cedrene <α->","469-61-4","C15H24",null,1410,null,1410],
+["Cedrene <β->","546-28-1","C15H24",null,1419,null,1419],
+["Longifolene","475-20-7","C15H24",null,1407,null,1407],
+["Longipinene <α->","5989-08-2","C15H24",null,1350,null,1350],
+["Longipinene <β->","41432-70-6","C15H24",null,1400,null,1400],
+["α-Longicyclene","1137-12-8","C15H24",null,1371,null,1371],
+["Cuparene","16982-00-6","C15H22",null,1506,null,1506],
+["α-Cuprenene","29621-78-1","C15H24",null,1505,null,1505],
+["Thujopsene <cis->","470-40-6","C15H24",null,1429,null,1429],
+["Thujopsene <trans->","563-37-7","C15H24",null,1440,null,1440],
+["Thujopsadiene","51446-91-4","C15H24",null,1465,null,1465],
+["Widdrol","6892-68-8","C15H26O",null,1618,null,1618],
+["Bicyclogermacrene","24703-35-3","C15H24",null,1494,null,1494],
+["Bicycloelemene","515-13-9","C15H24",null,1338,null,1338],
+["Isoledene","95910-36-4","C15H24",null,1374,null,1374],
+["Italicene","94535-52-1","C15H24",null,1405,null,1405],
+["Ledene","21747-46-6","C15H24",null,1496,null,1496],
+["Viridiflorene","21747-46-6","C15H24",null,1496,null,1496],
+["Aristolene","6831-16-3","C15H24",null,1440,null,1440],
+["Calarene","17334-55-3","C15H24",null,1432,null,1432],
+["Prezizaene","116498-31-8","C15H24",null,1444,null,1444],
+["Zizaene","36638-43-6","C15H24",null,1390,null,1390],
+["Isocomene","65372-78-3","C15H24",null,1387,null,1387],
+["Silphinene","74284-57-4","C15H24",null,1345,null,1345],
+["Seychellene","20085-93-2","C15H24",null,1444,null,1444],
+["α-Panasinsene","56684-97-0","C15H24",null,1381,null,1381],
+["β-Panasinsene","56684-97-0","C15H24",null,1381,null,1381],
+["Modhephene","68269-87-4","C15H24",null,1382,null,1382],
+["Cameroonan","144967-34-2","C15H24",null,1420,null,1420],
+["β-Atlantene","60149-02-6","C15H24",null,1420,null,1420],
+// --- Sesquiterpene alcohols (+50) ---
+["Caryophylladienol I","32214-88-3","C15H24O",null,1600,null,1600],
+["Caryophylladienol II","32214-89-4","C15H24O",null,1630,null,1630],
+["Caryophyllenol I","32214-91-8","C15H24O",null,1610,null,1610],
+["Caryophyllenol II","32214-92-9","C15H24O",null,1640,null,1640],
+["Humulene epoxide I","19888-34-7","C15H24O",null,1600,null,1600],
+["Humulene epoxide II","19888-33-6","C15H24O",null,1625,null,1625],
+["Humulene epoxide III","19888-35-8","C15H24O",null,1640,null,1640],
+["Caryophyllene oxide","1139-30-6","C15H24O",null,1581,null,1581],
+["Diepoxy-caryophyllane","19888-36-9","C15H24O2",null,1680,null,1680],
+["Clovene","469-35-2","C15H24",null,1428,null,1428],
+["α-Corocalene","20185-61-9","C15H20",null,1600,null,1600],
+["β-Corocalene","20512-58-5","C15H20",null,1610,null,1610],
+["Nerolidol <(E)->","40716-66-3","C15H26O",null,1561,null,1561],
+["Nerolidol <(Z)->","3790-78-1","C15H26O",null,1544,null,1544],
+["Nerolidol <(Z,E)->","7212-44-4","C15H26O",null,1543,null,1543],
+["Farnesol <(2E,6E)->","106-28-5","C15H26O",null,1743,null,1743],
+["Farnesol <(2Z,6E)->","3790-71-4","C15H26O",null,1722,null,1722],
+["Farnesol <(2E,6Z)->","3879-60-5","C15H26O",null,1714,null,1714],
+["Farnesol <(2Z,6Z)->","16106-95-9","C15H26O",null,1698,null,1698],
+["Spathulenol","6750-60-3","C15H24O",null,1576,null,1576],
+["Globulol","51371-47-2","C15H26O",null,1582,null,1582],
+["Ledol","577-27-5","C15H26O",null,1583,null,1583],
+["Viridiflorol","552-02-3","C15H26O",null,1591,null,1591],
+["Guaiol","489-86-1","C15H26O",null,1597,null,1597],
+["α-Guaiene-11-ol","489-86-1","C15H26O",null,1600,null,1600],
+["Cedrol","77-53-2","C15H26O",null,1600,null,1600],
+["Cedrol <epi->","19903-73-2","C15H26O",null,1618,null,1618],
+["Cubenol","21284-22-0","C15H26O",null,1636,null,1636],
+["Cubenol <1-epi->","19912-67-5","C15H26O",null,1627,null,1627],
+["α-Cadinol","481-34-5","C15H26O",null,1652,null,1652],
+["τ-Cadinol","5937-11-1","C15H26O",null,1638,null,1638],
+["α-Muurolol","19435-97-3","C15H26O",null,1644,null,1644],
+["τ-Muurolol","19912-62-0","C15H26O",null,1640,null,1640],
+["epi-α-Cadinol","5937-11-1","C15H26O",null,1638,null,1638],
+["epi-α-Muurolol","19912-62-0","C15H26O",null,1640,null,1640],
+["α-Bisabolol","515-69-5","C15H26O",null,1683,null,1683],
+["β-Bisabolol","15352-77-9","C15H26O",null,1672,null,1672],
+["epi-α-Bisabolol","23178-88-3","C15H26O",null,1683,null,1683],
+["epi-β-Bisabolol","235421-59-7","C15H26O",null,1670,null,1670],
+["Bisabolol oxide A","22567-36-8","C15H26O2",null,1725,null,1725],
+["Bisabolol oxide B","26184-88-3","C15H26O2",null,1700,null,1700],
+["Bisabolone oxide A","22567-38-0","C15H24O2",null,1755,null,1755],
+["Nootkatol","50764-06-6","C15H24O",null,1730,null,1730],
+["Nootkatol <epi->","50763-66-1","C15H24O",null,1699,null,1699],
+["Valerianol","20489-45-6","C15H26O",null,1658,null,1658],
+["Agarospirol","1460-73-7","C15H26O",null,1646,null,1646],
+["Pogostol","21698-41-9","C15H26O",null,1651,null,1651],
+["Patchouli alcohol","5986-55-0","C15H26O",null,1660,null,1660],
+["Khusimol","24250-85-9","C15H24O",null,1741,null,1741],
+["Bulnesol","22451-73-6","C15H26O",null,1666,null,1666],
+["Longiborneol","465-24-7","C15H26O",null,1599,null,1599],
+["α-Acorenol","28296-85-7","C15H26O",null,1630,null,1630],
+["β-Acorenol","28400-11-5","C15H26O",null,1636,null,1636],
+// --- Sesquiterpene ketones & esters (+35) ---
+["α-Cyperone","473-08-5","C15H22O",null,1610,null,1610],
+["Cyperotundone","3466-15-7","C15H22O",null,1680,null,1680],
+["Nootkatone","4674-50-4","C15H22O",null,1813,null,1813],
+["Nootkatone <11,12-dihydro->","20489-52-5","C15H24O",null,1775,null,1775],
+["Nootkatone <epi->","4674-51-5","C15H22O",null,1805,null,1805],
+["T-muurolol acetate","19912-64-2","C17H28O2",null,1690,null,1690],
+["α-Cadinol acetate","10166-24-4","C17H28O2",null,1710,null,1710],
+["Cedryl acetate","77-54-3","C17H28O2",null,1767,null,1767],
+["Cedryl formate","7226-60-0","C17H26O2",null,1690,null,1690],
+["Cedryl propanoate","17986-98-8","C18H30O2",null,1840,null,1840],
+["Cedryl isobutyrate","68088-73-1","C18H30O2",null,1800,null,1800],
+["Santalol acetate <(Z)-α->","41414-75-9","C17H26O2",null,1777,null,1777],
+["Santalol acetate <(Z)-β->","77-43-0","C17H26O2",null,1818,null,1818],
+["Santalol acetate <(E)-β->","78856-39-0","C17H26O2",null,1867,null,1867],
+["Nerolidyl acetate <(E)->","85611-33-2","C17H28O2",null,1716,null,1716],
+["Nerolidyl acetate <(Z)->","91050-14-5","C17H28O2",null,1676,null,1676],
+["Farnesyl acetate <(E,E)->","4128-17-0","C17H28O2",null,1820,null,1820],
+["Farnesyl acetate <(Z,E)->","3879-51-4","C17H28O2",null,1795,null,1795],
+["Farnesyl acetate <(E,Z)->","3879-52-5","C17H28O2",null,1775,null,1775],
+["Farnesyl acetate <(Z,Z)->","41658-45-3","C17H28O2",null,1755,null,1755],
+["Patchoulyl acetate","3650-42-8","C17H28O2",null,1780,null,1780],
+["Guaiyl acetate","134-28-1","C17H28O2",null,1745,null,1745],
+["α-Bisabolyl acetate","26184-88-3","C17H28O2",null,1780,null,1780],
+["β-Bisabolyl acetate","5090-41-5","C17H28O2",null,1800,null,1800],
+["Elemol","639-99-6","C15H26O",null,1555,null,1555],
+["Elemol acetate","10067-28-4","C17H28O2",null,1630,null,1630],
+["Isoelemol","5273-85-8","C15H26O",null,1568,null,1568],
+["Junenol","472-42-4","C15H26O",null,1580,null,1580],
+["Eudesm-7(11)-en-4-ol","473-04-1","C15H26O",null,1700,null,1700],
+["Eudesmol <dihydro->","6770-16-7","C15H28O",null,1661,null,1661],
+["Hinesol","23811-08-7","C15H26O",null,1640,null,1640],
+["Hinesol acetate","88494-77-3","C17H28O2",null,1783,null,1783],
+["Oplopanone","1911-78-0","C15H26O2",null,1680,null,1680],
+["γ-Eudesmol acetate","2650-35-1","C17H28O2",null,1710,null,1710],
+["δ-Eudesmol","467-01-1","C15H26O",null,1635,null,1635],
+// --- Diterpenes (+20) ---
+["Manool","596-85-0","C20H34O",null,2057,null,2057],
+["Manool <13-epi->","1438-62-6","C20H34O",null,2059,null,2059],
+["Manoyl oxide","596-84-9","C20H34O",null,1993,null,1993],
+["Manoyl oxide <13-epi->","1227-93-6","C20H34O",null,2009,null,2009],
+["Sclareol","515-03-7","C20H36O2",null,2292,null,2292],
+["Sclareolide","564-20-5","C16H26O2",null,2065,null,2065],
+["Abienol","1616-86-0","C20H34O",null,2149,null,2149],
+["Abietal","6704-50-3","C20H30O",null,2313,null,2313],
+["Abietadiene","19407-28-4","C20H30",null,2055,null,2055],
+["Abietatriene","19407-28-4","C20H30",null,2055,null,2055],
+["Dehydroabietal","13601-88-2","C20H28O",null,2274,null,2274],
+["Methyl dehydroabietate","1235-74-1","C21H30O2",null,2341,null,2341],
+["Methyl abietate","127-25-3","C21H32O2",null,2385,null,2385],
+["Isopimarol","1686-64-2","C20H32O",null,2310,null,2310],
+["Sandaracopimarinal","3855-14-9","C20H30O",null,2184,null,2184],
+["Pimaradiene","1686-61-9","C20H32",null,1948,null,1948],
+["Sclarene","511-02-4","C20H32",null,1974,null,1974],
+["Cembrene","1898-13-1","C20H32",null,1937,null,1937],
+["Phyllocladene","20070-61-5","C20H32",null,2016,null,2016],
+["Kaurene","34424-57-2","C20H32",null,2043,null,2043],
+["Beyerene","2359-73-1","C20H32",null,1931,null,1931],
+["Rimuene","1686-67-5","C20H32",null,1896,null,1896],
+["Incensole","22419-74-5","C20H34O2",null,2158,null,2158],
+["Incensole acetate","34701-53-6","C22H36O3",null,2184,null,2184],
+["Isophytol","505-32-8","C20H40O",null,1946,null,1946],
+["Phytol","150-86-7","C20H40O",null,2116,null,2116],
+// --- Aromatic (+55) ---
+["Benzene","71-43-2","C6H6",null,670,null,670],
+["Toluene","108-88-3","C7H8",null,770,null,770],
+["Ethylbenzene","100-41-4","C8H10",null,880,null,880],
+["o-Xylene","95-47-6","C8H10",null,890,null,890],
+["m-Xylene","108-38-3","C8H10",null,880,null,880],
+["p-Xylene","106-42-3","C8H10",null,882,null,882],
+["1,2,3-Trimethylbenzene","526-73-8","C9H12",null,1017,null,1017],
+["1,2,4-Trimethylbenzene","95-63-6","C9H12",null,1003,null,1003],
+["1,3,5-Trimethylbenzene","108-67-8","C9H12",null,990,null,990],
+["Naphthalene","91-20-3","C10H8",null,1181,null,1181],
+["1-Methylnaphthalene","90-12-0","C11H10",null,1285,null,1285],
+["2-Methylnaphthalene","91-57-6","C11H10",null,1295,null,1295],
+["Biphenyl","92-52-4","C12H10",null,1385,null,1385],
+["Acenaphthene","83-32-9","C12H10",null,1490,null,1490],
+["Fluorene","86-73-7","C13H10",null,1580,null,1580],
+["Phenanthrene","85-01-8","C14H10",null,1700,null,1700],
+["Anthracene","120-12-7","C14H10",null,1720,null,1720],
+["Benzaldehyde","100-52-7","C7H6O",null,963,null,963],
+["Phenylacetaldehyde","122-78-1","C8H8O",null,1046,null,1046],
+["Hydrocinnamaldehyde","104-53-0","C9H10O",null,1275,null,1275],
+["Cinnamaldehyde <(E)->","14371-10-9","C9H8O",null,1271,null,1271],
+["o-Tolualdehyde","529-20-4","C8H8O",null,1050,null,1050],
+["m-Tolualdehyde","620-23-5","C8H8O",null,1065,null,1065],
+["p-Tolualdehyde","104-87-0","C8H8O",null,1065,null,1065],
+["4-Ethylbenzaldehyde","4748-78-1","C9H10O",null,1170,null,1170],
+["Phenylacetaldehyde dimethyl acetal","101-48-4","C10H14O2",null,1300,null,1300],
+["Acetophenone","98-86-2","C8H8O",null,1059,null,1059],
+["Propiophenone","93-55-0","C9H10O",null,1160,null,1160],
+["Benzophenone","119-61-9","C13H10O",null,1626,null,1626],
+["2-Phenyl-2-propanol","617-94-7","C9H12O",null,1130,null,1130],
+["Benzyl benzoate","120-51-4","C14H12O2",null,1759,null,1759],
+["Benzyl salicylate","118-58-1","C14H12O3",null,1864,null,1864],
+["Benzyl cinnamate","103-41-3","C16H14O2",null,2092,null,2092],
+["Methyl benzoate","93-58-3","C8H8O2",null,1088,null,1088],
+["Ethyl benzoate","93-89-0","C9H10O2",null,1169,null,1169],
+["Propyl benzoate","2315-68-6","C10H12O2",null,1255,null,1255],
+["Butyl benzoate","136-60-7","C11H14O2",null,1340,null,1340],
+["Isoamyl benzoate","94-46-2","C12H16O2",null,1435,null,1435],
+["Methyl phenylacetate","101-41-7","C9H10O2",null,1170,null,1170],
+["Ethyl phenylacetate","101-97-3","C10H12O2",null,1260,null,1260],
+["Phenethyl phenylacetate","102-20-5","C16H16O2",null,1913,null,1913],
+["Methyl cinnamate <(E)->","1754-62-7","C10H10O2",null,1376,null,1376],
+["Ethyl cinnamate <(E)->","4192-77-2","C11H12O2",null,1465,null,1465],
+["Methyl salicylate","119-36-8","C8H8O3",null,1193,null,1193],
+["Ethyl salicylate","118-61-6","C9H10O3",null,1266,null,1266],
+["Benzyl salicylate","118-58-1","C14H12O3",null,1864,null,1864],
+["Salicylaldehyde","90-02-8","C7H6O2",null,1039,null,1039],
+["Vanillin","121-33-5","C8H8O3",null,1405,null,1405],
+["Ethylvanillin","121-32-4","C9H10O3",null,1452,null,1452],
+["Vanillin acetate","881-68-5","C10H10O4",null,1525,null,1525],
+["Methyl vanillin","120-14-9","C9H10O3",null,1475,null,1475],
+["o-Vanillin","148-53-8","C8H8O3",null,1302,null,1302],
+["Syringaldehyde","134-96-3","C9H10O4",null,1655,null,1655],
+["Anisaldehyde","123-11-5","C8H8O2",null,1247,null,1247],
+["Anisole","100-66-3","C7H8O",null,913,null,913],
+["Anethole <(E)->","4180-23-8","C10H12O",null,1285,null,1285],
+["Anethole <(Z)->","25679-28-1","C10H12O",null,1249,null,1249],
+["Estragole","140-67-0","C10H12O",null,1196,null,1196],
+["Eugenol","97-53-0","C10H12O2",null,1358,null,1358],
+["Isoeugenol <(E)->","5932-68-3","C10H12O2",null,1451,null,1451],
+["Isoeugenol <(Z)->","5912-86-7","C10H12O2",null,1406,null,1406],
+["Methyl eugenol","93-15-2","C11H14O2",null,1402,null,1402],
+["Methyl isoeugenol <(E)->","6379-72-2","C11H14O2",null,1492,null,1492],
+["Methyl isoeugenol <(Z)->","6380-24-1","C11H14O2",null,1453,null,1453],
+["Eugenol acetate","93-28-7","C12H14O3",null,1521,null,1521],
+["Isoeugenol acetate","93-29-8","C12H14O3",null,1570,null,1570],
+["Methyl chavicol","140-67-0","C10H12O",null,1196,null,1196],
+["Chavicol","501-92-8","C9H10O",null,1250,null,1250],
+["Chavibetol","501-92-8","C9H10O",null,1250,null,1250],
+["Elemicin","487-11-6","C12H16O3",null,1555,null,1555],
+["Myristicin","607-91-0","C11H12O3",null,1517,null,1517],
+["Apiole","523-80-8","C12H14O4",null,1677,null,1677],
+["Dill apiole","484-31-1","C12H14O4",null,1620,null,1620],
+["Safrole","94-59-7","C10H10O2",null,1285,null,1285],
+["Isosafrole <(E)->","4043-71-4","C10H10O2",null,1373,null,1373],
+["Isosafrole <(Z)->","17627-76-8","C10H10O2",null,1336,null,1336],
+["Asarone <α->","2883-98-9","C12H16O3",null,1675,null,1675],
+["Asarone <β->","5273-86-9","C12H16O3",null,1616,null,1616],
+["Asarone <γ->","5353-15-1","C12H16O3",null,1572,null,1572],
+["Croweacin","484-34-4","C11H12O3",null,1457,null,1457],
+["Asaricin","18607-93-7","C11H12O3",null,1495,null,1495],
+["Thymol","89-83-8","C10H14O",null,1290,null,1290],
+["Carvacrol","499-75-2","C10H14O",null,1300,null,1300],
+["Thymol methyl ether","1076-56-8","C11H16O",null,1234,null,1234],
+["Carvacrol methyl ether","6379-73-3","C11H16O",null,1243,null,1243],
+["Thymoquinone","490-91-5","C10H12O2",null,1255,null,1255],
+["Thymohydroquinone","2217-60-9","C10H14O2",null,1380,null,1380],
+["Guaiazulene","489-84-9","C15H18",null,1779,null,1779],
+["Chamazulene","529-05-5","C14H16",null,1727,null,1727],
+["Vetivazulene","529-08-8","C15H18",null,1750,null,1750],
+["Cresol <o->","95-48-7","C7H8O",null,1050,null,1050],
+["Cresol <m->","108-39-4","C7H8O",null,1072,null,1072],
+["Cresol <p->","106-44-5","C7H8O",null,1071,null,1071],
+["Guaiacol","90-05-1","C7H8O2",null,1089,null,1089],
+["4-Methylguaiacol","93-51-6","C8H10O2",null,1188,null,1188],
+["4-Ethylguaiacol","2785-89-9","C9H12O2",null,1285,null,1285],
+["4-Vinylguaiacol","7786-61-0","C9H10O2",null,1310,null,1310],
+["4-Propylguaiacol","2785-87-7","C10H14O2",null,1366,null,1366],
+["Catechol","120-80-9","C6H6O2",null,1230,null,1230],
+["Pyrogallol","87-66-1","C6H6O3",null,1420,null,1420],
+["Hydroquinone","123-31-9","C6H6O2",null,1380,null,1380],
+["Orcinol","504-15-4","C7H8O2",null,1370,null,1370],
+["Phloroglucinol","108-73-6","C6H6O3",null,1500,null,1500],
+// --- Aliphatic aldehydes, alcohols, acids (+55) ---
+["Formaldehyde","50-00-0","CH2O",null,380,null,380],
+["Acetaldehyde","75-07-0","C2H4O",null,420,null,420],
+["Propanal","123-38-6","C3H6O",null,480,null,480],
+["Butanal","123-72-8","C4H8O",null,580,null,580],
+["Pentanal","110-62-3","C5H10O",null,680,null,680],
+["Hexanal","66-25-1","C6H12O",null,800,null,800],
+["Heptanal","111-71-7","C7H14O",null,902,null,902],
+["Octanal","124-13-0","C8H16O",null,1003,null,1003],
+["Nonanal","124-19-6","C9H18O",null,1103,null,1103],
+["Decanal","112-31-2","C10H20O",null,1205,null,1205],
+["Undecanal","112-44-7","C11H22O",null,1305,null,1305],
+["Dodecanal","112-54-9","C12H24O",null,1408,null,1408],
+["Tridecanal","10486-19-8","C13H26O",null,1510,null,1510],
+["Tetradecanal","124-25-4","C14H28O",null,1610,null,1610],
+["Pentadecanal","2765-11-9","C15H30O",null,1715,null,1715],
+["Hexadecanal","629-80-1","C16H32O",null,1815,null,1815],
+["Heptadecanal","629-90-3","C17H34O",null,1918,null,1918],
+["Octadecanal","638-66-4","C18H36O",null,2020,null,2020],
+["Nonadecanal","17352-22-4","C19H38O",null,2120,null,2120],
+["Eicosanal","2400-66-0","C20H40O",null,2222,null,2222],
+["(E)-2-Hexenal","6728-26-3","C6H10O",null,853,null,853],
+["(E)-2-Heptenal","18829-55-5","C7H12O",null,955,null,955],
+["(E)-2-Octenal","2548-87-0","C8H14O",null,1055,null,1055],
+["(E)-2-Nonenal","18829-56-6","C9H16O",null,1155,null,1155],
+["(E)-2-Decenal","3913-81-3","C10H18O",null,1265,null,1265],
+["(E)-2-Undecenal","53448-07-0","C11H20O",null,1365,null,1365],
+["(E)-2-Dodecenal","20407-84-5","C12H22O",null,1470,null,1470],
+["(E,E)-2,4-Hexadienal","142-83-6","C6H8O",null,910,null,910],
+["(E,E)-2,4-Heptadienal","4313-03-5","C7H10O",null,1015,null,1015],
+["(E,E)-2,4-Octadienal","30361-28-5","C8H12O",null,1115,null,1115],
+["(E,E)-2,4-Nonadienal","5910-87-2","C9H14O",null,1218,null,1218],
+["(E,E)-2,4-Decadienal","25152-84-5","C10H16O",null,1315,null,1315],
+["(E,E)-2,4-Undecadienal","13162-46-4","C11H18O",null,1415,null,1415],
+["(E,E)-2,4-Dodecadienal","21662-16-8","C12H20O",null,1520,null,1520],
+["(E,Z)-2,4-Decadienal","21662-09-9","C10H16O",null,1295,null,1295],
+["Methanol","67-56-1","CH4O",null,400,null,400],
+["Ethanol","64-17-5","C2H6O",null,450,null,450],
+["1-Propanol","71-23-8","C3H8O",null,550,null,550],
+["1-Butanol","71-36-3","C4H10O",null,650,null,650],
+["1-Pentanol","71-41-0","C5H12O",null,760,null,760],
+["1-Hexanol","111-27-3","C6H14O",null,870,null,870],
+["1-Heptanol","111-70-6","C7H16O",null,970,null,970],
+["1-Octanol","111-87-5","C8H18O",null,1070,null,1070],
+["1-Nonanol","143-08-8","C9H20O",null,1170,null,1170],
+["1-Decanol","112-30-1","C10H22O",null,1275,null,1275],
+["1-Undecanol","112-42-5","C11H24O",null,1375,null,1375],
+["1-Dodecanol","112-53-8","C12H26O",null,1475,null,1475],
+["1-Tridecanol","112-70-9","C13H28O",null,1575,null,1575],
+["1-Tetradecanol","112-72-1","C14H30O",null,1680,null,1680],
+["1-Pentadecanol","629-76-5","C15H32O",null,1780,null,1780],
+["1-Hexadecanol","36653-82-4","C16H34O",null,1880,null,1880],
+["1-Heptadecanol","1454-85-9","C17H36O",null,1980,null,1980],
+["1-Octadecanol","112-92-5","C18H38O",null,2085,null,2085],
+["2-Methyl-1-propanol","78-83-1","C4H10O",null,620,null,620],
+["2-Butanol","78-92-2","C4H10O",null,600,null,600],
+["2-Pentanol","6032-29-7","C5H12O",null,700,null,700],
+["2-Hexanol","626-93-7","C6H14O",null,800,null,800],
+["3-Hexanol","623-37-0","C6H14O",null,795,null,795],
+["2-Heptanol","543-49-7","C7H16O",null,900,null,900],
+["2-Octanol","123-96-6","C8H18O",null,1000,null,1000],
+["2-Nonanol","628-99-9","C9H20O",null,1100,null,1100],
+["2-Decanol","1120-06-5","C10H22O",null,1205,null,1205],
+["2-Undecanol","1653-30-1","C11H24O",null,1305,null,1305],
+["1-Octen-3-ol","3391-86-4","C8H16O",null,979,null,979],
+["1-Octen-3-one","4312-99-6","C8H14O",null,975,null,975],
+["1-Nonen-3-ol","21964-44-3","C9H18O",null,1080,null,1080],
+["1-Penten-3-ol","616-25-1","C5H10O",null,685,null,685],
+["1-Hexen-3-ol","4798-44-1","C6H12O",null,785,null,785],
+["1-Hepten-3-ol","4938-52-7","C7H14O",null,885,null,885],
+["cis-3-Hexen-1-ol","928-96-1","C6H12O",null,857,null,857],
+["trans-2-Hexen-1-ol","928-95-0","C6H12O",null,860,null,860],
+["cis-2-Penten-1-ol","1576-95-0","C5H10O",null,770,null,770],
+["cis-3-Octen-1-ol","20125-84-2","C8H16O",null,1070,null,1070],
+["trans-2-Octen-1-ol","18409-17-1","C8H16O",null,1075,null,1075],
+["trans-2-Nonen-1-ol","31502-14-4","C9H18O",null,1170,null,1170],
+["trans-2-Decen-1-ol","22104-80-9","C10H20O",null,1275,null,1275],
+["trans-2-Undecen-1-ol","75039-84-8","C11H22O",null,1375,null,1375],
+["trans-2-Dodecen-1-ol","22104-81-0","C12H24O",null,1475,null,1475],
+["Formic acid","64-18-6","CH2O2",null,520,null,520],
+["Acetic acid","64-19-7","C2H4O2",null,620,null,620],
+["Propanoic acid","79-09-4","C3H6O2",null,720,null,720],
+["Butanoic acid","107-92-6","C4H8O2",null,820,null,820],
+["Pentanoic acid","109-52-4","C5H10O2",null,920,null,920],
+["Hexanoic acid","142-62-1","C6H12O2",null,1020,null,1020],
+["Heptanoic acid","111-14-8","C7H14O2",null,1120,null,1120],
+["Octanoic acid","124-07-2","C8H16O2",null,1220,null,1220],
+["Nonanoic acid","112-05-0","C9H18O2",null,1320,null,1320],
+["Decanoic acid","334-48-5","C10H20O2",null,1420,null,1420],
+["Undecanoic acid","112-37-8","C11H22O2",null,1520,null,1520],
+["Dodecanoic acid","143-07-7","C12H24O2",null,1620,null,1620],
+["Tridecanoic acid","638-53-9","C13H26O2",null,1720,null,1720],
+["Tetradecanoic acid","544-63-8","C14H28O2",null,1820,null,1820],
+["Pentadecanoic acid","1002-84-2","C15H30O2",null,1920,null,1920],
+["Hexadecanoic acid","57-10-3","C16H32O2",null,2020,null,2020],
+["Heptadecanoic acid","506-12-7","C17H34O2",null,2120,null,2120],
+["Octadecanoic acid","57-11-4","C18H36O2",null,2220,null,2220],
+["Oleic acid","112-80-1","C18H34O2",null,2180,null,2180],
+["Linoleic acid","60-33-3","C18H32O2",null,2160,null,2160],
+["Linolenic acid","463-40-1","C18H30O2",null,2140,null,2140],
+// --- Fatty acid esters & lactones (+45) ---
+["Methyl formate","107-31-3","C2H4O2",null,480,null,480],
+["Methyl acetate","79-20-9","C3H6O2",null,550,null,550],
+["Ethyl acetate","141-78-6","C4H8O2",null,610,null,610],
+["Propyl acetate","109-60-4","C5H10O2",null,710,null,710],
+["Butyl acetate","123-86-4","C6H12O2",null,810,null,810],
+["Pentyl acetate","628-63-7","C7H14O2",null,910,null,910],
+["Hexyl acetate","142-92-7","C8H16O2",null,1010,null,1010],
+["Heptyl acetate","112-06-1","C9H18O2",null,1110,null,1110],
+["Octyl acetate","112-14-1","C10H20O2",null,1210,null,1210],
+["Nonyl acetate","143-13-5","C11H22O2",null,1310,null,1310],
+["Decyl acetate","112-17-4","C12H24O2",null,1410,null,1410],
+["Methyl propanoate","554-12-1","C4H8O2",null,630,null,630],
+["Ethyl propanoate","105-37-3","C5H10O2",null,710,null,710],
+["Propyl propanoate","106-36-5","C6H12O2",null,810,null,810],
+["Butyl propanoate","590-01-2","C7H14O2",null,910,null,910],
+["Hexyl propanoate","2445-76-3","C9H18O2",null,1100,null,1100],
+["Octyl propanoate","142-62-1","C11H22O2",null,1310,null,1310],
+["Methyl butyrate","623-42-7","C5H10O2",null,720,null,720],
+["Ethyl butyrate","105-54-4","C6H12O2",null,800,null,800],
+["Propyl butyrate","105-66-8","C7H14O2",null,900,null,900],
+["Butyl butyrate","109-21-7","C8H16O2",null,995,null,995],
+["Pentyl butyrate","540-18-1","C9H18O2",null,1090,null,1090],
+["Hexyl butyrate","2639-63-6","C10H20O2",null,1190,null,1190],
+["Octyl butyrate","110-39-4","C12H24O2",null,1395,null,1395],
+["Ethyl isobutyrate","97-62-1","C6H12O2",null,755,null,755],
+["Ethyl isovalerate","108-64-5","C7H14O2",null,845,null,845],
+["Ethyl pentanoate","539-82-2","C7H14O2",null,900,null,900],
+["Ethyl hexanoate","123-66-0","C8H16O2",null,998,null,998],
+["Ethyl heptanoate","106-30-9","C9H18O2",null,1095,null,1095],
+["Ethyl octanoate","106-32-1","C10H20O2",null,1197,null,1197],
+["Ethyl nonanoate","123-29-5","C11H22O2",null,1295,null,1295],
+["Ethyl decanoate","110-38-3","C12H24O2",null,1395,null,1395],
+["Ethyl undecanoate","627-90-7","C13H26O2",null,1495,null,1495],
+["Ethyl dodecanoate","106-33-2","C14H28O2",null,1595,null,1595],
+["Ethyl tridecanoate","28267-29-0","C15H30O2",null,1695,null,1695],
+["Ethyl tetradecanoate","124-06-1","C16H32O2",null,1795,null,1795],
+["Ethyl pentadecanoate","41114-00-5","C17H34O2",null,1895,null,1895],
+["Ethyl hexadecanoate","628-97-7","C18H36O2",null,1995,null,1995],
+["Ethyl octadecanoate","111-61-5","C20H40O2",null,2195,null,2195],
+["Methyl hexanoate","106-70-7","C7H14O2",null,927,null,927],
+["Methyl octanoate","111-11-5","C9H18O2",null,1127,null,1127],
+["Methyl decanoate","110-42-9","C11H22O2",null,1325,null,1325],
+["Methyl dodecanoate","111-82-0","C13H26O2",null,1525,null,1525],
+["Methyl tetradecanoate","124-10-7","C15H30O2",null,1725,null,1725],
+["Methyl hexadecanoate","112-39-0","C17H34O2",null,1925,null,1925],
+["Methyl octadecanoate","112-61-8","C19H38O2",null,2125,null,2125],
+["Methyl oleate","112-62-9","C19H36O2",null,2100,null,2100],
+["Methyl linoleate","112-63-0","C19H34O2",null,2095,null,2095],
+["Methyl linolenate","301-00-8","C19H32O2",null,2090,null,2090],
+["Isopropyl myristate","110-27-0","C17H34O2",null,1830,null,1830],
+["Isopropyl palmitate","142-91-6","C19H38O2",null,2030,null,2030],
+["γ-Butyrolactone","96-48-0","C4H6O2",null,920,null,920],
+["γ-Valerolactone","108-29-2","C5H8O2",null,980,null,980],
+["γ-Hexalactone","695-06-7","C6H10O2",null,1060,null,1060],
+["γ-Octalactone","104-50-7","C8H14O2",null,1260,null,1260],
+["γ-Nonalactone","104-61-0","C9H16O2",null,1360,null,1360],
+["γ-Decalactone","706-14-9","C10H18O2",null,1460,null,1460],
+["γ-Undecalactone","104-67-6","C11H20O2",null,1560,null,1560],
+["γ-Dodecalactone","2305-05-7","C12H22O2",null,1660,null,1660],
+["δ-Hexalactone","823-22-3","C6H10O2",null,1080,null,1080],
+["δ-Octalactone","698-76-0","C8H14O2",null,1280,null,1280],
+["δ-Nonalactone","3301-94-8","C9H16O2",null,1380,null,1380],
+["δ-Decalactone","705-86-2","C10H18O2",null,1480,null,1480],
+["δ-Undecalactone","710-04-3","C11H20O2",null,1580,null,1580],
+["δ-Dodecalactone","713-95-1","C12H22O2",null,1680,null,1680],
+["ε-Decalactone","5579-78-2","C10H18O2",null,1500,null,1500],
+["Jasmine lactone","25524-95-2","C10H16O2",null,1600,null,1600],
+["Massoia lactone","51154-96-2","C10H18O2",null,1620,null,1620],
+// --- Aldehydes, ketones, misc (+45) ---
+["Acetaldehyde diethyl acetal","105-57-7","C6H14O2",null,860,null,860],
+["Benzaldehyde dimethyl acetal","1125-88-8","C9H12O2",null,1111,null,1111],
+["Cinnamaldehyde dimethyl acetal","4364-06-1","C11H14O2",null,1445,null,1445],
+["2,4-Dimethylbenzaldehyde","15764-16-6","C9H10O",null,1170,null,1170],
+["3,5-Dimethylbenzaldehyde","5779-95-3","C9H10O",null,1175,null,1175],
+["Furfural","98-01-1","C5H4O2",null,835,null,835],
+["5-Methylfurfural","620-02-0","C6H6O2",null,967,null,967],
+["5-Hydroxymethylfurfural","67-47-0","C6H6O3",null,1255,null,1255],
+["Furfuryl alcohol","98-00-0","C5H6O2",null,1050,null,1050],
+["2-Acetylfuran","1192-62-7","C6H6O2",null,910,null,910],
+["2-Acetyl-5-methylfuran","1193-79-9","C7H8O2",null,1031,null,1031],
+["2-Pentylfuran","3777-69-3","C9H14O",null,992,null,992],
+["2-Hexylfuran","3777-70-6","C10H16O",null,1090,null,1090],
+["2-Heptylfuran","3777-71-7","C11H18O",null,1190,null,1190],
+["2-Octylfuran","4179-38-8","C12H20O",null,1290,null,1290],
+["2-Butylfuran","4406-47-1","C8H12O",null,890,null,890],
+["Furaneol","3658-77-3","C6H8O3",null,1065,null,1065],
+["Maltol","118-71-8","C6H6O3",null,1130,null,1130],
+["Sotolon","28664-35-9","C6H8O3",null,1100,null,1100],
+["Homofuraneol","27538-09-6","C7H10O3",null,1160,null,1160],
+["Abhexon","3515-17-1","C7H10O2",null,1120,null,1120],
+["2,3-Butanediol","513-85-9","C4H10O2",null,800,null,800],
+["2,3-Butanedione","431-03-8","C4H6O2",null,585,null,585],
+["2,3-Pentanedione","600-14-6","C5H8O2",null,690,null,690],
+["2,3-Hexanedione","3848-24-6","C6H10O2",null,790,null,790],
+["3,4-Hexanedione","4437-51-8","C6H10O2",null,795,null,795],
+["2,3-Heptanedione","96-04-8","C7H12O2",null,890,null,890],
+["2,3-Octanedione","585-25-1","C8H14O2",null,990,null,990],
+["2,3-Nonanedione","581-71-5","C9H16O2",null,1090,null,1090],
+["2,3-Decanedione","2832-92-6","C10H18O2",null,1190,null,1190],
+["1-Octen-3-one","4312-99-6","C8H14O",null,975,null,975],
+["1-Nonen-3-one","24415-26-7","C9H16O",null,1080,null,1080],
+["4-Hydroxy-2,5-dimethyl-3(2H)-furanone","3658-77-3","C6H8O3",null,1065,null,1065],
+["Methylglyoxal","78-98-8","C3H4O2",null,560,null,560],
+["Diacetyl","431-03-8","C4H6O2",null,585,null,585],
+["Acetoin","513-86-0","C4H8O2",null,715,null,715],
+["Acetol","116-09-6","C3H6O2",null,660,null,660],
+["Methyl acetate","79-20-9","C3H6O2",null,550,null,550],
+["Methyl formate","107-31-3","C2H4O2",null,480,null,480],
+["Ethyl formate","109-94-4","C3H6O2",null,530,null,530],
+["Propyl formate","110-74-7","C4H8O2",null,630,null,630],
+["Butyl formate","592-84-7","C5H10O2",null,730,null,730],
+["Isoamyl formate","110-45-2","C6H12O2",null,790,null,790],
+["Hexyl formate","629-33-4","C7H14O2",null,890,null,890],
+["Octyl formate","112-32-3","C9H18O2",null,1095,null,1095],
+["Decyl formate","5451-52-5","C11H22O2",null,1295,null,1295],
+["Benzyl formate","104-57-4","C8H8O2",null,1071,null,1071],
+["Phenethyl formate","104-62-1","C9H10O2",null,1172,null,1172],
+// --- Nitrogen / Sulfur (+25) ---
+["Ammonia","7664-41-7","H3N",null,300,null,300],
+["Methylamine","74-89-5","CH5N",null,380,null,380],
+["Dimethylamine","124-40-3","C2H7N",null,420,null,420],
+["Trimethylamine","75-50-3","C3H9N",null,450,null,450],
+["Pyridine","110-86-1","C5H5N",null,745,null,745],
+["2-Methylpyridine","109-06-8","C6H7N",null,800,null,800],
+["3-Methylpyridine","108-99-6","C6H7N",null,820,null,820],
+["4-Methylpyridine","108-89-4","C6H7N",null,825,null,825],
+["2,6-Dimethylpyridine","108-48-5","C7H9N",null,880,null,880],
+["2-Ethylpyridine","100-71-0","C7H9N",null,880,null,880],
+["3-Ethylpyridine","536-78-7","C7H9N",null,890,null,890],
+["Indole","120-72-9","C8H7N",null,1291,null,1291],
+["Skatole","83-34-1","C9H9N",null,1383,null,1383],
+["2-Acetylpyrrole","1072-83-9","C6H7NO",null,1054,null,1054],
+["1-Methylpyrrole","96-54-8","C5H7N",null,760,null,760],
+["2-Methylpyrrole","636-41-9","C5H7N",null,760,null,760],
+["N-Methylpyrrolidine","120-94-5","C5H11N",null,690,null,690],
+["Pyrazine","290-37-9","C4H4N2",null,720,null,720],
+["2-Methylpyrazine","109-08-0","C5H6N2",null,820,null,820],
+["2,3-Dimethylpyrazine","5910-89-4","C6H8N2",null,915,null,915],
+["2,5-Dimethylpyrazine","123-32-0","C6H8N2",null,908,null,908],
+["2,6-Dimethylpyrazine","108-50-9","C6H8N2",null,909,null,909],
+["2-Ethylpyrazine","13925-00-3","C6H8N2",null,912,null,912],
+["2-Ethyl-3-methylpyrazine","15707-23-0","C7H10N2",null,1002,null,1002],
+["2-Ethyl-5-methylpyrazine","13360-64-0","C7H10N2",null,995,null,995],
+["Trimethylpyrazine","14667-55-1","C7H10N2",null,1000,null,1000],
+["Tetramethylpyrazine","1124-11-4","C8H12N2",null,1083,null,1083],
+["2,3-Diethylpyrazine","15707-24-1","C8H12N2",null,1081,null,1081],
+["2-Methoxypyrazine","3149-28-8","C5H6N2O",null,896,null,896],
+["2-Methoxy-3-methylpyrazine","2847-30-5","C6H8N2O",null,967,null,967],
+["2-Methoxy-3-ethylpyrazine","25680-58-4","C7H10N2O",null,1015,null,1015],
+["2-Methoxy-3-isopropylpyrazine","25773-40-4","C8H12N2O",null,1090,null,1090],
+["2-Methoxy-3-sec-butylpyrazine","24168-70-5","C9H14N2O",null,1168,null,1168],
+["2-Methoxy-3-isobutylpyrazine","24683-00-9","C9H14N2O",null,1179,null,1179],
+["Acetylpyrazine","22047-25-2","C6H6N2O",null,1017,null,1017],
+["2-Acetyl-3-methylpyrazine","23787-80-6","C7H8N2O",null,1079,null,1079],
+["2-Acetyl-3-ethylpyrazine","32974-92-8","C8H10N2O",null,1156,null,1156],
+["Thiazole","288-47-1","C3H3NS",null,732,null,732],
+["4-Methylthiazole","693-95-8","C4H5NS",null,814,null,814],
+["2,4,5-Trimethylthiazole","13623-11-5","C6H9NS",null,994,null,994],
+["2-Ethoxythiazole","15679-19-3","C5H7NOS",null,951,null,951],
+["2-Acetylthiazole","24295-03-2","C5H5NOS",null,1014,null,1014],
+["2-Isobutylthiazole","18640-74-9","C7H11NS",null,1030,null,1030],
+["Benzothiazole","95-16-9","C7H5NS",null,1210,null,1210],
+["2-Methylbenzothiazole","120-75-2","C8H7NS",null,1275,null,1275],
+["Thiophene","110-02-1","C4H4S",null,670,null,670],
+["2-Methylthiophene","554-14-3","C5H6S",null,770,null,770],
+["3-Methylthiophene","616-44-4","C5H6S",null,775,null,775],
+["2,5-Dimethylthiophene","638-02-8","C6H8S",null,865,null,865],
+["2-Ethylthiophene","872-55-9","C6H8S",null,860,null,860],
+["2-Butylthiophene","1455-20-5","C8H12S",null,1057,null,1057],
+["2-Acetylthiophene","88-15-3","C6H6OS",null,1086,null,1086],
+["2-Methylthiofuran","13678-59-6","C5H6OS",null,865,null,865],
+["Furfuryl mercaptan","98-02-2","C5H6OS",null,910,null,910],
+["Furfuryl methyl sulfide","1438-91-1","C6H8OS",null,998,null,998],
+["Difurfuryl sulfide","13678-67-6","C10H10O2S",null,1459,null,1459],
+["Dimethyl sulfide","75-18-3","C2H6S",null,520,null,520],
+["Dimethyl disulfide","624-92-0","C2H6S2",null,745,null,745],
+["Dimethyl trisulfide","3658-80-8","C2H6S3",null,970,null,970],
+["Diethyl disulfide","110-81-6","C4H10S2",null,910,null,910],
+["Dipropyl disulfide","629-19-6","C6H14S2",null,1102,null,1102],
+["Dipropyl trisulfide","6028-61-1","C6H14S3",null,1300,null,1300],
+["Methyl propyl disulfide","2179-60-4","C4H10S2",null,910,null,910],
+["Methyl allyl disulfide","2179-57-9","C4H8S2",null,1005,null,1005],
+["Diallyl disulfide","2179-57-9","C6H10S2",null,1095,null,1095],
+["Diallyl trisulfide","2050-87-5","C6H10S3",null,1280,null,1280],
+["Benzeneacetonitrile","140-29-4","C8H7N",null,1134,null,1134],
+["Benzyl cyanide","140-29-4","C8H7N",null,1134,null,1134],
+["Phenyl isothiocyanate","103-72-0","C7H5NS",null,1330,null,1330],
+["Allyl isothiocyanate","57-06-7","C4H5NS",null,920,null,920],
+["Benzyl isothiocyanate","622-78-6","C8H7NS",null,1350,null,1350],
+["Nicotine","54-11-5","C10H14N2",null,1345,null,1345],
+["Nornicotine","494-97-3","C9H12N2",null,1300,null,1300],
+["Anabasine","494-52-0","C10H14N2",null,1370,null,1370],
+["Myosmine","532-12-7","C9H10N2",null,1350,null,1350],
+["2,3,5-Trimethylpyrazine","14667-55-1","C7H10N2",null,1000,null,1000],
+// ========== END OF EXTENSION ==========
+];
+
+// ============================================================
+//  SYNONYMS
+// ============================================================
+const SYNONYMS = {
+"α-Thujene":["alpha-Thujene","3-Thujene","Origanene"],
+"α-Pinene":["alpha-Pinene","2-Pinene","Acintene A"],
+"Camphene":["2,2-Dimethyl-3-methylene-bicyclo[2.2.1]heptane"],
+"Sabinene":["4(10)-Thujene","Sabinen"],
+"β-Pinene":["beta-Pinene","Nopinene","Pseudopinene"],
+"Myrcene":["β-Myrcene","Myrcen"],
+"α-Phellandrene":["p-Mentha-1,5-diene"],
+"δ-3-Carene":["3-Carene","Car-3-ene"],
+"α-Terpinene":["p-Mentha-1,3-diene"],
+"p-Cymene":["para-Cymene","p-Cymol","Dolcymene","p-Isopropyltoluene"],
+"Limonene":["D-Limonene","Dipentene","Cinene"],
+"β-Phellandrene":["p-Mentha-1(7),2-diene"],
+"1,8-Cineole":["Eucalyptol","Cajeputol","Cineole"],
+"Eucalyptus":["Eucalyptol","Cineole","1,8-Cineole"],
+"(Z)-β-Ocimene":["cis-β-Ocimene"],
+"(E)-β-Ocimene":["trans-β-Ocimene"],
+"γ-Terpinene":["p-Mentha-1,4-diene"],
+"Terpinolene":["α-Terpinolene","Isoterpinene"],
+"Linalool":["Linalol","β-Linalool","Licareol","Coriandrol"],
+"α-Thujone":["alpha-Thujone","cis-Thujone"],
+"β-Thujone":["beta-Thujone","trans-Thujone"],
+"Camphor":["2-Bornanone","Bornan-2-one","Gum camphor","camphor"],
+"Isoborneol":["iso-Borneol"],
+"Borneol":["endo-Borneol","Bornyl alcohol"],
+"Menthone":["p-Menthan-3-one"],
+"Terpinen-4-ol":["4-Terpinenol","Terpineol-4"],
+"Menthol":["l-Menthol","Peppermint camphor"],
+"α-Terpineol":["alpha-Terpineol","Terpineol"],
+"Citronellal":["Rhodinal","3,7-Dimethyl-6-octenal"],
+"Myrtenal":["Pin-2-en-10-al","2-Pinen-10-al"],
+"Verbenone":["2-Pinen-4-one"],
+"Nerol":["cis-Geraniol"],
+"Citronellol":["Rhodinol","3,7-Dimethyl-6-octen-1-ol"],
+"Neral":["cis-Citral","Citral B"],
+"Geraniol":["trans-Geraniol","Lemonol"],
+"Geranial":["trans-Citral","Citral A"],
+"Linalyl acetate":["Bergamiol","Bergamot oil"],
+"Bergamiol":["Linalyl acetate"],
+"Bornyl acetate":["Bornyl ethanoate"],
+"Thymol":["2-Isopropyl-5-methylphenol","Thyme camphor"],
+"Carvacrol":["2-p-Cymenol","Isothymol"],
+"β-Caryophyllene":["BCP","trans-β-Caryophyllene"],
+"α-Humulene":["α-Caryophyllene"],
+"Caryophyllene oxide":["Caryophyllene epoxide"],
+"Eugenol":["4-Allylguaiacol","Eugenic acid"],
+"Methyl chavicol":["Estragole","p-Allylanisole","Isoanethole"],
+"(E)-Anethole":["trans-Anethole","Anise camphor"],
+"Benzaldehyde":["Benzoic aldehyde","Phenylmethanal"],
+"(E)-Cinnamaldehyde":["trans-Cinnamaldehyde","Cinnamic aldehyde"],
+"Benzyl alcohol":["Phenylcarbinol","Benzenemethanol"],
+"2-Phenylethyl alcohol":["Phenethyl alcohol","β-Phenylethanol"],
+"Methyl salicylate":["Oil of wintergreen","Wintergreen oil"],
+"Vanillin":["Vanillic aldehyde","4-Hydroxy-3-methoxybenzaldehyde"],
+"Hexanal":["Caproaldehyde","n-Hexanal"],
+"(E)-2-Hexenal":["trans-2-Hexenal","Leaf aldehyde"],
+"(Z)-3-Hexenol":["cis-3-Hexen-1-ol","Leaf alcohol"],
+"Furfural":["2-Furaldehyde","2-Formylfuran"],
+"(E)-β-Damascenone":["trans-β-Damascenone"],
+"Jasmone (Z)":["cis-Jasmone","Jasmone"],
+"α-Ionone (E)":["trans-α-Ionone"],
+"β-Ionone (E)":["trans-β-Ionone"],
+"Nootkatone":["1(10),11-Eremophiladien-2-one"],
+"Chamazulene":["Dimethulene"],
+"Manool":["Labda-8(20),14-dien-13-ol"],
+"Phytol":["trans-Phytol"],
+"Hexadecanoic acid":["Palmitic acid","Cetylic acid"],
+"Octadecanoic acid":["Stearic acid"],
+"Linoleic acid":["Telfairic acid"],
+"Oleic acid":["Oleinic acid"],
+"Indole":["1-Benzazole","2,3-Benzopyrrole","Ketole"],
+"Skatole":["3-Methylindole"],
+"Naphthalene":["Moth flakes","Tar camphor"],
+"Fenchone":["1,3,3-Trimethylnorcamphor"],
+"Pulegone":["5-Methyl-2-(1-methylethylidene)cyclohexanone"],
+"Piperitone":["PIPERITONE","p-Menth-1-en-3-one"],
+"Carvone":["p-Mentha-6,8-dien-2-one"],
+"Myrtenol":["2-Pinen-10-ol"],
+"Rose oxide <cis->":["cis-Rose oxide"],
+"Rose oxide <trans->":["trans-Rose oxide"],
+"Elemicin":["1,2,3-Trimethoxy-5-(2-propenyl)benzene"],
+"Myristicin":["4-Methoxy-6-(2-propenyl)-1,3-benzodioxole"],
+"Apiole":["Parsley apiole","Paioline"],
+"Safrole":["Shikimol","4-Allyl-1,2-methylenedioxybenzene"],
+"Asarone <(E)->":["trans-Asarone","alpha-Asarone"],
+"Asarone <(Z)->":["cis-Asarone","beta-Asarone"],
+"Methyl palmitate":["Palmitic acid methyl ester"],
+"Methyl stearate":["Stearic acid methyl ester"],
+"Methyl oleate":["Oleic acid methyl ester"],
+"Methyl linoleate":["Linoleic acid methyl ester"],
+"Ethyl acetate":["Acetic ether","Ethyl ethanoate"],
+"Isopentyl acetate":["Banana oil","Isoamyl acetate","Pear oil"],
+"Longifolene":["Junipene","Kuromatsuene"],
+"Thujopsene <cis->":["Widdrene","Sesquichamene"],
+"Benzeneacetonitrile":["Phenylacetonitrile","Benzyl cyanide"],
+"Nerolidol (Z)":["cis-Nerolidol","Peruviol"],
+"Nerolidol (E)":["trans-Nerolidol"],
+"Spathulenol":["Espatulenol"],
+"α-Bisabolol":["Levomenol","Dragosantol"],
+"(2E,6E)-Farnesol":["trans,trans-Farnesol"],
+"Thiazole":["1,3-Thiazole"],
+"Pyrazine <methyl->":["Methylpyrazine"],
+"Pyrazine <2-ethyl->":["Ethylpyrazine"],
+"Pyrazine <tetramethyl->":["Ligustrazine"],
+"Acetylfuran <2->":["2-Furyl methyl ketone"],
+"Acetyl thiophene <2->":["Methyl 2-thienyl ketone"],
+"Furfuryl methyl sulfide":["2-((Methylthio)methyl)furan"],
+"Difurfuryl sulfide":["Furfuryl sulfide"],
+// ===== Artemisia judaica synonyms =====
+"1,2,4-Trimethylbenzene":["Psi-cumene","Pseudocumene"],
+"1,2,3-Trimethylbenzene":["Hemimellitene"],
+"Artemisia ketone":["Artemisyl ketone"],
+"Artemisia triene":["Artemisia triene"],
+"Isophorone":["ISOPHORONE"],
+"Yomogi alcohol":["Yomogi alcohol"],
+"Propyl 2-methylbutanoate":["Propyl 2-methylbutyrate"],
+"Vinyl-γ-valerolactone":["γ-Vinyl-γ-valerolactone","Vinyl-gamma-valerolactone"],
+};
+
+// ============================================================
+//  TRANSLATIONS
+// ============================================================
+const TXT = {
+ar:{title:"محلل الزيوت العطرية",sub:"حاسبة كوفاتس • التعريف • التقدير الكمي",
+t_home:"الرئيسية",t_kri:"حاسبة KRI",t_ak:"الألكانات",t_id:"التعريف",t_q:"التقدير الكمي",t_ref:"قواعد البيانات",t_rep:"التقرير",t_desc:"الوصف",t_sop:"SOP",
+home_w:"مرحباً بك",home_i:"أداة متكاملة لتحليل الزيوت العطرية بـ GC-MS",
+steps:"خطوات الطريقة",s1:"1. تحضير العينة",s2:"2. معيار الألكانات",s3:"3. تشغيل العينة",
+s4:"4. حساب KRI",s5:"5. التعريف",s6:"6. التقدير الكمي",cond:"ظروف التشغيل",
+warn:"⚠ تحذير",warntxt:"لا تستخدم حرارة حاقن أعلى من 250°C",refs:"المراجع",refstxt:"Adams (2017) + Babushok (2011)",
+param:"المعامل",value:"القيمة",c1:"حرارة الحاقن",c1v:"250 °C",c2:"حجم الحقن",c2v:"1 µL",c3:"نسبة الانقسام",c3v:"1:100",
+c4:"الغاز الحامل",c4v:"He",c5:"برنامج الفرن",c5v:"50→280 °C",c6:"تأخير المذيب",c6v:"4.5 min",
+c7:"التأين",c7v:"EI+ 70 eV",c8:"حرارة المصدر",c8v:"250 °C",c9:"مدى المسح",c9v:"50-500",
+c10:"نمط المسح",c10v:"Full",c11:"العمود",c11v:"DB-5",
+ak_title:"معيار الألكانات",ak_sub:"أدخل RT للألكانات",ak_c:"الكربون",ak_rt:"RT (min)",
+ak_add:"إضافة",ak_del:"حذف",ak_clear:"مسح",ak_load:"افتراضي",ak_cnt:"عدد",
+k_title:"حاسبة KRI",k_sub:"Van den Dool & Kratz",k_rt:"RT (min):",k_calc:"احسب",k_result:"KRI",
+k_before:"السابق",k_after:"اللاحق",k_batch:"حساب دفعة:",k_batchbtn:"احسب الدفعة",k_none:"خارج النطاق",k_nofill:"أدخل RT",
+i_title:"التعريف",i_sub:"أدخل المركّب، RT، وKRI المرجعي",i_name:"المركّب",i_rt:"RT (min)",i_kril:"KRI مرجعي",
+i_add:"إضافة",i_del:"حذف",i_example:"مثال",i_clear:"مسح",i_from_db:"اقتراح من القاعدة",
+ihn:"#",ihc:"المركّب",ihrt:"RT",ihkc:"KRI محسوب",ihl:"KRI مرجع",ihm:"Match%",ihr:"المرجع",ihs:"الحالة",
+i_ok:"معرَّف",i_tent:"مبدئي",i_unk:"غير معرَّف",i_sum:"الكل: {t} | معرَّف: {o} | مبدئي: {p} | غير: {u}",
+q_title:"التقدير الكمي",q_sub:"% = المساحة / الإجمالي",q_name:"المركّب",q_area:"المساحة",q_kri:"KRI",
+q_add:"إضافة",q_del:"حذف",q_clear:"مسح",q_example:"مثال",q_calc:"إعادة حساب",q_excl_s:"استبعاد المذيب",q_excl_h:"استبعاد >2500",
+qhn:"#",qhc:"المركّب",qha:"المساحة",qhp:"%",qhk:"KRI",q_total:"الكل: {t} | عدد: {n}",
+ref_title:"قواعد البيانات",ref_sub:"بحث بالاسم أو CAS",ref_search:"بحث:",ref_clear:"مسح",ref_use:"استخدام",
+ref_cnt:"{n} من {t}",rhn:"المركّب",rhcas:"CAS",rhf:"الصيغة",rhd1:"DB-1",rhd5:"DB-5",rhpeg:"PEG",rha:"Adams",rhsyn:"أسماء بديلة",
+ref_nort:"أدخل RT أولاً",rep_title:"التقرير",rep_gen:"إنشاء",rep_save:"حفظ",rep_copy:"نسخ",
+rep_sample:"العينة:",rep_analyst:"المحلل:",saved:"تم الحفظ",copied:"تم النسخ",ok:"موافق",cancel:"إلغاء",
+no_data:"أدخل البيانات أولاً",need_rt:"أدخل قيمة RT صحيحة",confirm_clear:"هل تريد مسح كل الصفوف؟",
+desc_sub:"تنزيل ملف الوصف الكامل بصيغة TXT",
+desc_info:"ملف نصي جاهز للنشر على ResearchGate يحتوي على شرح الطريقة العلمية والتحقق من النتائج.",
+desc_dl:"تنزيل الملف",desc_view:"عرض",desc_auto:"يُنزّل الملف تلقائيًا عند فتح البرنامج أول مرة في كل جلسة.",
+desc_preview:"معاينة النص",
+sop_title:"إجراء التشغيل القياسي (SOP) لفحص الزيوت العطرية بـ GC-MS",
+sop_sub:"الإصدار 3.0 • بتاريخ 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
+sop_ver:"الإصدار",sop_eff:"تاريخ النفاذ",sop_auth:"المؤلف",sop_inst:"المؤسسة",sop_date:"تاريخ النشر",sop_doi:"DOI",
+sop_open:"فتح على ResearchGate",sop_copy:"نسخ DOI",sop_copied:"تم نسخ DOI",
+sop_desc:"هذا الدليل يشرح الطريقة الكاملة لفحص الزيوت العطرية باستخدام GC-MS، بما في ذلك حساب مؤشر كوفاتس (KRI) وتعريف المركبات.",
+sop_topics:"محتويات الدليل:",
+sop_t1:"تحضير العينة والمعايير",sop_t2:"ظروف التشغيل GC-MS",sop_t3:"حقن معيار الألكانات",
+sop_t4:"حساب KRI (Van den Dool & Kratz)",sop_t5:"تعريف المركبات بـ Match %",sop_t6:"التقدير الكمي (Area-%)",
+sop_t7:"كتابة التقرير النهائي",sop_t8:"المراجع (Adams 2017، Babushok 2011، NIST)",
+sop_note:"يُحدَّث هذا الدليل دوريًا. تحقّق دائمًا من أحدث إصدار على ResearchGate.",
+sop_home_title:"طريقة الفحص القياسية (SOP)",sop_home_info:"دليل كامل لفحص الزيوت العطرية بـ GC-MS (الإصدار 3.0)."},
+en:{title:"Essential Oil Analyzer",sub:"Kovats • Identification • Quantification",
+t_home:"Home",t_kri:"KRI Calc",t_ak:"Alkanes",t_id:"Identification",t_q:"Quantification",t_ref:"Databases",t_rep:"Report",t_desc:"Description",t_sop:"SOP",
+home_w:"Welcome",home_i:"GC-MS Essential Oil Analyzer",
+steps:"Workflow",s1:"1. Sample prep",s2:"2. Alkane standard",s3:"3. Sample run",
+s4:"4. Compute KRI",s5:"5. Identification",s6:"6. Quantification",cond:"GC-MS Conditions",
+warn:"⚠ WARNING",warntxt:"Never exceed 250°C injector",refs:"References",refstxt:"Adams (2017) + Babushok (2011)",
+param:"Parameter",value:"Value",c1:"Injector",c1v:"250 °C",c2:"Volume",c2v:"1 µL",c3:"Split",c3v:"1:100",
+c4:"Carrier",c4v:"He",c5:"Oven",c5v:"50→280 °C",c6:"Delay",c6v:"4.5 min",
+c7:"Ionisation",c7v:"EI+ 70 eV",c8:"Source",c8v:"250 °C",c9:"Scan range",c9v:"50-500",
+c10:"Scan mode",c10v:"Full",c11:"Column",c11v:"DB-5",
+ak_title:"Alkane Standard",ak_sub:"Enter retention times",ak_c:"Carbon",ak_rt:"RT (min)",
+ak_add:"Add",ak_del:"Delete",ak_clear:"Clear",ak_load:"Defaults",ak_cnt:"Count",
+k_title:"KRI Calculator",k_sub:"Van den Dool & Kratz",k_rt:"RT (min):",k_calc:"Calculate",k_result:"KRI",
+k_before:"Before",k_after:"After",k_batch:"Batch compute:",k_batchbtn:"Compute batch",k_none:"Out of range",k_nofill:"Enter RT",
+i_title:"Identification",i_sub:"Enter compound, RT, and reference KRI",i_name:"Compound",i_rt:"RT (min)",i_kril:"Ref. KRI",
+i_add:"Add",i_del:"Delete",i_example:"Example",i_clear:"Clear",i_from_db:"Suggest from DB",
+ihn:"#",ihc:"Compound",ihrt:"RT",ihkc:"Calc KRI",ihl:"Ref KRI",ihm:"Match%",ihr:"Ref",ihs:"Status",
+i_ok:"Identified",i_tent:"Tentative",i_unk:"Unknown",i_sum:"Total: {t} | ok: {o} | tent: {p} | unk: {u}",
+q_title:"Quantification",q_sub:"% = Area / Total",q_name:"Compound",q_area:"Area",q_kri:"KRI",
+q_add:"Add",q_del:"Delete",q_clear:"Clear",q_example:"Example",q_calc:"Recalculate",q_excl_s:"Exclude solvent",q_excl_h:"Exclude >2500",
+qhn:"#",qhc:"Compound",qha:"Area",qhp:"%",qhk:"KRI",q_total:"Total: {t} | N: {n}",
+ref_title:"Reference Databases",ref_sub:"Search by name or CAS",ref_search:"Search:",ref_clear:"Clear",ref_use:"Use",
+ref_cnt:"{n} of {t}",rhn:"Compound",rhcas:"CAS",rhf:"Formula",rhd1:"DB-1",rhd5:"DB-5",rhpeg:"PEG",rha:"Adams",rhsyn:"Synonyms",
+ref_nort:"Enter RT first",rep_title:"Report",rep_gen:"Generate",rep_save:"Save",rep_copy:"Copy",
+rep_sample:"Sample:",rep_analyst:"Analyst:",saved:"Saved",copied:"Copied",ok:"OK",cancel:"Cancel",
+no_data:"Enter data first",need_rt:"Enter a valid RT value",confirm_clear:"Clear all rows?",
+desc_sub:"Download the full description as a TXT file",
+desc_info:"Plain-text file ready for posting on ResearchGate: scientific rationale, workflow, and verification logic.",
+desc_dl:"Download File",desc_view:"View",desc_auto:"The file downloads automatically the first time the app is opened in each session.",
+desc_preview:"Text Preview",
+sop_title:"STANDARD OPERATING PROCEDURE (SOP) of Essential Oils by Gas Chromatography-Mass Spectrometry (GC-MS)",
+sop_sub:"Version 3.0 • Effective 22/5/2026 • DOI: 10.13140/RG.2.2.23821.40169",
+sop_ver:"Version",sop_eff:"Effective Date",sop_auth:"Author",sop_inst:"Institution",sop_date:"Published",sop_doi:"DOI",
+sop_open:"Open on ResearchGate",sop_copy:"Copy DOI",sop_copied:"DOI copied to clipboard",
+sop_desc:"This SOP describes the complete workflow for the analysis of essential oils by GC-MS, including Kovats Retention Index (KRI) calculation and compound identification.",
+sop_topics:"SOP Contents:",
+sop_t1:"Sample and standard preparation",sop_t2:"GC-MS operating conditions",sop_t3:"Alkane standard injection",
+sop_t4:"KRI calculation (Van den Dool & Kratz)",sop_t5:"Compound identification by Match %",sop_t6:"Quantification (Area-%)",
+sop_t7:"Final report writing",sop_t8:"References (Adams 2017, Babushok 2011, NIST)",
+sop_note:"This SOP is periodically updated. Always check the latest version on ResearchGate.",
+sop_home_title:"Standard Operating Procedure (SOP)",sop_home_info:"Complete SOP for essential-oil analysis by GC-MS (Version 3.0)."},
+de:{title:"Ätherisches Öl Analyzer",sub:"Kovats • Identifizierung • Quantifizierung",
+t_home:"Start",t_kri:"KRI-Rechner",t_ak:"Alkane",t_id:"Identifizierung",t_q:"Quantifizierung",t_ref:"Datenbanken",t_rep:"Bericht",t_desc:"Beschreibung",t_sop:"SOP",
+home_w:"Willkommen",home_i:"GC-MS Analysator für ätherische Öle",
+steps:"Workflow",s1:"1. Probe vorbereiten",s2:"2. Alkan-Standard",s3:"3. Probe laufen",
+s4:"4. KRI berechnen",s5:"5. Identifizierung",s6:"6. Quantifizierung",cond:"GC-MS Bedingungen",
+warn:"⚠ WARNUNG",warntxt:"Niemals über 250°C Injektor",refs:"Referenzen",refstxt:"Adams (2017) + Babushok (2011)",
+param:"Parameter",value:"Wert",c1:"Injektor",c1v:"250 °C",c2:"Volumen",c2v:"1 µL",c3:"Split",c3v:"1:100",
+c4:"Trägergas",c4v:"He",c5:"Ofen",c5v:"50→280 °C",c6:"Verzögerung",c6v:"4,5 min",
+c7:"Ionisation",c7v:"EI+ 70 eV",c8:"Quelle",c8v:"250 °C",c9:"Scan",c9v:"50-500",
+c10:"Scan-Modus",c10v:"Voll",c11:"Säule",c11v:"DB-5",
+ak_title:"Alkan-Standard",ak_sub:"Retentionszeiten eingeben",ak_c:"Kohlenstoff",ak_rt:"RT (min)",
+ak_add:"Hinzufügen",ak_del:"Löschen",ak_clear:"Löschen",ak_load:"Standardwerte",ak_cnt:"Anzahl",
+k_title:"KRI-Rechner",k_sub:"Van den Dool & Kratz",k_rt:"RT (min):",k_calc:"Berechnen",k_result:"KRI",
+k_before:"Vorher",k_after:"Nachher",k_batch:"Stapelberechnung:",k_batchbtn:"Stapel berechnen",k_none:"Außerhalb",k_nofill:"RT eingeben",
+i_title:"Identifizierung",i_sub:"Verbindung, RT und Referenz-KRI eingeben",i_name:"Verbindung",i_rt:"RT (min)",i_kril:"Ref. KRI",
+i_add:"Hinzufügen",i_del:"Löschen",i_example:"Beispiel",i_clear:"Löschen",i_from_db:"Aus DB vorschlagen",
+ihn:"#",ihc:"Verbindung",ihrt:"RT",ihkc:"KRI ber.",ihl:"Ref KRI",ihm:"Match%",ihr:"Ref",ihs:"Status",
+i_ok:"Identifiziert",i_tent:"Vorläufig",i_unk:"Unbekannt",i_sum:"Gesamt: {t} | id: {o} | prov: {p} | unb: {u}",
+q_title:"Quantifizierung",q_sub:"% = Fläche / Gesamt",q_name:"Verbindung",q_area:"Fläche",q_kri:"KRI",
+q_add:"Hinzufügen",q_del:"Löschen",q_clear:"Löschen",q_example:"Beispiel",q_calc:"Neu berechnen",q_excl_s:"Lösungsmittel aus.",q_excl_h:">2500 aus.",
+qhn:"#",qhc:"Verbindung",qha:"Fläche",qhp:"%",qhk:"KRI",q_total:"Gesamt: {t} | N: {n}",
+ref_title:"Referenz-DBs",ref_sub:"Nach Name oder CAS suchen",ref_search:"Suche:",ref_clear:"Löschen",ref_use:"Verwenden",
+ref_cnt:"{n} von {t}",rhn:"Verbindung",rhcas:"CAS",rhf:"Formel",rhd1:"DB-1",rhd5:"DB-5",rhpeg:"PEG",rha:"Adams",rhsyn:"Synonyme",
+ref_nort:"Zuerst RT eingeben",rep_title:"Bericht",rep_gen:"Erstellen",rep_save:"Speichern",rep_copy:"Kopieren",
+rep_sample:"Probe:",rep_analyst:"Analytiker:",saved:"Gespeichert",copied:"Kopiert",ok:"OK",cancel:"Abbrechen",
+no_data:"Zuerst Daten eingeben",need_rt:"Gültigen RT-Wert eingeben",confirm_clear:"Alle Zeilen löschen?",
+desc_sub:"Vollständige Beschreibung als TXT speichern",
+desc_info:"Textdatei zur Veröffentlichung auf ResearchGate: Begründung, Workflow und Verifikation.",
+desc_dl:"Herunterladen",desc_view:"Ansehen",desc_auto:"Die Datei wird beim ersten Öffnen in jeder Sitzung automatisch heruntergeladen.",
+desc_preview:"Textvorschau",
+sop_title:"STANDARD OPERATING PROCEDURE (SOP) zur Analyse ätherischer Öle mittels GC-MS",
+sop_sub:"Version 3.0 • Gültig ab 22.05.2026 • DOI: 10.13140/RG.2.2.23821.40169",
+sop_ver:"Version",sop_eff:"Gültig ab",sop_auth:"Autor",sop_inst:"Institution",sop_date:"Veröffentlicht",sop_doi:"DOI",
+sop_open:"Auf ResearchGate öffnen",sop_copy:"DOI kopieren",sop_copied:"DOI kopiert",
+sop_desc:"Diese SOP beschreibt den vollständigen Arbeitsablauf zur Analyse ätherischer Öle mittels GC-MS.",
+sop_topics:"SOP-Inhalt:",
+sop_t1:"Proben- und Standardvorbereitung",sop_t2:"GC-MS-Betriebsbedingungen",sop_t3:"Injektion des Alkan-Standards",
+sop_t4:"KRI-Berechnung (Van den Dool & Kratz)",sop_t5:"Identifizierung via Match %",sop_t6:"Quantifizierung (Flächen-%)",
+sop_t7:"Erstellung des Abschlussberichts",sop_t8:"Referenzen (Adams 2017, Babushok 2011, NIST)",
+sop_note:"Diese SOP wird regelmäßig aktualisiert. Prüfen Sie stets die neueste Version auf ResearchGate.",
+sop_home_title:"Standardarbeitsanweisung (SOP)",sop_home_info:"Vollständige SOP zur Analyse ätherischer Öle mittels GC-MS (Version 3.0)."},
+};
+
+// ============================================================
+//  ALKANES (Artemisia judaica run)
+// ============================================================
+const DEFAULT_ALKANES = [[8,4.56],[9,8.4],[10,12.92],[11,17.17],[12,21.07],[13,24.66],[14,28],[15,31.12],[16,34.07],[17,36.86],[18,39.51],[19,42.04],[20,44.46],[21,46.78],[22,48.24],[24,51.76],[26,55.62],[28,59.22]];
+
+// ============================================================
+//  EXAMPLES (Artemisia judaica)
+// ============================================================
+const EXAMPLE_IDENT = [
+["Artemisia triene",9.34,922],
+["α-Pinene",9.76,930],
+["Propyl 2-methylbutanoate",10.36,943],
+["Camphene",10.47,946],
+["Benzoic aldehyde",11.04,958],
+["Nopinene",11.71,973],
+["Psi-cumene",12.44,989],
+["Yomogi alcohol",12.65,996],
+["Hemimellitene",13.61,1017],
+["p-Cymene",13.8,1021],
+["Vinyl-γ-valerolactone",14.35,1035],
+["Artemisia ketone",15.27,1057],
+["Linalool",17.05,1097],
+["ISOPHORONE",17.85,1116],
+["camphor",18.84,1139],
+["Bornyl alcohol",19.86,1163],
+["PIPERITONE",22.92,1252],
+["Bornyl acetate",23.96,1281],
+["Thymol",24.26,1289],
+["Carvacrol",24.57,1297]
+];
+
+const EXAMPLE_QUANT = [
+["Artemisia triene",12744,921],
+["α-Pinene",37686,930],
+["Propyl 2-methylbutanoate",231802,943],
+["Camphene",220255,946],
+["Benzoic aldehyde",151220,958],
+["Nopinene",119311,973],
+["Psi-cumene",387812,989],
+["Yomogi alcohol",195315,994],
+["Hemimellitene",258698,1016],
+["p-Cymene",1552523,1021],
+["Vinyl-γ-valerolactone",110497,1034],
+["Artemisia ketone",4822088,1055],
+["Linalool",515146,1097],
+["ISOPHORONE",2206581,1116],
+["camphor",8152271,1139],
+["Bornyl alcohol",1212439,1163],
+["PIPERITONE",27937342,1252],
+["Bornyl acetate",761253,1281],
+["Thymol",715801,1289],
+["Carvacrol",21956852,1297]
+];
+
+// ============================================================
+//  DESCRIPTION HELPERS
+// ============================================================
+const DESCRIPTION_TEXT = (document.getElementById("descTxt")||{textContent:""}).textContent || "";
+function downloadDescription(){
+  const text = DESCRIPTION_TEXT.trim() + "\n";
+  if(!text.trim()){ console.warn("Description text empty"); return; }
+  const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement("a");
+  a.href = url;
+  a.download = "GCMS_Analyzer_Description.txt";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+}
+function openDescriptionInTab(){
+  if(!DESCRIPTION_TEXT.trim()) return;
+  const blob = new Blob([DESCRIPTION_TEXT], {type:"text/plain;charset=utf-8"});
+  window.open(URL.createObjectURL(blob), "_blank");
+}
+function maybeAutoDownload(){
+  try{
+    if(sessionStorage.getItem("gcms_desc_auto_v1")==="1") return;
+    sessionStorage.setItem("gcms_desc_auto_v1","1");
+    setTimeout(downloadDescription, 600);
+  }catch(e){ setTimeout(downloadDescription, 600); }
+}
+
+// ============================================================
+//  STATE + LOGIC
+// ============================================================
+let state = {lang:"en",currentTab:"home",alkanes:JSON.parse(JSON.stringify(DEFAULT_ALKANES)),identRows:[],quantRows:[],sampleName:"Artemisia Judaica",analystName:AUTHOR_EN};
+function loadState(){try{const s=localStorage.getItem("gcms_full_v1");if(s){const p=JSON.parse(s);state=Object.assign(state,p);if(!state.alkanes||!state.alkanes.length)state.alkanes=JSON.parse(JSON.stringify(DEFAULT_ALKANES));}}catch(e){}document.documentElement.lang=state.lang;document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";}
+function saveState(){try{localStorage.setItem("gcms_full_v1",JSON.stringify({lang:state.lang,alkanes:state.alkanes,identRows:state.identRows,quantRows:state.quantRows,sampleName:state.sampleName,analystName:state.analystName}));}catch(e){}}
+function t(k,p){let s=TXT[state.lang][k]||k;if(p)for(const[a,b]of Object.entries(p))s=s.replace(new RegExp(`\\{${a}\\}`,"g"),b);return s;}
+
+function kriFromRT(rt,alkanes){if(!alkanes||alkanes.length<2)return null;const pts=[...alkanes].sort((a,b)=>a[1]-b[1]);if(rt<=pts[0][1]||rt>=pts[pts.length-1][1])return null;for(let i=0;i<pts.length-1;i++){const[c1,t1]=pts[i],[c2,t2]=pts[i+1];if(t1<=rt&&rt<=t2&&t2>t1){const kri=100*c1+100*(c2-c1)*((rt-t1)/(t2-t1));return{kri,c1,c2};}}return null;}
+function matchPercent(kc,kr){if(kc==null||kr==null||kr===0)return null;return Math.max(0,100-Math.abs(kc-kr)*2);}
+function bestMatch(kc,row){if(kc==null)return null;const keys=["DB-1","DB-5","PEG","Adams"],vals=[row[3],row[4],row[5],row[6]];let best=null;keys.forEach((k,i)=>{const m=matchPercent(kc,vals[i]);if(m==null)return;if(!best||m>best.match)best={key:k,val:vals[i],match:m};});return best;}
+function findCanonical(name){if(!name)return null;const n=name.trim().toLowerCase();for(const r of REF_DB)if(r[0].toLowerCase()===n)return r;for(const r of REF_DB){const syns=SYNONYMS[r[0]]||[];for(const s of syns)if(s.toLowerCase()===n)return r;}return null;}
+function searchRef(q){q=(q||"").trim().toLowerCase();if(!q)return[...REF_DB];const out=[],seen=new Set();for(const r of REF_DB){if(seen.has(r[0]))continue;if(r[0].toLowerCase().includes(q)||r[1].toLowerCase().includes(q)){out.push(r);seen.add(r[0]);continue;}const syns=SYNONYMS[r[0]]||[];for(const s of syns)if(s.toLowerCase().includes(q)){out.push(r);seen.add(r[0]);break;}}return out;}
+
+function renderHeader(){document.getElementById("hdTitle").textContent=t("title");document.getElementById("hdSub").textContent=t("sub");document.getElementById("hdAuthor").textContent="✎ "+(state.lang==="ar"?AUTHOR_AR:AUTHOR_EN);document.getElementById("ftInfo").textContent=`DB: ${REF_DB.length} compounds | ${ROLE[state.lang]}`;}
+function renderTabs(){const tabs=[["home","t_home","🏠"],["kri","t_kri","🧮"],["ak","t_ak","⛽"],["id","t_id","🔍"],["q","t_q","📊"],["ref","t_ref","📚"],["rep","t_rep","📄"],["desc","t_desc","📥"],["sop","t_sop","📖"]];const el=document.getElementById("tabs");el.innerHTML="";tabs.forEach(([k,l,i])=>{const b=document.createElement("button");b.className="tab"+(state.currentTab===k?" active":"");b.textContent=`${i} ${t(l)}`;b.onclick=()=>{state.currentTab=k;render();};el.appendChild(b);});}
+function render(){renderHeader();renderTabs();const c=document.getElementById("content");c.innerHTML="";switch(state.currentTab){case"home":renderHome(c);break;case"kri":renderKRI(c);break;case"ak":renderAk(c);break;case"id":renderID(c);break;case"q":renderQ(c);break;case"ref":renderRef(c);break;case"rep":renderRep(c);break;case"desc":renderDesc(c);break;case"sop":renderSOP(c);break;}}
+
+function renderHome(c){c.innerHTML=`<h2 class="page-title">🔬 ${t("home_w")}</h2><p class="page-sub">${t("home_i")}</p>
+<div class="card author-card"><h3>✎ ${t("rep_analyst").replace(":","")}</h3><div style="font-size:14px;font-weight:bold">${state.lang==="ar"?AUTHOR_AR:AUTHOR_EN}</div><div style="color:var(--muted);font-size:12px;margin-top:4px">${ROLE[state.lang]}</div></div>
+<div class="card"><h3>📋 ${t("steps")}</h3>${["s1","s2","s3","s4","s5","s6"].map(k=>`<div style="padding:6px 0">▸ ${t(k)}</div>`).join("")}</div>
+<div class="card"><h3>⚙ ${t("cond")}</h3><table class="gc-table"><tr><td>${t("param")}</td><td>${t("value")}</td></tr>${[1,2,3,4,5,6,7,8,9,10,11].map(i=>`<tr><td>${t("c"+i)}</td><td>${t("c"+i+"v")}</td></tr>`).join("")}</table></div>
+<div class="card"><h3>📚 ${t("refs")}</h3><div>${t("refstxt")}</div><div style="margin-top:10px;color:var(--primary);font-weight:bold">${REF_DB.length} compounds in database</div></div>
+<div class="card" style="border-color:var(--primary)"><h3>📖 ${t("sop_home_title")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("sop_home_info")}</p><div class="btn-row"><button class="btn btn-primary" onclick="state.currentTab='sop';render();">📖 ${t("t_sop")}</button><button class="btn" onclick="window.open('${SOP_URL}','_blank')">🔗 ResearchGate</button></div></div>
+<div class="card"><h3>📥 ${t("t_desc")}</h3><p style="color:var(--muted);font-size:12px;margin:0 0 10px">${t("desc_info")}</p><button class="btn btn-primary" style="width:100%" onclick="downloadDescription()">⬇ ${t("desc_dl")}</button></div>
+<div class="warn-box"><strong>${t("warn")}</strong>${t("warntxt")}</div>`;}
+
+function renderKRI(c){c.innerHTML=`<h2 class="page-title">🧮 ${t("k_title")}</h2><p class="page-sub">${t("k_sub")}</p>
+<div class="card"><div class="form-row"><label>${t("k_rt")}</label><input type="number" id="kriRT" step="any" inputmode="decimal" placeholder="14.4240"></div>
+<button class="btn btn-primary" style="width:100%" onclick="calcKRI()">${t("k_calc")}</button>
+<div class="kri-box"><div class="kri-value" id="kriVal">—</div><div class="kri-label">${t("k_result")}</div><div class="kri-detail" id="kriDet"></div></div></div>
+<div class="card"><h3>⚡ ${t("k_batch")}</h3><textarea id="kriBatch" rows="6" placeholder="14.4240&#10;23.0246&#10;26.3730"></textarea>
+<button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="calcBatch()">${t("k_batchbtn")}</button>
+<pre id="kriOut" style="background:var(--bg2);padding:10px;border-radius:6px;margin-top:10px;color:var(--accent);font-size:12px;white-space:pre-wrap"></pre></div>`;
+document.getElementById("kriRT").addEventListener("keydown",e=>{if(e.key==="Enter")calcKRI();});}
+function calcKRI(){const rt=parseFloat(document.getElementById("kriRT").value.trim().replace(",","."));const v=document.getElementById("kriVal"),d=document.getElementById("kriDet");if(isNaN(rt)){v.textContent="—";v.style.color="var(--err)";d.textContent=t("k_nofill");return;}const r=kriFromRT(rt,state.alkanes);if(!r){v.textContent="—";v.style.color="var(--err)";d.textContent=t("k_none");return;}v.textContent=r.kri.toFixed(1);v.style.color="var(--primary)";d.textContent=`${t("k_before")}: C${r.c1}  •  ${t("k_after")}: C${r.c2}`;}
+function calcBatch(){const lines=document.getElementById("kriBatch").value.split("\n").map(x=>x.trim()).filter(x=>x);const out=[];for(const l of lines){const rt=parseFloat(l.replace(",","."));if(isNaN(rt)){out.push(`${l} → ?`);continue;}const r=kriFromRT(rt,state.alkanes);out.push(r?`${rt.toFixed(4)} → ${r.kri.toFixed(1)}`:`${rt.toFixed(4)} → —`);}document.getElementById("kriOut").textContent=out.join("\n");}
+
+function renderAk(c){c.innerHTML=`<h2 class="page-title">⛽ ${t("ak_title")}</h2><p class="page-sub">${t("ak_sub")}</p>
+<div class="card"><div class="form-row"><label>${t("ak_c")}</label><input type="number" id="akC" inputmode="numeric" placeholder="16"></div>
+<div class="form-row"><label>${t("ak_rt")}</label><input type="number" id="akRT" step="any" inputmode="decimal" placeholder="33.16"></div>
+<div class="btn-row"><button class="btn btn-primary" onclick="akAdd()">${t("ak_add")}</button>
+<button class="btn" onclick="akLoad()">${t("ak_load")}</button>
+<button class="btn btn-danger" onclick="akClear()">${t("ak_clear")}</button></div></div>
+<div class="card"><h3>${t("ak_cnt")}: ${state.alkanes.length}</h3><div id="akList"></div></div>`;renderAkList();}
+function renderAkList(){const w=document.getElementById("akList");if(!w)return;w.innerHTML="";const s=[...state.alkanes].sort((a,b)=>a[0]-b[0]);s.forEach(([c,rt])=>{const r=document.createElement("div");r.className="list-row";r.innerHTML=`<span class="name">C${c}</span><span class="val">${rt.toFixed(2)}</span><button class="del-btn" onclick="akDelete(${c})">×</button>`;w.appendChild(r);});}
+function akAdd(){const c=parseFloat(document.getElementById("akC").value);const rt=parseFloat(document.getElementById("akRT").value.replace(",","."));if(isNaN(c)||isNaN(rt)){alert(t("need_rt"));return;}state.alkanes=state.alkanes.filter(a=>a[0]!==c);state.alkanes.push([c,rt]);saveState();renderAk(document.getElementById("content"));}
+function akDelete(c){state.alkanes=state.alkanes.filter(a=>a[0]!==c);saveState();renderAkList();}
+function akLoad(){state.alkanes=JSON.parse(JSON.stringify(DEFAULT_ALKANES));saveState();renderAk(document.getElementById("content"));}
+function akClear(){if(!confirm(t("confirm_clear")))return;state.alkanes=[];saveState();renderAkList();}
+
+function renderID(c){c.innerHTML=`<h2 class="page-title">🔍 ${t("i_title")}</h2><p class="page-sub">${t("i_sub")}</p>
+<div class="card"><div class="form-row"><label>${t("i_name")}</label><input type="text" id="idName" placeholder="α-Pinene" list="compList"><datalist id="compList">${REF_DB.slice(0,200).map(r=>`<option value="${r[0]}">`).join("")}</datalist></div>
+<div class="form-row"><label>${t("i_rt")}</label><input type="number" id="idRT" step="any" inputmode="decimal" placeholder="5.123"></div>
+<div class="form-row"><label>${t("i_kril")}</label><input type="number" id="idKRIL" step="any" inputmode="decimal" placeholder="932.0"></div>
+<div class="btn-row"><button class="btn btn-primary" onclick="idAdd()">${t("i_add")}</button>
+<button class="btn btn-primary" onclick="idSuggest()">${t("i_from_db")}</button>
+<button class="btn" onclick="idExample()">${t("i_example")}</button>
+<button class="btn btn-danger" onclick="idClear()">${t("i_clear")}</button></div></div>
+<div class="card"><h3 id="idSum"></h3><div class="table-wrap"><table><thead><tr><th>${t("ihn")}</th><th>${t("ihc")}</th><th>${t("ihrt")}</th><th>${t("ihkc")}</th><th>${t("ihl")}</th><th>${t("ihm")}</th><th>${t("ihr")}</th><th>${t("ihs")}</th></tr></thead><tbody id="idBody"></tbody></table></div></div>`;renderIDTable();}
+function renderIDTable(){const tb=document.getElementById("idBody");if(!tb)return;tb.innerHTML="";let ok=0,tent=0,unk=0;state.identRows.forEach((r,i)=>{const res=kriFromRT(r.rt,state.alkanes);const kc=res?res.kri:null;const row=findCanonical(r.name);let refKey,refVal,mp;if(row&&kc!=null){const b=bestMatch(kc,row);refKey=b.key;refVal=b.val;mp=b.match;}else{mp=kc!=null?matchPercent(kc,r.kril):null;refKey="DB-5";refVal=r.kril;}const d=(kc!=null&&refVal!=null)?Math.abs(kc-refVal):null;let stat,tag;if(kc==null||mp==null){stat=t("i_unk");tag="tag-unk";unk++;}else if(mp>=80&&d<=10){stat="✓ "+t("i_ok");tag="tag-ok";ok++;}else if(mp>=60&&d<=20){stat="~ "+t("i_tent");tag="tag-tent";tent++;}else{stat="✗ "+t("i_unk");tag="tag-unk";unk++;}const tr=document.createElement("tr");tr.innerHTML=`<td>${i+1}</td><td style="text-align:start">${escapeHtml(r.name)}</td><td>${r.rt.toFixed(4)}</td><td>${kc!=null?kc.toFixed(1):"—"}</td><td>${refVal!=null?refVal.toFixed(1):"—"}</td><td>${mp!=null?mp.toFixed(1):"—"}</td><td>${refKey}</td><td><span class="${tag}">${stat}</span> <button class="del-btn" style="color:var(--err);background:transparent;border:none;font-size:16px;cursor:pointer;margin-inline-start:4px" onclick="idDelete(${i})">×</button></td>`;tb.appendChild(tr);});const s=document.getElementById("idSum");if(s)s.textContent=t("i_sum",{t:state.identRows.length,o:ok,p:tent,u:unk});}
+function idAdd(){const n=document.getElementById("idName").value.trim();const rt=parseFloat(document.getElementById("idRT").value.trim().replace(",","."));if(!n||isNaN(rt)){alert(t("no_data"));return;}let kl=parseFloat((document.getElementById("idKRIL").value||"").replace(",","."));if(isNaN(kl))kl=null;if(kl==null){const res=kriFromRT(rt,state.alkanes);if(res)kl=res.kri;}state.identRows.push({name:n,rt:rt,kril:kl});document.getElementById("idName").value="";document.getElementById("idRT").value="";document.getElementById("idKRIL").value="";saveState();renderIDTable();}
+function idDelete(i){state.identRows.splice(i,1);saveState();renderIDTable();}
+function idClear(){if(!confirm(t("confirm_clear")))return;state.identRows=[];saveState();renderIDTable();}
+function idExample(){state.identRows=[];for(const[n,rt,kl]of EXAMPLE_IDENT){const row=findCanonical(n);const res=kriFromRT(rt,state.alkanes);const kc=res?res.kri:null;if(row&&kc!=null){const b=bestMatch(kc,row);if(b){state.identRows.push({name:n,rt,kril:b.val});continue;}}state.identRows.push({name:n,rt,kril:kl});}saveState();renderIDTable();}
+function idSuggest(){const q=document.getElementById("idName").value.trim();const rt=parseFloat(document.getElementById("idRT").value.trim().replace(",","."));const kc=!isNaN(rt)?kriFromRT(rt,state.alkanes):null;const kriVal=kc?kc.kri:null;const rows=searchRef(q).slice(0,50);window._suggestRows=rows;openModal(`<h3 style="color:var(--accent)">💡 ${t("i_from_db")}</h3>${kriVal!=null?`<div class="info-box">RT=${rt.toFixed(4)} → KRI=${kriVal.toFixed(1)}</div>`:`<div class="warn-box">${t("ref_nort")}</div>`}<div style="max-height:50vh;overflow-y:auto;margin-top:10px">${rows.map((r,idx)=>{const b=kriVal!=null?bestMatch(kriVal,r):null;const bestStr=b?`Best: ${b.match.toFixed(1)}% (${b.key})`:"";return `<div class="suggest-item" onclick="pickSuggestion(${idx})"><div class="name">${escapeHtml(r[0])}</div><div class="detail">CAS: ${r[1]} | KRI DB-5: ${r[4]??"—"} | ${bestStr}</div></div>`;}).join("")}</div><button class="btn" style="width:100%;margin-top:10px" onclick="closeModal()">${t("cancel")}</button>`);}
+function pickSuggestion(idx){const rows=window._suggestRows||[];if(!rows[idx])return;const r=rows[idx];document.getElementById("idName").value=r[0];document.getElementById("idKRIL").value=r[4]??"";closeModal();}
+
+function renderQ(c){c.innerHTML=`<h2 class="page-title">📊 ${t("q_title")}</h2><p class="page-sub">${t("q_sub")}</p>
+<div class="card"><div class="form-row"><label>${t("q_name")}</label><input type="text" id="qName" placeholder="Linalyl acetate"></div>
+<div class="form-row"><label>${t("q_area")}</label><input type="number" id="qArea" inputmode="numeric" placeholder="1742400"></div>
+<div class="form-row"><label>${t("q_kri")}</label><input type="number" id="qKri" inputmode="numeric" placeholder="1254"></div>
+<div class="btn-row"><button class="btn btn-primary" onclick="qAdd()">${t("q_add")}</button>
+<button class="btn" onclick="qExample()">${t("q_example")}</button>
+<button class="btn btn-danger" onclick="qClear()">${t("q_clear")}</button></div>
+<div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap">
+<label style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" id="qExclS" onchange="renderQTable()" style="width:auto"> ${t("q_excl_s")}</label>
+<label style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" id="qExclH" onchange="renderQTable()" style="width:auto"> ${t("q_excl_h")}</label></div></div>
+<div class="card"><h3 id="qSum"></h3><div class="table-wrap"><table><thead><tr><th>${t("qhn")}</th><th>${t("qhc")}</th><th>${t("qha")}</th><th>${t("qhp")}</th><th>${t("qhk")}</th></tr></thead><tbody id="qBody"></tbody></table></div></div>`;renderQTable();}
+function renderQTable(){const tb=document.getElementById("qBody");if(!tb)return;tb.innerHTML="";const exS=document.getElementById("qExclS")?.checked;const exH=document.getElementById("qExclH")?.checked;let rows=state.quantRows.slice();if(exS)rows=rows.filter(r=>r.kri==null||r.kri>=800);if(exH)rows=rows.filter(r=>r.kri==null||r.kri<=2500);const total=rows.reduce((s,r)=>s+r.area,0)||1;rows.forEach((r,i)=>{const pct=(r.area/total)*100;const tr=document.createElement("tr");tr.innerHTML=`<td>${i+1}</td><td style="text-align:start">${escapeHtml(r.name)}</td><td>${r.area.toLocaleString()}</td><td>${pct.toFixed(2)}%</td><td>${r.kri!=null?Math.round(r.kri):"—"}</td>`;tb.appendChild(tr);});const s=document.getElementById("qSum");if(s)s.textContent=t("q_total",{t:Math.round(total).toLocaleString(),n:rows.length});}
+function qAdd(){const n=document.getElementById("qName").value.trim();const a=parseFloat(document.getElementById("qArea").value.replace(",",""));const k=parseFloat(document.getElementById("qKri").value)||null;if(!n||isNaN(a)){alert(t("no_data"));return;}state.quantRows.push({name:n,area:a,kri:k});document.getElementById("qName").value="";document.getElementById("qArea").value="";document.getElementById("qKri").value="";saveState();renderQTable();}
+function qExample(){state.quantRows=EXAMPLE_QUANT.map(([n,a,k])=>({name:n,area:a,kri:k}));saveState();renderQTable();}
+function qClear(){if(!confirm(t("confirm_clear")))return;state.quantRows=[];saveState();renderQTable();}
+
+function renderRef(c){c.innerHTML=`<h2 class="page-title">📚 ${t("ref_title")}</h2><p class="page-sub">${t("ref_sub")}</p>
+<div class="card"><div class="form-row"><label>${t("ref_search")}</label><input type="text" id="refQ" placeholder="Limonene / 5989-27-5"></div>
+<div id="refCnt" style="color:var(--primary);font-weight:bold;font-size:12px;margin-top:6px"></div></div>
+<div class="table-wrap"><table><thead><tr><th>${t("rhn")}</th><th>${t("rhcas")}</th><th>${t("rhf")}</th><th>${t("rhd1")}</th><th>${t("rhd5")}</th><th>${t("rhpeg")}</th><th>${t("rha")}</th></tr></thead><tbody id="refBody"></tbody></table></div>`;
+document.getElementById("refQ").addEventListener("input",renderRefTable);renderRefTable();}
+function renderRefTable(){const tb=document.getElementById("refBody");if(!tb)return;const q=document.getElementById("refQ").value;const rows=searchRef(q);tb.innerHTML="";rows.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="text-align:start">${escapeHtml(r[0])}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]??"—"}</td><td>${r[4]??"—"}</td><td>${r[5]??"—"}</td><td>${r[6]??"—"}</td>`;tb.appendChild(tr);});document.getElementById("refCnt").textContent=t("ref_cnt",{n:rows.length,t:REF_DB.length});}
+
+function renderRep(c){c.innerHTML=`<h2 class="page-title">📄 ${t("rep_title")}</h2>
+<div class="card"><div class="form-row"><label>${t("rep_sample")}</label><input type="text" id="repSample" value="${escapeHtml(state.sampleName)}"></div>
+<div class="form-row"><label>${t("rep_analyst")}</label><input type="text" id="repAnalyst" value="${escapeHtml(state.analystName)}"></div>
+<div class="btn-row"><button class="btn btn-primary" onclick="repGen()">${t("rep_gen")}</button>
+<button class="btn" onclick="repSave()">${t("rep_save")}</button>
+<button class="btn" onclick="repCopy()">${t("rep_copy")}</button></div></div>
+<pre class="report" id="repTxt"></pre>`;repGen();}
+function buildReport(){const sample=document.getElementById("repSample")?.value||state.sampleName;const analyst=document.getElementById("repAnalyst")?.value||state.analystName;state.sampleName=sample;state.analystName=analyst;saveState();const sep="=".repeat(80);const L=[sep,"  GC-MS ESSENTIAL OIL ANALYSIS REPORT",sep];L.push(`  Author : ${AUTHOR_EN}`);L.push(`  Date   : ${new Date().toLocaleString()}`);L.push(`  Sample : ${sample}`);L.push(`  Analyst: ${analyst}`);L.push("");L.push("-".repeat(80));L.push("  1. GC-MS CONDITIONS");L.push("-".repeat(80));for(let i=1;i<=11;i++)L.push(`  ${t("c"+i).padEnd(28)}: ${t("c"+i+"v")}`);L.push("");L.push("-".repeat(80));L.push("  2. ALKANE STANDARD");L.push("-".repeat(80));L.push("  "+[...state.alkanes].sort((a,b)=>a[0]-b[0]).map(([c,rt])=>`C${c}:${rt.toFixed(2)}`).join("  "));L.push("");L.push("-".repeat(80));L.push("  3. IDENTIFICATION");L.push("-".repeat(80));L.push(`  ${"#".padEnd(4)}${"Compound".padEnd(26)}${"RT".padStart(10)}${"KRIc".padStart(9)}${"KRIref".padStart(9)}${"Match%".padStart(9)}${"Ref".padStart(7)}  Status`);state.identRows.forEach((r,i)=>{const res=kriFromRT(r.rt,state.alkanes);const kc=res?res.kri:null;const row=findCanonical(r.name);let refKey,refVal,mp;if(row&&kc!=null){const b=bestMatch(kc,row);refKey=b.key;refVal=b.val;mp=b.match;}else{mp=kc!=null?matchPercent(kc,r.kril):null;refKey="DB-5";refVal=r.kril;}const d=(kc!=null&&refVal!=null)?Math.abs(kc-refVal):null;let st="Unknown";if(kc!=null&&mp!=null){if(mp>=80&&d<=10)st="Identified";else if(mp>=60&&d<=20)st="Tentative";}L.push(`  ${String(i+1).padEnd(4)}${r.name.substring(0,25).padEnd(26)}${r.rt.toFixed(4).padStart(10)}${(kc!=null?kc.toFixed(1):"—").padStart(9)}${(refVal!=null?refVal.toFixed(1):"—").padStart(9)}${(mp!=null?mp.toFixed(1):"—").padStart(9)}${refKey.padStart(7)}  ${st}`);});L.push("");L.push("-".repeat(80));L.push("  4. QUANTIFICATION");L.push("-".repeat(80));const total=state.quantRows.reduce((s,r)=>s+r.area,0)||1;L.push(`  ${"#".padEnd(4)}${"Compound".padEnd(30)}${"Area".padStart(16)}${"%Area".padStart(11)}${"KRI".padStart(8)}`);state.quantRows.forEach((r,i)=>{const pct=(r.area/total)*100;L.push(`  ${String(i+1).padEnd(4)}${r.name.substring(0,29).padEnd(30)}${r.area.toLocaleString().padStart(16)}${pct.toFixed(2).padStart(11)}${(r.kri!=null?Math.round(r.kri):"—").toString().padStart(8)}`);});L.push("");L.push("-".repeat(80));L.push("  5. REFERENCES");L.push("-".repeat(80));L.push("  • Adams, R.P. (2017). ed. 4.1.");L.push("  • Babushok et al. (2011). J. Phys. Chem. Ref. Data, 40, 043101.");L.push("  • NIST WebBook");L.push("  • SOP DOI: "+SOP_DOI);L.push("");L.push(sep);L.push("  Match % formula: 100 − |KRI_calc − KRI_ref| × 2");L.push("  Acceptance: Match ≥ 80% AND |ΔKRI| ≤ 10");L.push(sep);return L.join("\n");}
+function repGen(){const txt=buildReport();const el=document.getElementById("repTxt");if(el)el.textContent=txt;}
+function repSave(){const txt=buildReport();const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;const stamp=new Date().toISOString().slice(0,16).replace(/[:T]/g,"_");a.download=`GCMS_report_${stamp}.txt`;document.body.appendChild(a);a.click();setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},100);}
+function repCopy(){const txt=buildReport();navigator.clipboard.writeText(txt).then(()=>alert(t("copied"))).catch(()=>{const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);alert(t("copied"));});}
+
+// ============================================================
+//  DESCRIPTION TAB
+// ============================================================
+function renderDesc(c){
+  c.innerHTML=`<h2 class="page-title">📥 ${t("t_desc")}</h2>
+  <p class="page-sub">${t("desc_sub")}</p>
+  <div class="card">
+    <h3>📘 GCMS_Analyzer_Description.txt</h3>
+    <p style="color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 12px">${t("desc_info")}</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="downloadDescription()">⬇ ${t("desc_dl")}</button>
+      <button class="btn" onclick="openDescriptionInTab()">👁 ${t("desc_view")}</button>
+    </div>
+    <div class="info-box" style="margin-top:12px">${t("desc_auto")}</div>
+  </div>
+  <div class="card">
+    <h3>📄 ${t("desc_preview")}</h3>
+    <pre class="report" style="max-height:60vh">${escapeHtml(DESCRIPTION_TEXT.trim())}</pre>
+  </div>`;
+}
+
+// ============================================================
+//  SOP TAB
+// ============================================================
+function renderSOP(c){
+  c.innerHTML=`<h2 class="page-title">📖 ${t("t_sop")}</h2>
+  <p class="page-sub">${t("sop_sub")}</p>
+  <div class="card" style="border-color:var(--primary)">
+    <h3>📘 ${t("sop_title")}</h3>
+    <table class="gc-table" style="margin-top:10px">
+      <tr><td style="width:40%"><strong>${t("sop_ver")}</strong></td><td>3.0</td></tr>
+      <tr><td><strong>${t("sop_eff")}</strong></td><td>22 May 2026</td></tr>
+      <tr><td><strong>${t("sop_auth")}</strong></td><td>${AUTHOR_EN}</td></tr>
+      <tr><td><strong>${t("sop_inst")}</strong></td><td>The Pharmaceutical Automated Analysis Laboratory</td></tr>
+      <tr><td><strong>${t("sop_date")}</strong></td><td>May 2026</td></tr>
+      <tr><td><strong>${t("sop_doi")}</strong></td><td><a href="${SOP_URL}" target="_blank" rel="noopener">${SOP_DOI}</a></td></tr>
+    </table>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-primary" onclick="window.open('${SOP_URL}','_blank')">🔗 ${t("sop_open")}</button>
+      <button class="btn" onclick="copyDOI()">📋 ${t("sop_copy")}</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📋 ${t("sop_topics")}</h3>
+    <div style="padding:4px 0">▸ ${t("sop_t1")}</div>
+    <div style="padding:4px 0">▸ ${t("sop_t2")}</div>
+    <div style="padding:4px 0">▸ ${t("sop_t3")}</div>
+    <div style="padding:4px 0">▸ ${t("sop_t4")}</div>
+    <div style="padding:4px 0">▸ ${t("sop_t5")}</div>
+    <div style="padding:4px 0">▸ ${t("sop_t6")}</div>
+    <div style="padding:4px 0">▸ ${t("sop_t7")}</div>
+    <div style="padding:4px 0">▸ ${t("sop_t8")}</div>
+  </div>
+  <div class="info-box">${t("sop_desc")}</div>
+  <div class="info-box">ℹ ${t("sop_note")}</div>`;
+}
+function copyDOI(){
+  const write=()=>alert(t("sop_copied"));
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(SOP_DOI).then(write).catch(fallback);
+  }else{fallback();}
+  function fallback(){const ta=document.createElement("textarea");ta.value=SOP_DOI;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);write();}
+}
+
+// ============================================================
+//  MODAL + UTILS
+// ============================================================
+function openModal(html){closeModal();const bg=document.createElement("div");bg.id="modalBg";bg.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px";bg.innerHTML=`<div style="background:var(--card);border-radius:12px;padding:16px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;border:1px solid var(--border)">${html}</div>`;bg.onclick=e=>{if(e.target===bg)closeModal();};document.body.appendChild(bg);}
+function closeModal(){const bg=document.getElementById("modalBg");if(bg)bg.remove();}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+document.getElementById("langSelect").addEventListener("change",e=>{state.lang=e.target.value;document.documentElement.lang=state.lang;document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";saveState();render();});
+window.addEventListener("load",()=>{loadState();document.getElementById("langSelect").value=state.lang;render();maybeAutoDownload();});
+</script>
+</body>
+</html>
