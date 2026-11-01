@@ -60,8 +60,73 @@
     }
     .utility { font-size: 12px; padding: 9px 11px; }
     .workspace { flex: 1; min-height: 0; }
+    .workspace[hidden], .home-page[hidden] { display: none; }
     iframe { display: block; width: 100%; height: calc(100vh - 82px); height: calc(100dvh - 82px); border: 0; background: #f0f4f8; }
     .standalone { font-size: 12px; padding: 9px 11px; }
+    .home-page {
+      min-height: calc(100vh - 82px);
+      padding: 34px 20px 46px;
+      color: #172a35;
+      background: #f6f8f6;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+    .home-container { width: min(1050px, 100%); margin: 0 auto; }
+    .home-hero {
+      padding: clamp(26px, 6vw, 64px);
+      border: 1px solid #e1e9e4;
+      border-radius: 20px;
+      background: radial-gradient(ellipse at 88% 18%, #dff1e8 0, transparent 38%), #fff;
+      box-shadow: 0 15px 40px rgb(18 40 45 / 6%);
+    }
+    .home-eyebrow { color: #087c70; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .home-hero h2 { max-width: 760px; margin: 15px 0; color: #12282d; font-size: clamp(34px, 6vw, 60px); line-height: 1.1; }
+    .home-hero h2 span { color: #087c70; }
+    .home-lead { max-width: 720px; margin: 0; color: #486166; font-size: 16px; line-height: 1.8; }
+    .home-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 21px; }
+    .home-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 41px;
+      padding: 9px 14px;
+      border: 1px solid #087c70;
+      border-radius: 7px;
+      background: #087c70;
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .home-button:hover { background: #075e57; border-color: #075e57; }
+    .home-button.secondary { background: #fff; color: #12282d; border-color: #cbd9d2; }
+    .home-button.secondary:hover { border-color: #087c70; }
+    .home-highlights { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; color: #607575; font-size: 12px; }
+    .home-highlights span::before { content: "✓"; margin-inline-end: 6px; color: #087c70; font-weight: 800; }
+    .home-section { padding-top: 37px; }
+    .home-section h2 { margin: 0 0 8px; color: #12282d; font-size: clamp(23px, 4vw, 32px); }
+    .home-section-intro { margin: 0 0 18px; color: #607575; font-size: 14px; line-height: 1.75; }
+    .home-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
+    .home-card { display: flex; flex-direction: column; padding: 19px; border: 1px solid #e1e9e4; border-radius: 11px; background: #fff; }
+    .home-card-icon { font-size: 23px; }
+    .home-card h3 { margin: 10px 0 7px; color: #12282d; font-size: 16px; }
+    .home-card p, .home-card li { color: #607575; font-size: 12px; line-height: 1.7; }
+    .home-card p { margin: 0; }
+    .home-card ul { margin: 10px 0 17px; padding-inline-start: 18px; }
+    .home-card .home-button { margin-top: auto; width: fit-content; }
+    .home-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .home-note { padding: 18px; border-radius: 10px; background: #e8f2ed; }
+    .home-note h3 { margin: 0 0 7px; color: #075e57; font-size: 15px; }
+    .home-note p { margin: 0; color: #486166; font-size: 12px; line-height: 1.75; }
+    .home-references { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; }
+    .home-reference { padding: 15px; border: 1px solid #e1e9e4; border-radius: 9px; background: #fff; }
+    .home-reference h3 { margin: 0 0 7px; color: #12282d; font-size: 13px; line-height: 1.55; }
+    .home-reference p { margin: 0; color: #607575; font-size: 11px; line-height: 1.75; overflow-wrap: anywhere; }
+    .home-reference a { color: #087c70; font-weight: 700; }
+    .home-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 9px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #e1e9e4; color: #607575; font-size: 11px; line-height: 1.7; }
+    .home-footer p { max-width: 760px; margin: 0; }
     dialog {
       width: min(820px, calc(100% - 28px));
       max-height: min(85vh, 760px);
@@ -108,6 +173,11 @@
       .modules { order: 3; flex-basis: 100%; }
       iframe { height: calc(100vh - 132px); height: calc(100dvh - 132px); }
       .about-content { padding: 14px; }
+      .home-page { min-height: calc(100vh - 132px); padding: 14px 12px 30px; }
+      .home-hero { padding: 24px 18px; border-radius: 14px; }
+      .home-lead { font-size: 14px; }
+      .home-cards, .home-references, .home-columns { grid-template-columns: 1fr; }
+      .home-card { padding: 16px; }
     }
   </style>
 </head>
@@ -122,6 +192,7 @@
         </div>
       </div>
       <nav class="modules" aria-label="أدوات المختبر">
+        <button class="module" type="button" data-module="home">⌂ LabSuite</button>
         <button class="module" type="button" data-module="lab" aria-current="page">🧪 مساعد فني المختبر</button>
         <button class="module" type="button" data-module="gcms">🔬 محلل GC-MS</button>
         <button class="module" type="button" data-module="hplc">📈 التحقق من HPLC</button>
@@ -129,9 +200,90 @@
       <button class="utility" id="aboutButton" type="button">ℹ️ عن البرنامج</button>
       <button class="utility" id="languageToggle" type="button" aria-label="Switch language">English</button>
     </header>
-    <main class="workspace">
-      <iframe id="appFrame" title="مساعد فني المختبرات الشامل" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <main class="home-page" id="homePage">
+      <div class="home-container">
+        <section class="home-hero">
+          <div class="home-eyebrow" data-home="eyebrow"></div>
+          <h2 data-home="heroTitle"></h2>
+          <p class="home-lead" data-home="heroCopy"></p>
+          <div class="home-actions">
+            <button class="home-button" type="button" data-open-module="lab"><span data-home="launch"></span> ↗</button>
+            <button class="home-button secondary" type="button" data-open-module="gcms"><span data-home="gcmsTitle"></span> ↗</button>
+            <button class="home-button secondary" type="button" data-open-module="hplc"><span data-home="hplcTitle"></span> ↗</button>
+          </div>
+          <div class="home-highlights">
+            <span data-home="free"></span>
+            <span data-home="browser"></span>
+            <span data-home="offline"></span>
+          </div>
+        </section>
+
+        <section class="home-section" id="homeTools">
+          <h2 data-home="toolsHeading"></h2>
+          <p class="home-section-intro" data-home="toolsIntro"></p>
+          <div class="home-cards">
+            <article class="home-card">
+              <div class="home-card-icon" aria-hidden="true">⚗</div>
+              <h3 data-home="labTitle"></h3>
+              <p data-home="labCopy"></p>
+              <ul><li data-home="labPoint1"></li><li data-home="labPoint2"></li><li data-home="labPoint3"></li></ul>
+              <button class="home-button" type="button" data-open-module="lab"><span data-home="openTool"></span> ↗</button>
+            </article>
+            <article class="home-card">
+              <div class="home-card-icon" aria-hidden="true">⌁</div>
+              <h3 data-home="gcmsTitle"></h3>
+              <p data-home="gcmsCopy"></p>
+              <ul><li data-home="gcmsPoint1"></li><li data-home="gcmsPoint2"></li><li data-home="gcmsPoint3"></li></ul>
+              <button class="home-button" type="button" data-open-module="gcms"><span data-home="openTool"></span> ↗</button>
+            </article>
+            <article class="home-card">
+              <div class="home-card-icon" aria-hidden="true">▥</div>
+              <h3 data-home="hplcTitle"></h3>
+              <p data-home="hplcCopy"></p>
+              <ul><li data-home="hplcPoint1"></li><li data-home="hplcPoint2"></li><li data-home="hplcPoint3"></li></ul>
+              <button class="home-button" type="button" data-open-module="hplc"><span data-home="openTool"></span> ↗</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="home-section">
+          <h2 data-home="accessHeading"></h2>
+          <p class="home-section-intro" data-home="accessIntro"></p>
+          <div class="home-columns">
+            <article class="home-note"><h3 data-home="howHeading"></h3><p data-home="howCopy"></p></article>
+            <article class="home-note"><h3 data-home="offlineHeading"></h3><p data-home="offlineCopy"></p></article>
+          </div>
+        </section>
+
+        <section class="home-section" id="homeResearch">
+          <h2 data-home="researchHeading"></h2>
+          <p class="home-section-intro" data-home="researchIntro"></p>
+          <div class="home-references">
+            <article class="home-reference">
+              <h3>What is HTML GCMS Analyzer application? and How Save the File GCMS Analyzer HTML code to GCMS_Analyzer.html</h3>
+              <p>Mohammad Asaad Mousa · 2026<br><a href="https://doi.org/10.13140/RG.2.2.16378.25284" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.16378.25284</a><br><a href="https://www.researchgate.net/publication/417228367" target="_blank" rel="noopener noreferrer">ResearchGate</a></p>
+            </article>
+            <article class="home-reference">
+              <h3>HPLC Method Validation System — ICH Q2(R1), multi-compound, ANOVA and charts</h3>
+              <p>Mohammad As'ad Mohammad Mousa · 2026<br><a href="https://doi.org/10.13140/RG.2.2.10552.10246" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.10552.10246</a><br><a href="https://www.researchgate.net/publication/416909029" target="_blank" rel="noopener noreferrer">ResearchGate</a></p>
+            </article>
+            <article class="home-reference">
+              <h3>Comprehensive Lab Assistant 2</h3>
+              <p>Mohammad Asaad Mousa · 2026<br><a href="https://doi.org/10.13140/RG.2.2.11473.70247" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.11473.70247</a></p>
+            </article>
+          </div>
+          <p class="home-section-intro" style="margin-top:14px" data-home="scientificRefs"></p>
+        </section>
+
+        <footer class="home-footer">
+          <p><strong>LabSuite</strong> · <span data-home="author"></span><br><span data-home="disclaimer"></span></p>
+          <button class="home-button secondary" type="button" data-open-module="lab"><span data-home="launch"></span> ↗</button>
+        </footer>
+      </div>
     </main>
+    <div class="workspace" hidden>
+      <iframe id="appFrame" title="مساعد فني المختبرات الشامل" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
   </div>
 
   <dialog id="aboutDialog" aria-labelledby="aboutTitle">
@@ -152,16 +304,16 @@
       ar: {
         title: "البرنامج الشامل لفني المختبر",
         subtitle: "منصة واحدة لأدوات التحليل والتحقق المخبري",
-        nav: ["🧪 مساعد فني المختبر", "🔬 محلل GC-MS", "📈 التحقق من HPLC"],
-        names: ["مساعد فني المختبرات الشامل", "محلل GC-MS للزيوت العطرية", "نظام التحقق من طرق HPLC"],
+        nav: ["⌂ الصفحة الرئيسية", "🧪 مساعد فني المختبر", "🔬 محلل GC-MS", "📈 التحقق من HPLC"],
+        names: ["LabSuite — البرنامج الشامل للمختبر", "مساعد فني المختبرات الشامل", "محلل GC-MS للزيوت العطرية", "نظام التحقق من طرق HPLC"],
         standalone: "فتح التطبيق الحالي في نافذة مستقلة ↗",
         navLabel: "أدوات المختبر"
       },
       en: {
         title: "Comprehensive Laboratory Technician Suite",
         subtitle: "One workspace for laboratory analysis and method validation",
-        nav: ["🧪 Lab Technician Assistant", "🔬 GC-MS Analyzer", "📈 HPLC Validation"],
-        names: ["Comprehensive Lab Technician Assistant", "GC-MS Essential Oil Analyzer", "HPLC Method Validation System"],
+        nav: ["⌂ LabSuite home", "🧪 Lab Technician Assistant", "🔬 GC-MS Analyzer", "📈 HPLC Validation"],
+        names: ["LabSuite — Comprehensive Laboratory Suite", "Comprehensive Lab Technician Assistant", "GC-MS Essential Oil Analyzer", "HPLC Method Validation System"],
         standalone: "Open the current app in a separate window ↗",
         navLabel: "Laboratory tools"
       }
@@ -179,13 +331,13 @@
       document.getElementById("pageSubtitle").textContent = text.subtitle;
       document.querySelector("nav").setAttribute("aria-label", text.navLabel);
       buttons.forEach((button, index) => { button.textContent = text.nav[index]; });
-      document.getElementById("languageToggle").textContent = language === "ar" ? "English" : "???????";
+      document.getElementById("languageToggle").textContent = language === "ar" ? "English" : "العربية";
       frame.title = text.names[buttons.findIndex(button => button.dataset.module === getCurrentModule())];
     }
 
     function getCurrentModule() {
       const requested = location.hash.slice(1);
-      return modules.includes(requested) ? requested : "lab";
+      return requested === "home" || modules.includes(requested) ? requested : "home";
     }
 
     function decodeApp(value) {
@@ -195,7 +347,10 @@
 
     function showModule() {
       const selected = getCurrentModule();
-      if (frame.dataset.module !== selected) {
+      const onHome = selected === "home";
+      document.getElementById("homePage").hidden = !onHome;
+      document.querySelector(".workspace").hidden = onHome;
+      if (!onHome && frame.dataset.module !== selected) {
         frame.srcdoc = decodeApp(APPS[selected]);
         frame.dataset.module = selected;
       }
@@ -209,12 +364,102 @@
     buttons.forEach(button => {
       button.addEventListener("click", () => { location.hash = button.dataset.module; });
     });
+    document.querySelectorAll("[data-open-module]").forEach(button => {
+    button.addEventListener("click", () => { location.hash = button.dataset.openModule; });
+    });
     document.getElementById("languageToggle").addEventListener("click", () => {
-      language = language === "ar" ? "en" : "ar";
-      renderLanguage();
+    language = language === "ar" ? "en" : "ar";
+    renderLanguage();
+    renderHome();
     });
     window.addEventListener("hashchange", showModule);
     showModule();
+  </script>
+  <script>
+    const homeCopy = {
+      en: {
+        eyebrow:"A practical toolkit for the laboratory",
+        heroTitle:"Three laboratory tools.<br><span>One focused workspace.</span>",
+        heroCopy:"Move from everyday laboratory calculations to GC‑MS essential-oil analysis and HPLC method validation in one clear, multilingual suite. This complete edition runs from one HTML file on your computer or USB drive.",
+        launch:"Launch the suite",free:"Free to use",browser:"Works in a modern browser",offline:"Runs offline from this file",
+        toolsHeading:"The right workspace for each task.",
+        toolsIntro:"Three focused applications, together in one portable file. Select a module to begin.",
+        labTitle:"General laboratory assistant",
+        labCopy:"A practical collection of common laboratory calculators and reference tools for routine preparation and data review.",
+        labPoint1:"Units, solutions, dilutions, and acid preparation",
+        labPoint2:"pH, pKa, buffers, molecular weight, and statistics",
+        labPoint3:"Analytical validation tools and reference tables",
+        gcmsTitle:"GC‑MS essential-oil analyzer",
+        gcmsCopy:"Calculate retention indices, review candidate compounds against reference data, quantify peak areas, and prepare reports.",
+        gcmsPoint1:"Kovats and linear retention-index calculations",
+        gcmsPoint2:"Reference matching across column types",
+        gcmsPoint3:"Area-percent calculations and report export",
+        hplcTitle:"HPLC method validation",
+        hplcCopy:"Organize method-validation measurements and review calculated outcomes alongside acceptance criteria and charts.",
+        hplcPoint1:"Linearity, precision, accuracy, and robustness",
+        hplcPoint2:"System suitability and ANOVA analysis",
+        hplcPoint3:"Charts and validation report support",
+        openTool:"Open this module",
+        accessHeading:"Use it online. Take it offline.",
+        accessIntro:"Start with any tool from this page, or keep the complete site and applications together in this portable HTML file.",
+        howHeading:"One file, four sections",
+        howCopy:"The home page, laboratory assistant, GC‑MS analyzer, HPLC validation tool, publication information, and scientific references are all included in this document. Use the navigation bar to switch sections.",
+        offlineHeading:"Ready for your USB drive",
+        offlineCopy:"Copy this HTML file to a USB drive and open it with a recent browser. The applications and charting library are embedded; no installation or internet connection is required. External research links require internet.",
+        researchHeading:"Research and scientific references",
+        researchIntro:"Publications associated with these laboratory tools, together with the scientific sources supporting the analytical references.",
+        scientificRefs:"Additional references: Adams (2017); Babushok, Linstrom & Zenkevich (2011); Van den Dool & Kratz (1963); ICH Q2(R1); and NIST Chemistry WebBook (SRD 69). Independently review reference data, methods, calculations, and acceptance criteria before using results.",
+        author:"Prepared by Mohammad Asaad Mousa, Chemical Laboratory Technician.",
+        disclaimer:"For research and workflow support. Verify calculations, methods, reference data, and acceptance criteria against current validated procedures and applicable standards before making laboratory decisions."
+      },
+      ar: {
+        eyebrow:"أدوات عملية للعمل المخبري",
+        heroTitle:"ثلاث أدوات مخبرية.<br><span>ومساحة عمل واحدة.</span>",
+        heroCopy:"انتقل بين الحسابات المخبرية اليومية وتحليل الزيوت العطرية GC‑MS والتحقق من طرق HPLC ضمن برنامج واضح متعدد اللغات. تعمل هذه النسخة الكاملة من ملف HTML واحد على الكمبيوتر أو الفلاشة.",
+        launch:"ابدأ استخدام البرنامج",free:"مجاني للاستخدام",browser:"يعمل في متصفح حديث",offline:"يعمل دون اتصال من هذا الملف",
+        toolsHeading:"أداة مناسبة لكل مهمة.",
+        toolsIntro:"ثلاثة تطبيقات عملية مجتمعة في ملف واحد محمول. اختر الأداة لبدء استخدامها.",
+        labTitle:"مساعد المختبر العام",
+        labCopy:"مجموعة عملية من الحاسبات المخبرية وأدوات المراجع للتحضير اليومي ومراجعة البيانات.",
+        labPoint1:"تحويل الوحدات وتحضير المحاليل والتخفيفات والأحماض",
+        labPoint2:"الأس الهيدروجيني pH وpKa والمحاليل المنظمة والوزن الجزيئي والإحصاء",
+        labPoint3:"أدوات التحقق التحليلي والجداول المرجعية",
+        gcmsTitle:"محلل GC‑MS للزيوت العطرية",
+        gcmsCopy:"احسب مؤشرات الاحتجاز، وراجع المركبات المحتملة بالبيانات المرجعية، واحسب مساحات القمم وجهّز التقارير.",
+        gcmsPoint1:"حساب مؤشر كوفات أو مؤشر الاحتجاز الخطي",
+        gcmsPoint2:"مطابقة مرجعية لأنواع متعددة من الأعمدة",
+        gcmsPoint3:"حساب النسب المئوية للمساحة وتصدير التقارير",
+        hplcTitle:"التحقق من طرق HPLC",
+        hplcCopy:"نظّم قياسات التحقق من الطريقة وراجع النتائج المحسوبة ومعايير القبول والرسوم البيانية.",
+        hplcPoint1:"الخطية والدقة والصحة والمتانة",
+        hplcPoint2:"ملاءمة النظام وتحليل ANOVA",
+        hplcPoint3:"رسوم بيانية ودعم تقارير التحقق",
+        openTool:"افتح هذه الأداة",
+        accessHeading:"استخدمه عبر الإنترنت أو دون اتصال.",
+        accessIntro:"ابدأ بأي أداة من هذه الصفحة، أو احتفظ بالموقع والتطبيقات كاملة معًا في ملف HTML محمول.",
+        howHeading:"ملف واحد، وأقسام متكاملة",
+        howCopy:"تضم هذه الوثيقة الصفحة الرئيسية ومساعد المختبر ومحلل GC‑MS وأداة تحقق HPLC ومعلومات الأبحاث والمراجع العلمية. استخدم شريط التنقل للانتقال بين الأقسام.",
+        offlineHeading:"جاهز للنسخ إلى الفلاشة",
+        offlineCopy:"انسخ ملف HTML هذا إلى الفلاشة وافتحه بمتصفح حديث. التطبيقات ومكتبة الرسوم مضمّنة؛ لا حاجة إلى تثبيت أو اتصال بالإنترنت. روابط الأبحاث الخارجية تحتاج إلى الإنترنت.",
+        researchHeading:"الأبحاث والمراجع العلمية",
+        researchIntro:"الأبحاث المرتبطة بأدوات المختبر، إلى جانب المراجع العلمية التي تدعم البيانات التحليلية.",
+        scientificRefs:"مراجع إضافية: Adams (2017)؛ وBabushok وLinstrom وZenkevich (2011)؛ وVan den Dool وKratz (1963)؛ وإرشادات ICH Q2(R1)؛ وNIST Chemistry WebBook (SRD 69). تحقّق بشكل مستقل من البيانات والطرق والحسابات ومعايير القبول قبل استخدام النتائج.",
+        author:"إعداد Mohammad Asaad Mousa، فني مختبر كيميائي.",
+        disclaimer:"للمساعدة البحثية وسير العمل. تحقّق من الحسابات والطرق والبيانات المرجعية ومعايير القبول بمقارنتها بالإجراءات المعتمدة والمعايير السارية قبل اتخاذ القرارات المخبرية."
+      }
+    };
+
+    function renderHome() {
+      const translations = homeCopy[language];
+      document.querySelectorAll("[data-home]").forEach(element => {
+        const key = element.dataset.home;
+        if (key === "heroTitle") element.innerHTML = translations[key];
+        else element.textContent = translations[key];
+      });
+    }
+
+    renderHome();
+    document.getElementById("languageToggle").addEventListener("click", renderHome);
   </script>
   <script>
     const aboutCopy = {
