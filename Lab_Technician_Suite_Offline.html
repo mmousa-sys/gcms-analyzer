@@ -62,12 +62,52 @@
     .workspace { flex: 1; min-height: 0; }
     iframe { display: block; width: 100%; height: calc(100vh - 82px); height: calc(100dvh - 82px); border: 0; background: #f0f4f8; }
     .standalone { font-size: 12px; padding: 9px 11px; }
+    dialog {
+      width: min(820px, calc(100% - 28px));
+      max-height: min(85vh, 760px);
+      padding: 0;
+      color: #e5edf7;
+      background: #111c2e;
+      border: 1px solid #34445c;
+      border-radius: 12px;
+    }
+    dialog::backdrop { background: rgb(3 8 18 / 75%); }
+    .about-header {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      background: #111c2e;
+      border-bottom: 1px solid #34445c;
+    }
+    .about-header h2 { margin: 0; font-size: 17px; }
+    .about-close {
+      border: 1px solid #34445c;
+      border-radius: 7px;
+      padding: 6px 10px;
+      color: inherit;
+      background: #17243a;
+      font: inherit;
+      cursor: pointer;
+    }
+    .about-content { padding: 18px; line-height: 1.7; }
+    .about-content h3 { margin: 18px 0 8px; color: #65d8ca; font-size: 15px; }
+    .about-content h3:first-child { margin-top: 0; }
+    .about-content p { margin: 8px 0; color: #c6d3e2; }
+    .about-content ul { margin: 6px 0; padding-inline-start: 22px; color: #c6d3e2; }
+    .about-content li { margin: 5px 0; }
+    .about-content a { color: #7dd3fc; overflow-wrap: anywhere; }
+    .about-content .about-note { padding: 10px 12px; background: #17243a; border-inline-start: 3px solid #42c7b5; border-radius: 6px; }
     @media (max-width: 760px) {
       .topbar { flex-wrap: wrap; gap: 10px; padding: 10px 12px; }
       .brand { flex: 1; min-width: 190px; }
       .brand h1 { font-size: 15px; }
       .modules { order: 3; flex-basis: 100%; }
       iframe { height: calc(100vh - 132px); height: calc(100dvh - 132px); }
+      .about-content { padding: 14px; }
     }
   </style>
 </head>
@@ -86,12 +126,21 @@
         <button class="module" type="button" data-module="gcms">🔬 محلل GC-MS</button>
         <button class="module" type="button" data-module="hplc">📈 التحقق من HPLC</button>
       </nav>
+      <button class="utility" id="aboutButton" type="button">ℹ️ عن البرنامج</button>
       <button class="utility" id="languageToggle" type="button" aria-label="Switch language">English</button>
     </header>
     <main class="workspace">
       <iframe id="appFrame" title="مساعد فني المختبرات الشامل" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </main>
   </div>
+
+  <dialog id="aboutDialog" aria-labelledby="aboutTitle">
+    <div class="about-header">
+      <h2 id="aboutTitle"></h2>
+      <button class="about-close" id="aboutClose" type="button"></button>
+    </div>
+    <div class="about-content" id="aboutContent"></div>
+  </dialog>
 
   <script>
     const APPS = {
@@ -166,6 +215,81 @@
     });
     window.addEventListener("hashchange", showModule);
     showModule();
+  </script>
+  <script>
+    const aboutCopy = {
+      ar: {
+        title: "عن البرنامج الشامل لفني المختبر",
+        close: "إغلاق",
+        button: "ℹ️ عن البرنامج",
+        content: `
+          <p><strong>إعداد:</strong> Mohammad Asaad Mousa — فني مختبر كيميائي. تجمع هذه المنصة ثلاثة تطبيقات مخبرية مستقلة في واجهة HTML محمولة؛ وتحتفظ كل أداة بوظائفها ضمن مساحة عمل واحدة.</p>
+          <h3>المجالات والأدوات</h3>
+          <ul>
+            <li><strong>الحسابات المخبرية العامة:</strong> تحويل الوحدات، تحضير المحاليل والتخفيفات، الأحماض، pH وpKa، المحاليل المنظمة، الوزن الجزيئي، الإحصاء، التحقق التحليلي والجداول المرجعية.</li>
+            <li><strong>تحليل الزيوت العطرية GC‑MS:</strong> إدارة أزمنة الألكانات، حساب مؤشر الاحتجاز KRI، مطابقة المركبات مع قواعد مرجعية، تقدير النسب المساحية وإعداد التقارير.</li>
+            <li><strong>التحقق من طرق HPLC:</strong> خطية الطريقة ودقتها وصحتها ومتانتها وملاءمة النظام، مع تحليل ANOVA ورسوم بيانية وتقارير تحقق.</li>
+          </ul>
+          <p class="about-note">التطبيقات ومكتبات الرسم مضمّنة في هذا الملف، لذا تعمل الأدوات دون اتصال بالإنترنت. روابط الأبحاث أدناه تحتاج إلى اتصال عند فتحها.</p>
+          <h3>الأبحاث المرتبطة بالأدوات</h3>
+          <ul>
+            <li><em>What is HTML GCMS Analyzer application? and How Save the File GCMS Analyzer HTML code to GCMS_Analyzer.html</em> (October 2026) — <a href="https://doi.org/10.13140/RG.2.2.16378.25284" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.16378.25284</a> · <a href="https://www.researchgate.net/publication/417228367" target="_blank" rel="noopener noreferrer">ResearchGate</a>.</li>
+            <li><em>HPLC Method Validation System ICH Q2(R1) Compliant | Multi-Compound | ANOVA &amp; Charts Included</em> (October 2026) — <a href="https://doi.org/10.13140/RG.2.2.10552.10246" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.10552.10246</a> · <a href="https://www.researchgate.net/publication/416909029" target="_blank" rel="noopener noreferrer">ResearchGate</a>.</li>
+            <li><em>Comprehensive Lab Assistant 2</em> (October 2026) — <a href="https://doi.org/10.13140/RG.2.2.11473.70247" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.11473.70247</a>.</li>
+          </ul>
+          <h3>المراجع العلمية</h3>
+          <ul>
+            <li>Adams, R. P. (2017). <em>Identification of Essential Oil Components by Gas Chromatography/Mass Spectrometry</em>, 4th ed.</li>
+            <li>Babushok, V. I., Linstrom, P. J., &amp; Zenkevich, I. G. (2011). Retention indices for frequently reported compounds of plant essential oils. <em>J. Phys. Chem. Ref. Data, 40</em>(4), 043101.</li>
+            <li>Van den Dool, H., &amp; Kratz, P. D. (1963). <em>Journal of Chromatography A, 11</em>, 463–471.</li>
+            <li>ICH (2005). <em>Q2(R1): Validation of Analytical Procedures: Text and Methodology.</em></li>
+            <li><a href="https://webbook.nist.gov/chemistry/" target="_blank" rel="noopener noreferrer">NIST Chemistry WebBook, SRD 69</a>.</li>
+          </ul>`
+      },
+      en: {
+        title: "About the Comprehensive Laboratory Suite",
+        close: "Close",
+        button: "ℹ️ About",
+        content: `
+          <p><strong>Prepared by:</strong> Mohammad Asaad Mousa — Chemical Laboratory Technician. This portable HTML suite brings three independent laboratory applications into one workspace while retaining each tool's functions.</p>
+          <h3>Domains and tools</h3>
+          <ul>
+            <li><strong>General laboratory calculations:</strong> unit conversion, solution and dilution preparation, acids, pH and pKa, buffers, molecular weight, statistics, analytical validation, and reference tables.</li>
+            <li><strong>GC‑MS essential-oil analysis:</strong> alkane retention times, KRI calculation, reference-library compound matching, area-percent quantification, and report generation.</li>
+            <li><strong>HPLC method validation:</strong> linearity, precision, accuracy, robustness, system suitability, ANOVA, charts, and validation reports.</li>
+          </ul>
+          <p class="about-note">The applications and charting libraries are bundled in this file, so the tools work offline. The research links below require an internet connection when opened.</p>
+          <h3>Publications associated with the tools</h3>
+          <ul>
+            <li><em>What is HTML GCMS Analyzer application? and How Save the File GCMS Analyzer HTML code to GCMS_Analyzer.html</em> (October 2026) — <a href="https://doi.org/10.13140/RG.2.2.16378.25284" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.16378.25284</a> · <a href="https://www.researchgate.net/publication/417228367" target="_blank" rel="noopener noreferrer">ResearchGate</a>.</li>
+            <li><em>HPLC Method Validation System ICH Q2(R1) Compliant | Multi-Compound | ANOVA &amp; Charts Included</em> (October 2026) — <a href="https://doi.org/10.13140/RG.2.2.10552.10246" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.10552.10246</a> · <a href="https://www.researchgate.net/publication/416909029" target="_blank" rel="noopener noreferrer">ResearchGate</a>.</li>
+            <li><em>Comprehensive Lab Assistant 2</em> (October 2026) — <a href="https://doi.org/10.13140/RG.2.2.11473.70247" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.11473.70247</a>.</li>
+          </ul>
+          <h3>Scientific references</h3>
+          <ul>
+            <li>Adams, R. P. (2017). <em>Identification of Essential Oil Components by Gas Chromatography/Mass Spectrometry</em>, 4th ed.</li>
+            <li>Babushok, V. I., Linstrom, P. J., &amp; Zenkevich, I. G. (2011). Retention indices for frequently reported compounds of plant essential oils. <em>J. Phys. Chem. Ref. Data, 40</em>(4), 043101.</li>
+            <li>Van den Dool, H., &amp; Kratz, P. D. (1963). <em>Journal of Chromatography A, 11</em>, 463–471.</li>
+            <li>ICH (2005). <em>Q2(R1): Validation of Analytical Procedures: Text and Methodology.</em></li>
+            <li><a href="https://webbook.nist.gov/chemistry/" target="_blank" rel="noopener noreferrer">NIST Chemistry WebBook, SRD 69</a>.</li>
+          </ul>`
+      }
+    };
+    const aboutDialog = document.getElementById("aboutDialog");
+    function renderAbout() {
+      const copy = aboutCopy[language];
+      document.getElementById("aboutTitle").textContent = copy.title;
+      document.getElementById("aboutClose").textContent = copy.close;
+      document.getElementById("aboutButton").textContent = copy.button;
+      document.getElementById("aboutContent").innerHTML = copy.content;
+    }
+    document.getElementById("aboutButton").addEventListener("click", () => aboutDialog.showModal());
+    document.getElementById("aboutClose").addEventListener("click", () => aboutDialog.close());
+    document.getElementById("languageToggle").addEventListener("click", renderAbout);
+    aboutDialog.addEventListener("click", event => {
+      if (event.target === aboutDialog) aboutDialog.close();
+    });
+    renderAbout();
   </script>
 </body>
 </html>
