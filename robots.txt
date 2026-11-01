@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mmousa-sys.github.io/gcms-analyzer/sitemap.xml

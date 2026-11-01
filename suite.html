@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="منصة موحّدة لأدوات فني المختبر: مساعد المختبر، تحليل GC-MS، والتحقق من طرق HPLC.">
+  <title>البرنامج الشامل لفني المختبر</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: #0b1220;
+      color: #e5edf7;
+      font-synthesis: none;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    .shell { min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 82px;
+      padding: 12px 20px;
+      background: #111c2e;
+      border-bottom: 1px solid #26354b;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 230px; }
+    .brand-icon { font-size: 30px; }
+    .brand h1 { margin: 0; font-size: 17px; }
+    .brand p { margin: 4px 0 0; color: #9fb0c6; font-size: 12px; }
+    .modules {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .module, .utility {
+      border: 1px solid #34445c;
+      border-radius: 8px;
+      background: #17243a;
+      color: #dce8f7;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 13px;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .module:hover, .utility:hover { border-color: #42c7b5; }
+    .module[aria-current="page"] {
+      background: #0e766e;
+      border-color: #42c7b5;
+      color: white;
+    }
+    .utility { font-size: 12px; padding: 9px 11px; }
+    .workspace { flex: 1; min-height: 0; }
+    iframe { display: block; width: 100%; height: calc(100vh - 82px); height: calc(100dvh - 82px); border: 0; background: #f0f4f8; }
+    .standalone { font-size: 12px; padding: 9px 11px; }
+    @media (max-width: 760px) {
+      .topbar { flex-wrap: wrap; gap: 10px; padding: 10px 12px; }
+      .brand { flex: 1; min-width: 190px; }
+      .brand h1 { font-size: 15px; }
+      .modules { order: 3; flex-basis: 100%; }
+      iframe { height: calc(100vh - 132px); height: calc(100dvh - 132px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🧪</span>
+        <div>
+          <h1 id="pageTitle">البرنامج الشامل لفني المختبر</h1>
+          <p id="pageSubtitle">منصة واحدة لأدوات التحليل والتحقق المخبري</p>
+        </div>
+      </div>
+      <nav class="modules" aria-label="أدوات المختبر">
+        <button class="module" type="button" data-module="lab" aria-current="page">🧪 مساعد فني المختبر</button>
+        <button class="module" type="button" data-module="gcms">🔬 محلل GC-MS</button>
+        <button class="module" type="button" data-module="hplc">📈 التحقق من HPLC</button>
+      </nav>
+      <button class="utility" id="languageToggle" type="button" aria-label="Switch language">English</button>
+    </header>
+    <main class="workspace">
+      <iframe id="appFrame" title="مساعد فني المختبرات الشامل" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </main>
+  </div>
+  <a class="utility standalone" id="openStandalone" target="_blank" rel="noopener noreferrer" href="Lab_Technician_Assistant_22_6_2026_2.html">فتح التطبيق الحالي في نافذة مستقلة ↗</a>
+  <script>
+    const modules = {
+      lab: {
+        src: "Lab_Technician_Assistant_22_6_2026_2.html",
+        title: "مساعد فني المختبرات الشامل",
+        standalone: "Lab_Technician_Assistant_22_6_2026_2.html"
+      },
+      gcms: {
+        src: "gcms-analyzer.html",
+        title: "محلل GC-MS للزيوت العطرية",
+        standalone: "gcms-analyzer.html"
+      },
+      hplc: {
+        src: "https://mmousa-sys.github.io/hplc-method-validation/",
+        title: "نظام التحقق من طرق HPLC",
+        standalone: "https://mmousa-sys.github.io/hplc-method-validation/"
+      }
+    };
+    const labels = {
+      ar: {
+        title: "البرنامج الشامل لفني المختبر",
+        subtitle: "منصة واحدة لأدوات التحليل والتحقق المخبري",
+        nav: ["🧪 مساعد فني المختبر", "🔬 محلل GC-MS", "📈 التحقق من HPLC"],
+        names: ["مساعد فني المختبرات الشامل", "محلل GC-MS للزيوت العطرية", "نظام التحقق من طرق HPLC"],
+        standalone: "فتح التطبيق الحالي في نافذة مستقلة ↗",
+        navLabel: "أدوات المختبر"
+      },
+      en: {
+        title: "Comprehensive Laboratory Technician Suite",
+        subtitle: "One workspace for laboratory analysis and method validation",
+        nav: ["🧪 Lab Technician Assistant", "🔬 GC-MS Analyzer", "📈 HPLC Validation"],
+        names: ["Comprehensive Lab Technician Assistant", "GC-MS Essential Oil Analyzer", "HPLC Method Validation System"],
+        standalone: "Open the current app in a separate window ↗",
+        navLabel: "Laboratory tools"
+      }
+    };
+    const frame = document.getElementById("appFrame");
+    const standalone = document.getElementById("openStandalone");
+    const buttons = [...document.querySelectorAll("[data-module]")];
+    let language = "ar";
+
+    function renderLanguage() {
+      const text = labels[language];
+      document.documentElement.lang = language;
+      document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+      document.getElementById("pageTitle").textContent = text.title;
+      document.getElementById("pageSubtitle").textContent = text.subtitle;
+      document.querySelector("nav").setAttribute("aria-label", text.navLabel);
+      buttons.forEach((button, index) => { button.textContent = text.nav[index]; });
+      document.getElementById("languageToggle").textContent = language === "ar" ? "English" : "العربية";
+      const current = modules[getCurrentModule()];
+      frame.title = text.names[buttons.findIndex(button => button.dataset.module === getCurrentModule())];
+      standalone.textContent = text.standalone;
+      standalone.href = current.standalone;
+    }
+
+    function getCurrentModule() {
+      const requested = location.hash.slice(1);
+      return Object.hasOwn(modules, requested) ? requested : "lab";
+    }
+
+    function showModule() {
+      const selected = getCurrentModule();
+      const app = modules[selected];
+      if (frame.dataset.module !== selected) {
+        frame.src = app.src;
+        frame.dataset.module = selected;
+      }
+      buttons.forEach(button => {
+        if (button.dataset.module === selected) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
+      });
+      renderLanguage();
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => { location.hash = button.dataset.module; });
+    });
+    document.getElementById("languageToggle").addEventListener("click", () => {
+      language = language === "ar" ? "en" : "ar";
+      renderLanguage();
+    });
+    window.addEventListener("hashchange", showModule);
+    showModule();
+  </script>
+</body>
+</html>
