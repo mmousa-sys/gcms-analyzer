@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Explore an interactive 3D learning guide to GC-MS analysis of essential oils, retention indices, identification, quality control, and reporting." />
+<meta name="description" content="Interactive 3D learning guide for version 3 of the essential-oil GC-MS SOP, covering sample preparation, GC-MS conditions, retention-index calculation, identification, QC, and reporting." />
 <meta name="author" content="Mohammad Asaad Mousa" />
 <meta name="theme-color" content="#0f0f16" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="GC-MS Essential Oils — Interactive 3D Learning Guide" />
-<meta property="og:description" content="A bilingual interactive learning guide to GC-MS methods for essential-oil analysis." />
+<meta property="og:title" content="Essential-Oil GC-MS SOP v3 — Interactive 3D Guide" />
+<meta property="og:description" content="A bilingual interactive guide to the supplied third-edition essential-oil GC-MS SOP." />
 <meta property="og:url" content="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
 <meta name="twitter:card" content="summary" />
 <link rel="canonical" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
 <link rel="alternate" hreflang="en" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
 <link rel="alternate" hreflang="ar" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html?lang=ar" />
 <link rel="alternate" hreflang="x-default" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
-<title>GC-MS Essential Oils — Interactive 3D Learning Guide</title>
+<title>Essential-Oil GC-MS SOP v3 — Interactive 3D Guide</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{overflow:hidden;background:#0f0f16;font-family:Georgia,"Times New Roman",serif}
@@ -67,6 +67,12 @@
     background:rgba(12,12,20,.88);color:#fff;font:12px/1.5 "Segoe UI",Tahoma,Arial,sans-serif;
     pointer-events:auto
   }
+  #sourceNote{
+    width:fit-content;padding:6px 9px;border-radius:6px;background:rgba(12,12,20,.82);
+    color:#d5e8ff;font:11px/1.45 "Segoe UI",Tahoma,Arial,sans-serif;
+    pointer-events:auto
+  }
+  #sourceNote:hover,#sourceNote:focus-visible{color:#fff;outline:2px solid #9fc5ff;outline-offset:2px}
   #lessonHeader h1{font-family:Georgia,"Times New Roman",serif;font-size:17px;margin-bottom:4px;color:#1a1a1a}
   #lessonHeader .core{font-size:13.2px;line-height:1.55;color:#222;margin-top:6px}
   #lessonHeader .interactionHint{font:11px/1.45 "Segoe UI",Tahoma,Arial,sans-serif;color:#52606b;margin-top:6px}
@@ -187,7 +193,8 @@
     <div id="qOptions"></div>
   </div>
   <div id="flap"></div>
-  <div id="methodNote" data-i18n="disclaimer">Educational example only. Verify method settings and acceptance limits against validated procedures and current instrument guidance.</div>
+  <div id="methodNote" data-i18n="disclaimer">Based on the supplied GC-MS SOP, version 3 (May 2026). Its settings and limits are specific to this procedure; verify suitability locally.</div>
+  <a id="sourceNote" href="https://doi.org/10.13140/RG.2.2.23821.40169" target="_blank" rel="noopener noreferrer" data-i18n="source">Source SOP v3 · DOI ↗</a>
   <div id="stamp" data-i18n="completed">Completed</div>
 </div>
 
@@ -216,17 +223,17 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import gsap from 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/+esm';
 
 const spreads = [
-  {id:0,title:"Method Overview (Training Example)",core:"This educational example introduces qualitative and semi-quantitative GC-MS profiling of volatile essential-oil components. It covers sample preparation, example operating conditions, retention-index calculation, tentative compound identification, and relative peak-area reporting. The approximate RI range 800–2500 is illustrative, not a universal method limit.",formula:null,vocab:["GC-MS","Retention index (RI)","Essential oil","Peak-area normalization"],quiz:{q:"How should the example RI range (about 800–2500) be interpreted?",options:["A universal acceptance range","An illustrative range that depends on the sample and method","A detector specification","A required range for every column"],correct:1,why:"The analyte range depends on the sample, column, temperature program, and method. Do not treat this example as a universal limit."},diagram:"scope"},
-  {id:1,title:"Materials & Key Equipment",core:"An example setup may include an essential-oil sample, a compatible GC-grade solvent, an n-alkane reference mixture, a suitable capillary column such as (5%-phenyl)-methylpolysiloxane, carrier gas, and access to a mass-spectral reference library. Select specifications for the instrument and intended method.",formula:null,vocab:["DB-5 / HP-5-type column","n-Alkane reference","Carrier gas","Mass-spectral library"],quiz:{q:"Which column is an example option in this learning guide?",options:["Polar PEG column","(5%-phenyl)-methylpolysiloxane (DB-5 type)","Chiral column only","Packed column"],correct:1,why:"DB-5-type columns are one common example; the column must be selected for the intended separation and method."},diagram:"equipment"},
-  {id:2,title:"Sample & Alkane Standard Preparation",core:"Prepare sample and n-alkane solutions using a validated concentration and a solvent compatible with the sample and instrument. Clarify or filter the sample when appropriate. Run the alkane series and sample using the same column and chromatographic conditions; matching solvent and concentration are not mathematical requirements for RI calculation.",formula:"Example concentration only: 1 mg/mL",vocab:["0.45 µm PTFE filter, if suitable","Vortex / sonicate","Autosampler vial","n-Alkane mixture"],quiz:{q:"What is essential when comparing a sample with an n-alkane series for a retention index?",options:["Identical solvent and concentration in every case","Same column and chromatographic conditions, with retention times measured reliably","Same injection volume only","Nothing"],correct:1,why:"Retention-index comparison requires suitable bracketing alkanes and consistent chromatographic conditions. Solvent and concentration should be selected for the method, not treated as universal formula requirements."},diagram:"prep"},
-  {id:3,title:"GC-MS Operating Conditions",core:"The temperatures, flow, split, scan range, and oven program shown here are example starting conditions, not a validated universal method. Set solvent delay from the actual solvent elution and target analyte retention; verify that early analytes are not suppressed. Follow instrument-manufacturer guidance.",formula:"Example oven: 50 °C (2 min) → 4 °C/min → 280 °C (5 min)",vocab:["Solvent delay","Split ratio","EI+ 70 eV","Constant flow"],quiz:{q:"How should solvent delay be selected?",options:["Use 4.5 min for every method","Set it from the solvent and target-analyte elution, then verify early analytes are acquired","Set it after the last analyte","It never affects results"],correct:1,why:"A solvent delay can suppress acquisition of early-eluting compounds. Set and verify it for the actual solvent, method, and instrument; follow the vendor's instructions."},diagram:"conditions"},
-  {id:4,title:"Injector Temperature — Method-Specific",core:"There is no universal 250 °C maximum for thymol, carvacrol, or eugenol established by this learning guide. Inlet temperature, liner, split conditions, and analyte stability can affect transfer and response. Optimize with suitable standards and system-suitability checks; do not infer thermal degradation from temperature alone.",formula:"Select inlet conditions by method development and verification",vocab:["Thymol","Carvacrol","Eugenol","Inlet discrimination"],quiz:{q:"How should an injector-temperature limit be set for a target compound?",options:["Assume 250 °C is a universal maximum","Evaluate suitable standards under the intended method and document performance","Use the highest available setting","Infer degradation from a library match alone"],correct:1,why:"A temperature limit must be supported by method-specific evidence and instrument guidance. This guide does not establish a universal threshold."},diagram:"warning"},
-  {id:5,title:"Retention Index Calculation",core:"For temperature-programmed GC, the linear retention index is interpolated between two n-alkanes that bracket the analyte, using their carbon numbers and retention times. The isothermal Kovats index uses logarithms of adjusted retention times and is a different calculation. State which convention and conditions were used.",formula:"Programmed, consecutive alkanes: I = 100n + 100 × (RTx − RTn) / (RTn+1 − RTn)\nProgrammed, n to n+2: I = 100n + 200 × (RTx − RTn) / (RTn+2 − RTn)\nIsothermal Kovats: I = 100n + 100 × [log(t'R,x) − log(t'R,n)] / [log(t'R,n+1) − log(t'R,n)]",vocab:["RTx: analyte retention time","RTn: lower bracketing alkane","Carbon number n","Linear RI vs. Kovats index"],quiz:{q:"Which calculation convention is typically used for a temperature-programmed GC run?",options:["Isothermal Kovats equation using raw retention times","Linear interpolation between bracketing n-alkanes","No alkane references are needed","Peak-area normalization"],correct:1,why:"Temperature-programmed runs commonly use the linear retention-index interpolation. The isothermal Kovats equation uses logarithms of adjusted retention times."},diagram:"kri"},
-  {id:6,title:"Identification and Confidence",core:"Mass-spectrum similarity and retention-index agreement are complementary evidence for tentative identification. Numerical cutoffs such as an 80% library match or ±10 RI units are method- and library-dependent examples, not universal confirmation criteria. Consider reference quality, co-elution, isomers, and authentic standards where needed.",formula:"Assess together: spectrum + RI + reference quality + method-specific limits",vocab:["Forward match","Reference library","Tentative identification","Isomer interference"],quiz:{q:"If the spectrum match is high but the measured RI disagrees with a reference, what should you do?",options:["Call it confirmed","Report the uncertainty and investigate references, co-elution, and possible isomers","Ignore the RI","Delete the peak"],correct:1,why:"Conflicting evidence should be reported and investigated. A library match alone does not establish identity."},diagram:"id"},
-  {id:7,title:"Relative Quantification",core:"Relative percentage is calculated by peak-area normalization against the selected integrated peaks. This is a semi-quantitative profile that assumes sufficiently similar response factors; it is not an absolute concentration. Define integration and excluded regions for the method and report the limitation.",formula:"% Area = (Peak area of compound / Total selected peak area) × 100",vocab:["Peak-area normalization","Response factor","TIC","Integration window"],quiz:{q:"What is the key limitation of reporting peak-area percentages?",options:["They always give absolute concentration","Response factors may differ, so area percentages are relative estimates","They do not require a chromatogram","They guarantee equal response"],correct:1,why:"Area normalization is useful for relative profiles but may not represent absolute composition unless response differences are addressed."},diagram:"quant"},
-  {id:8,title:"Quality Control & System Suitability",core:"Use blanks to assess carry-over and suitable reference materials to monitor performance. Define retention-time, RI, peak-shape, and other system-suitability limits during method development or validation; values such as ±0.05 min, ±5 RI units, or tailing factor <2 are examples only, not universal requirements.",formula:null,vocab:["Carry-over","Tailing factor","System suitability","Reference compound"],quiz:{q:"How should system-suitability limits be chosen?",options:["Apply ±0.05 min and ±5 RI units to every method","Establish and document limits for the intended method, instrument, and use","Use no acceptance limits","Copy limits without verification"],correct:1,why:"Suitability criteria should be justified and documented for the method and instrument. This guide's numerical examples are not universal specifications."},diagram:"qc"},
-  {id:9,title:"Reporting Results",core:"A traceable report should identify the sample and date, state GC-MS conditions, and present peak number, proposed compound, RT, calculated and reference RI, relative area, match information, reference source, and a labelled TIC where available. Distinguish measured results from tentative identifications.",formula:null,vocab:["TIC","Match information","Reference RI source","Traceable report"],quiz:{q:"Which information best supports traceability of a proposed identification?",options:["Compound name and area only","RT, calculated and reference RI, area, match information, and reference source","Chromatogram only","Sample name only"],correct:1,why:"Traceability combines experimental values, comparison data, and the source used for the proposed identification."},diagram:"report"},
-  {id:10,title:"Solvent Delay & Early Analytes",core:"A solvent delay can reduce source exposure to a large solvent load, but also prevents data acquisition during that interval. Select it from the solvent elution profile and target analytes; confirm that no compounds of interest elute before acquisition begins. Follow the instrument manufacturer's guidance.",formula:null,vocab:["Solvent elution","Acquisition window","Source protection","Early-eluting analytes"],quiz:{q:"What is the main analytical risk of an overly long solvent delay?",options:["It shortens the oven program","Early analytes may elute before data acquisition starts","It improves all peak shapes","It changes the column type"],correct:1,why:"No data are collected during the delay, so compounds eluting in that period can be missed. Verify the solvent and analyte retention windows."},diagram:"regions"}
+  {id:0,title:"SOP v3 Scope & Safety",core:"This 3D guide follows the supplied Analysis of Essential Oils by GC-MS SOP, version 3 (May 2026), for qualitative and semi-quantitative profiling of essential oils, plant extracts, and aroma fractions. The SOP targets the typical volatile region RI 800–2500. Acetonitrile and hexane are flammable and toxic: work in a fume hood, wear gloves, and dispose of solvent as hazardous waste. Essential oils may irritate skin.",formula:null,vocab:["SOP v3 · May 2026","GC-MS","Typical RI 800–2500","Fume hood · PPE"],quiz:{q:"Which samples and approximate RI range are in this SOP's scope?",options:["Essential oils, plant extracts and aroma fractions; RI 800–2500","All compounds on every column; RI 0–10,000","Only fixed oils; RI above 2500","Only aqueous samples"],correct:0,why:"These are the sample classes and typical volatile-region range specified in section 1 of the supplied SOP. Confirm the scope for any intended application."},diagram:"scope"},
+  {id:1,title:"Materials & Equipment (SOP v3)",core:"The SOP specifies an essential-oil sample; HPLC-grade acetonitrile or hexane; n-alkanes C8–C30 (even or consecutive series; C8–C20 may suit shorter runs); and a DB-5/HP-5/Rxi-5Sil-type (5%-phenyl)-methylpolysiloxane capillary, 30 m × 0.25 mm i.d. × 0.25 µm film. It specifies helium ≥99.999%, constant flow 1.0 mL/min, GC-MS, a 1 µL syringe, acquisition software, and NIST/NIH library v2.0f or newer.",formula:null,vocab:["DB-5-type · 30 m × 0.25 mm × 0.25 µm","n-Alkanes C8–C30","He ≥99.999% · 1.0 mL/min","NIST/NIH MS Library ≥2.0f"],quiz:{q:"Which column specification is listed by the supplied SOP?",options:["DB-5-type, 30 m × 0.25 mm × 0.25 µm","PEG, 60 m × 0.53 mm","Chiral column only","Packed column only"],correct:0,why:"Section 3.2 specifies a 5%-phenyl-methylpolysiloxane column, for example DB-5, HP-5, or Rxi-5Sil, at 30 m × 0.25 mm i.d. × 0.25 µm film."},diagram:"equipment"},
+  {id:2,title:"Sample & Alkane Preparation",core:"For this SOP, prepare 1 mg/mL essential-oil solution in HPLC-grade acetonitrile or hexane; vortex or sonicate for 1–2 min. If turbid, filter through a 0.45 µm PTFE syringe filter into a GC vial; transfer about 1 mL into a capped 2 mL autosampler vial. Prepare n-alkanes at 1 mg/mL each in the same solvent. Use the same column and temperature program for standard and sample.",formula:"Sample: 1 mg/mL\nn-Alkanes: 1 mg/mL each, same solvent\nMix 1–2 min; filter if turbid",vocab:["0.45 µm PTFE if turbid","Vortex / sonicate 1–2 min","~1 mL in 2 mL vial","Same column & temperature program"],quiz:{q:"How does SOP v3 prepare the alkane mixture?",options:["1 mg/mL each in the same solvent as the sample","Neat alkanes in a different solvent","Any concentration without recording it","No alkane reference"],correct:0,why:"Section 4.2 specifies 1 mg/mL each in the same solvent; the same column and temperature program are required for sample and standard runs."},diagram:"prep"},
+  {id:3,title:"GC-MS Conditions & Run Sequence",core:"SOP v3 conditions: injector 250 °C; 1 µL; split 1:100 (or 1:50 for more sensitivity); helium 1.0 mL/min constant flow; oven 50 °C (2 min), ramp 4 °C/min to 280 °C (5 min); EI+ 70 eV; source 250 °C; full scan m/z 50–500 after a 4.5 min solvent delay. Run a solvent blank, the alkane standard, then the sample; duplicate sample injection is recommended. These settings are SOP-specific.",formula:"Oven: 50 °C (2 min) → 4 °C/min → 280 °C (5 min)\nInjector 250 °C · He 1.0 mL/min · 1 µL\nEI+ 70 eV · m/z 50–500 · delay 4.5 min",vocab:["Split 1:100 (or 1:50)","EI+ 70 eV · full scan","Blank → alkanes → sample","Duplicate sample recommended"],quiz:{q:"What run order does the SOP specify?",options:["Sample → blank → alkanes","Blank → n-alkane standard → essential-oil sample","Alkanes only","Sample only"],correct:1,why:"Section 4.4 specifies a solvent blank, then the n-alkane standard, then the sample; at least one sample injection, with duplicate recommended."},diagram:"conditions"},
+  {id:4,title:"Phenolic Inlet Temperature Warning",core:"The SOP warns against injector temperatures above 250 °C for thymol, carvacrol, and eugenol. It reports increased lower-mass ions, loss of the m/z 135 base peak, and reduced library match at 280 °C. For oil containing both volatile monoterpenes and phenolics, it recommends modified 240 °C conditions; where the current method uses a 280 °C injector, the SOP advises reducing to 220–240 °C. Treat these as this SOP's method recommendations and verify performance on the instrument.",formula:"SOP v3: do not exceed 250 °C for these phenolics\nMixed volatile + phenolic oil: modified 240 °C\nIf currently at 280 °C: SOP advises 220–240 °C",vocab:["Thymol · carvacrol · eugenol","m/z 135 base peak","280 °C: fragmentation reported","Method-specific recommendation"],quiz:{q:"What modified injector temperature does SOP v3 recommend for oils containing both volatile monoterpenes and phenolics?",options:["180 °C","240 °C","280 °C","No change from 300 °C"],correct:1,why:"Section 4.3 recommends modified 240 °C conditions for mixtures containing very volatile monoterpenes and phenolics, and advises 220–240 °C if the existing injector is at 280 °C."},diagram:"warning"},
+  {id:5,title:"Retention-Index Calculation (SOP v3)",core:"For an analyte between alkane z and the next alkane in the reference series, use the SOP's temperature-programmed linear interpolation with raw retention times and the carbon-number step. For consecutive C8, C9… alkanes the step is 1; for even-only C8, C10… it is 2. Use bracketing alkanes, the same column and temperature program. This equation is the SOP's programmed method; the isothermal Kovats equation is distinct.",formula:"I = 100z + 100Δn × (RTx − RTz) / (RTnext − RTz)\nConsecutive alkanes: Δn = 1 (e.g. C8, C9)\nEven-only alkanes: Δn = 2 (e.g. C8, C10)\nRTx = analyte; RTz / RTnext = bracketing alkanes",vocab:["RTx: analyte retention time","z: lower alkane carbon number","Δn: alkane carbon-number step","C8/C9: 1 · C8/C10: 2"],quiz:{q:"With an even-only C8, C10, C12 alkane series, what multiplier is used for the carbon-number interval?",options:["1","2","10","The retention-time difference"],correct:1,why:"For the even-numbered series specified in section 5.1, the adjacent standards differ by two carbons, so Δn = 2. For consecutive alkanes Δn = 1."},diagram:"kri"},
+  {id:6,title:"Identification Criteria & Match Scale",core:"SOP v3 accepts a proposed identification when both conditions are met: NIST forward mass-spectral match ≥80% and calculated RI within ±10 units of the cited literature value (Adams, NIST, or Babushok). If the match is high but RI differs by >20 units, report a tentative identification or check isomer interference. Match-factor displays vary: 80% corresponds to 800 on a 0–1000 scale; report the instrument's actual scale.",formula:"SOP v3 criteria: forward match ≥80% AND |RIcalc − RIlit| ≤10\nIf software reports 0–1000: 80% ≈ 800\nRI difference >20 with high match: tentative / investigate",vocab:["NIST forward match","80% or 800/1000","RI agreement ±10 (SOP criterion)",">20 RI difference: tentative"],quiz:{q:"If the software reports a 0–1000 match factor, what score corresponds to the SOP's 80% criterion?",options:["80","500","800","1000 only"],correct:2,why:"On a 0–1000 scale, 800 corresponds to 80%. Confirm the scale and match type used by the instrument software before reporting."},diagram:"id"},
+  {id:7,title:"Relative Peak-Area Quantification",core:"SOP v3 calculates relative area as each peak's integrated area divided by the total integrated area of all compounds in the chromatogram, ×100. Exclude the region before the solvent delay and non-volatile tailing above RI 2500; report percentages to two decimal places. This is a relative profile based on the stated similar-response assumption, not an absolute concentration.",formula:"% Area = peak area / total integrated peak area × 100\nExclude: region before solvent delay; tail above RI 2500\nReport to 2 decimal places",vocab:["All integrated compound peaks","Solvent-delay region excluded","Non-volatile tail >RI 2500 excluded","Relative, not absolute"],quiz:{q:"To how many decimal places does SOP v3 report area percentages?",options:["Whole numbers","One decimal place","Two decimal places","Six decimal places"],correct:2,why:"Section 5.3 specifies peak-area percentages reported to two decimal places."},diagram:"quant"},
+  {id:8,title:"Quality Control & System Suitability",core:"SOP v3 system checks: solvent blank after the alkane standard and after the sample, with no carry-over peaks; alkane retention times stable within ±0.05 min across runs; a known reference such as n-octanal or limonene within ±5 RI units of literature; and symmetrical column-performance peaks with tailing factor <2.0 for major peaks. These are criteria of this SOP.",formula:"Blanks after alkanes and sample: no carry-over\nAlkane RT stability: ±0.05 min\nKnown reference RI: ±5 units\nMajor-peak tailing factor: <2.0",vocab:["Post-standard / post-sample blanks","RT ±0.05 min","Reference RI ±5","Tailing factor <2.0"],quiz:{q:"What alkane retention-time stability does SOP v3 specify across runs?",options:["±0.5 min","±0.05 min","±5 min","No limit"],correct:1,why:"Section 6 specifies alkane retention times stable within ±0.05 min across runs."},diagram:"qc"},
+  {id:9,title:"Reporting & Reference Sources",core:"The SOP report includes sample name and analysis date; column, temperature program, and flow; a table of peak number, compound name, RT, calculated RI, literature RI, % area, and match factor; the literature RI source (Adams, NIST, or Babushok); and a labelled TIC chromatogram. The document cites Adams (2017), Babushok et al. (2011), NIST Chemistry WebBook, and PubChem. Its own DOI is linked below.",formula:"Peak No. · Compound · RT · RI(calc.) · RI(lit.)\n% Area · Match Factor · RI literature source\nLabelled TIC + GC-MS conditions",vocab:["Sample name & date","Methods and GC-MS conditions","Traceable RI source","Labelled TIC"],quiz:{q:"Which information does SOP v3 require with reported RI values?",options:["No literature source","The literature source used for the RI, such as Adams, NIST, or Babushok","Only the sample name","Only a spectrum image"],correct:1,why:"Section 7 requires the literature source used for KRI, for example Adams, NIST, or Babushok, as well as a labelled TIC and method conditions."},diagram:"report"},
+  {id:10,title:"RI Regions & Solvent Delay",core:"The SOP describes solvent RI roughly <800; the volatile essential-oil profile typically spans RI ~800–2500; and material above ~2500 may represent a heavy or non-volatile fraction. Approximate compound regions overlap: monoterpene hydrocarbons ~800–1200, oxygenated monoterpenes ~1200–1600, sesquiterpene hydrocarbons ~1400–1800, and oxygenated sesquiterpenes/heavier phenylpropanoids up to ~2000–2500. Under its DB-5 example program, the SOP uses 4.5 min delay; verify actual solvent and early-analyte elution.",formula:"Solvent: RI <~800 · SOP delay: 4.5 min\nMonoterpene hydrocarbons: ~800–1200\nOxygenated monoterpenes: ~1200–1600\nSesquiterpene hydrocarbons: ~1400–1800\nHeavier fraction: up to ~2000–2500 · >2500: late/heavy",vocab:["Regions are approximate and overlap","Solvent delay: 4.5 min in SOP v3","Acquire target early analytes","Heavy fraction >RI 2500"],quiz:{q:"What solvent delay does SOP v3 specify for its example operating conditions?",options:["0 min","4.5 min","20 min","After the last analyte"],correct:1,why:"Section 4.3 specifies a 4.5-minute delay for the stated example conditions. The delay must be checked against solvent and target-analyte elution on the actual system."},diagram:"regions"}
 ];
 
 const pageCopy={
@@ -235,35 +242,92 @@ const pageCopy={
     previous:"Previous lesson",next:"Next lesson",play:"Watch demo",reset:"Reset view",
     switchLanguage:"Switch language to Arabic",languageButton:"العربية",
     loading:"Loading the 3D lesson… An internet connection is required to load the 3D libraries.",
-    disclaimer:"Educational example only. Verify method settings and acceptance limits against validated procedures and current instrument guidance.",
+    disclaimer:"Based on the supplied GC-MS SOP, version 3 (May 2026). Its settings and limits are specific to this procedure; verify suitability locally.",
     canvas:"Interactive 3D model illustrating the current GC-MS lesson",
-    title:"GC-MS Essential Oils — Interactive 3D Learning Guide",
-    description:"Explore an interactive 3D learning guide to GC-MS analysis of essential oils, retention indices, identification, quality control, and reporting."
+    source:"Source SOP v3 · DOI ↗",
+    title:"Essential-Oil GC-MS SOP v3 — Interactive 3D Guide",
+    description:"Interactive 3D learning guide for version 3 of the essential-oil GC-MS SOP, covering sample preparation, GC-MS conditions, retention-index calculation, identification, QC, and reporting."
   },
   ar:{
     home:"العودة إلى LabSuite ↗",contents:"محتويات الدروس",completed:"مكتمل",toc:"محتويات الدروس",interact:"اسحب لتدوير النموذج؛ مرّر المؤشر أو المس مجسمًا لعرض التفاصيل.",
     previous:"الدرس السابق",next:"الدرس التالي",play:"عرض توضيحي",reset:"إعادة ضبط العرض",
     switchLanguage:"Switch language to English",languageButton:"English",
     loading:"جارٍ تحميل الدرس ثلاثي الأبعاد… يلزم اتصال بالإنترنت لتحميل مكتبات العرض.",
-    disclaimer:"مثال تعليمي فقط. تحقّق من إعدادات الطريقة وحدود القبول بالرجوع إلى الإجراءات المعتمدة وإرشادات الجهاز الحالية.",
+    disclaimer:"مبني على إجراء GC-MS المرفق، الإصدار 3 (مايو 2026). إعداداته وحدوده خاصة بهذا الإجراء؛ تحقّق من ملاءمتها محليًا.",
+    source:"الإجراء المرجعي v3 · DOI ↗",
     canvas:"نموذج ثلاثي الأبعاد تفاعلي يوضح درس GC-MS الحالي",
-    title:"تحليل الزيوت العطرية بـ GC-MS — دليل تعليمي ثلاثي الأبعاد",
-    description:"دليل تعليمي تفاعلي ثنائي اللغة لتحليل الزيوت العطرية بـ GC-MS ومؤشرات الاحتجاز والتعرّف على المركبات وضبط الجودة والتقارير."
+    title:"إجراء GC-MS للزيوت العطرية v3 — دليل تفاعلي ثلاثي الأبعاد",
+    description:"دليل تفاعلي ثلاثي الأبعاد للإصدار الثالث من إجراء GC-MS للزيوت العطرية، يغطي التحضير وظروف التشغيل وحساب مؤشر الاحتجاز والتعرّف وضبط الجودة والتقارير."
   }
 };
 
+const diagramCopy={
+  en:{
+    solvent:["Solvent region","Approximate RI <800 in the SOP; excluded before the 4.5 min solvent delay for this method."],
+    mono:["Monoterpene hydrocarbons","Typical approximate RI 800–1200; region boundaries are not absolute."],
+    oxyMono:["Oxygenated monoterpenes","Typical approximate RI 1200–1600; ranges may overlap."],
+    sesqui:["Sesquiterpene hydrocarbons","Typical approximate RI 1400–1800; ranges may overlap."],
+    oxySesqui:["Oxygenated sesquiterpenes / heavier phenylpropanoids","May extend to approximately RI 2000–2500."],
+    heavy:["Heavy / non-volatile fraction","Material above approximately RI 2500 may be excluded from routine volatile profiling under the SOP."],
+    column:["GC capillary column","SOP v3 example: 30 m × 0.25 mm i.d. × 0.25 µm DB-5-type column."],
+    oven:["Column oven","SOP v3 program: 50 °C (2 min), 4 °C/min to 280 °C (5 min)."],
+    injector:["Injector","SOP v3: 250 °C, 1 µL; split 1:100 or 1:50. Phenolic warning and modified settings are in lesson 5."],
+    septum:["Septum nut","Part of the GC inlet; follow instrument maintenance instructions."],
+    transfer:["Transfer line / column","Connects the GC column to the mass spectrometer."],
+    ms:["Mass spectrometer","SOP v3: EI+ 70 eV, full scan m/z 50–500; source temperature 250 °C."],
+    vacuum:["Vacuum system","Maintains the operating vacuum required by the mass spectrometer."],
+    sampleVial:["Essential-oil sample vial","SOP v3: 1 mg/mL in HPLC-grade acetonitrile or hexane; mix 1–2 min."],
+    alkaneVial:["n-Alkane standard vial","SOP v3: 1 mg/mL each in the same solvent as the sample."],
+    cap:["Autosampler vial cap","Use a suitable, compatible GC vial closure."],
+    inletWarning:["Phenolic inlet-temperature warning","SOP v3 warns against >250 °C for thymol, carvacrol, or eugenol; see lesson for its modified conditions."],
+    unknown:["Analyte between reference alkanes","Use its retention time and the appropriate carbon-number step in the SOP v3 programmed-index equation."],
+    alkane:["n-Alkane reference","Even-only series shown: C8, C10, C12, C14, C16, C18. Consecutive series uses a carbon-number step of 1."],
+    peak:["Integrated chromatographic peak","Schematic peak; apply the integration and exclusion rules stated in SOP v3."],
+    targetPeak:["Example target peak","Peak areas are relative estimates under the SOP's similar-response assumption, not absolute concentrations."],
+    report:["GC-MS report","SOP v3 includes RT, calculated/reference RI, % area, match factor, RI source, conditions, and labelled TIC."]
+  },
+  ar:{
+    solvent:["منطقة المذيب","RI تقريبي أقل من 800 في الإجراء؛ تستبعد قبل تأخير المذيب 4.5 دقيقة لهذه الطريقة."],
+    mono:["مونوتربينات هيدروكربونية","RI تقريبي معتاد 800–1200؛ حدود المنطقة ليست قطعية."],
+    oxyMono:["مونوتربينات مؤكسجة","RI تقريبي معتاد 1200–1600؛ قد تتداخل المجالات."],
+    sesqui:["سيسكويتربينات هيدروكربونية","RI تقريبي معتاد 1400–1800؛ قد تتداخل المجالات."],
+    oxySesqui:["سيسكويتربينات مؤكسجة / فينيل بروبانويدات أثقل","قد تمتد إلى RI تقريبي 2000–2500."],
+    heavy:["جزء ثقيل / غير متطاير","قد تستبعد الطريقة الروتينية للمركبات المتطايرة المواد فوق RI تقريبي 2500."],
+    column:["عمود GC شعري","مثال SOP v3: عمود DB-5 بطول 30 م × 0.25 مم داخلي × 0.25 µm."],
+    oven:["فرن العمود","برنامج SOP v3: ‏50 °C (دقيقتان)، ثم 4 °C/min حتى 280 °C (5 دقائق)."],
+    injector:["الحاقن","SOP v3: ‏250 °C، و1 µL؛ وتقسيم 1:100 أو 1:50. راجع تحذير الفينولات وإعداداته المعدلة في الدرس 5."],
+    septum:["صامولة الحاجز","جزء من مدخل GC؛ اتبع تعليمات صيانة الجهاز."],
+    transfer:["خط النقل / العمود","يصل عمود GC بمطياف الكتلة."],
+    ms:["مطياف الكتلة","SOP v3: ‏EI+ عند 70 eV، ومسح كامل m/z 50–500؛ وحرارة المصدر 250 °C."],
+    vacuum:["نظام التفريغ","يحافظ على ضغط التشغيل اللازم لمطياف الكتلة."],
+    sampleVial:["قارورة عينة الزيت العطري","SOP v3: ‏1 mg/mL في أسيتونتريل أو هكسان بدرجة HPLC؛ مزج 1–2 دقيقة."],
+    alkaneVial:["قارورة معيار n-alkanes","SOP v3: ‏1 mg/mL لكل ألكان في المذيب نفسه المستخدم للعينة."],
+    cap:["غطاء قارورة جهاز أخذ العينات","استخدم إغلاقًا مناسبًا ومتوافقًا مع قارورة GC."],
+    inletWarning:["تحذير حرارة الحاقن للفينولات","يحذر SOP v3 من تجاوز 250 °C للثيمول أو الكارفاكرول أو الأوجينول؛ راجع الإعدادات المعدّلة في الدرس."],
+    unknown:["محلَّل بين ألكانات مرجعية","استخدم زمن احتجازه وخطوة عدد الكربونات المناسبة في معادلة المؤشر المبرمج في SOP v3."],
+    alkane:["ألكان مرجعي","السلسلة الزوجية المعروضة: C8، C10، C12، C14، C16، C18. في السلسلة المتتابعة تكون خطوة عدد الكربونات 1."],
+    peak:["قمة كروماتوغرافية متكاملة","قمة تخطيطية؛ طبّق قواعد التكامل والاستبعاد الواردة في SOP v3."],
+    targetPeak:["قمة مستهدفة مثالًا","مساحات القمم تقديرات نسبية وفق افتراض تقارب الاستجابة، وليست تراكيز مطلقة."],
+    report:["تقرير GC-MS","يتضمن SOP v3 أزمنة RT ومؤشري RI المحسوب والمرجعي و% المساحة ودرجة التطابق ومصدر RI والظروف وTIC موسومًا."]
+  }
+};
+
+function diagramText(key){
+  return diagramCopy[language][key];
+}
+
 const arabicLessons=[
-  {title:"نظرة عامة على الطريقة (مثال تعليمي)",core:"يقدّم هذا المثال التعليمي لمحة عن التحليل النوعي وشبه الكمي للمركبات المتطايرة في الزيوت العطرية باستخدام GC-MS. ويستعرض تحضير العينة وظروف تشغيل نموذجية وحساب مؤشر الاحتجاز والتعرّف المبدئي على المركبات والإبلاغ عن مساحات القمم النسبية. المجال التقريبي 800–2500 توضيحي وليس حدًا عامًا للطريقة.",vocab:["GC-MS","مؤشر الاحتجاز (RI)","زيت عطري","تطبيع مساحة القمة"],quiz:{q:"كيف ينبغي تفسير مجال RI التقريبي في المثال (نحو 800–2500)؟",options:["مجال قبول عالمي","مجال توضيحي يعتمد على العينة والطريقة","مواصفة للكاشف","مجال إلزامي لكل عمود"],why:"يعتمد مجال المركبات على العينة والعمود وبرنامج الحرارة والطريقة؛ لا يُعد هذا المثال حدًا عامًا."}},
-  {title:"المواد والمعدات الأساسية",core:"تشمل المواد عينة الزيت العطري ومذيبًا مناسبًا مثل الأسيتونتريل أو الهكسان ومرجع ألكانات طبيعية (مثل C8–C30) وعمودًا من نوع (5%-phenyl)-methylpolysiloxane وغازًا حاملًا. يجب اختيار المواد والإعدادات وفق الطريقة والجهاز.",vocab:["عمود DB-5 / HP-5","مرجع n-alkanes","الهيليوم","مكتبة NIST"],quiz:{q:"ما نوع العمود المذكور في هذا المثال؟",options:["عمود PEG قطبي","عمود (5%-phenyl)-methylpolysiloxane من نوع DB-5","عمود كيرالي فقط","عمود محشو"],why:"عمود DB-5 مثال شائع غير قطبي، لكن اختيار العمود يجب أن يتوافق مع الطريقة والمراجع المقارنة."}},
-  {title:"تحضير العينة ومرجع الألكانات",core:"حضّر محلول العينة ومزيج n-alkanes بتركيز ومذيب مناسبين ومتحقق منهما للطريقة والجهاز. صفِّ العينة عند الحاجة وباستخدام مرشح متوافق. شغّل مزيج الألكانات والعينة على العمود نفسه وبالظروف الكروماتوغرافية نفسها؛ لا يشترط التطابق الحسابي للمذيب والتركيز.",vocab:["مرشح PTFE ‏0.45 µm عند الملاءمة","الخلط / الموجات فوق الصوتية","قارورة جهاز أخذ العينات","مزيج n-alkanes"],quiz:{q:"ما الشرط الأساسي لمقارنة العينة بسلسلة n-alkanes لحساب مؤشر الاحتجاز؟",options:["المذيب والتركيز نفسيهما دائمًا","العمود والظروف الكروماتوغرافية نفسها وقياس موثوق لأزمنة الاحتجاز","حجم الحقن نفسه فقط","لا شيء"],why:"يتطلب حساب المؤشر ألكانات مناسبة تحيط بالمحلَّل وظروفًا كروماتوغرافية متسقة. اختيار المذيب والتركيز خاص بالطريقة."}},
-  {title:"ظروف تشغيل GC-MS",core:"درجات الحرارة والتدفق ونسبة التقسيم ومجال المسح وبرنامج الفرن المعروض أمثلة أولية وليست طريقة عامة معتمدة. حدّد تأخير المذيب وفق خروجه وزمن احتجاز المركبات المستهدفة، وتحقق من عدم فقد المركبات المبكرة، واتبع تعليمات الشركة المصنّعة.",vocab:["تأخير المذيب","نسبة التقسيم","EI+ 70 eV","تدفق ثابت"],quiz:{q:"كيف يُحدَّد تأخير المذيب؟",options:["استخدم 4.5 دقائق لكل الطرق","حدده وفق خروج المذيب واحتجاز المركبات المستهدفة ثم تحقق من تسجيل المركبات المبكرة","اجعله بعد آخر مركب","لا يؤثر أبدًا"],why:"يمنع التأخير جمع البيانات خلال مدته وقد يحجب مركبات مبكرة؛ تحقّق منه للطريقة والمذيب والجهاز."}},
-  {title:"درجة حرارة الحاقن — حسب الطريقة",core:"لا يثبت هذا الدليل حدًا أقصى عامًا قدره 250 °C للثيمول أو الكارفاكرول أو الأوجينول. قد تؤثر حرارة المدخل والبطانة والتقسيم وثبات المحلَّل في النقل والاستجابة. حسّن الظروف باستخدام معايير مناسبة وفحوص ملاءمة النظام، ولا تستنتج التحلل الحراري من الحرارة وحدها.",vocab:["ثيمول","كارفاكرول","أوجينول","تمييز المدخل"],quiz:{q:"كيف ينبغي تحديد حد حرارة الحاقن للمركب المستهدف؟",options:["اعتبار 250 °C حدًا أقصى عالميًا","تقييم معايير مناسبة بالطريقة المقصودة وتوثيق الأداء","استخدام أعلى إعداد متاح","استنتاج التحلل من تطابق المكتبة فقط"],why:"يجب أن يستند الحد إلى أدلة خاصة بالطريقة وإرشادات الجهاز؛ لا يحدد هذا الدليل عتبة عامة."}},
-  {title:"حساب مؤشر الاحتجاز",core:"في GC المبرمج حراريًا، يُحسب مؤشر الاحتجاز الخطي بالاستيفاء بين ألكانين طبيعيين يحيطان بالمحلَّل، مع استخدام رقمي الكربون وزمني الاحتجاز. أما مؤشر كوفات المتساوي الحرارة فيستخدم لوغاريتم أزمنة الاحتجاز المعدّلة وهو حساب مختلف. اذكر الاصطلاح والظروف المستخدمة.",vocab:["RTx: زمن احتجاز المحلَّل","RTn: الألكان الأدنى المحيط","رقم الكربون n","مؤشر خطي أم مؤشر كوفات"],quiz:{q:"أي حساب يُستخدم عادةً في تشغيل GC مبرمج حراريًا؟",options:["معادلة كوفات المتساوية الحرارة بأزمنة خام","استيفاء خطي بين ألكانات n متجاورة","لا حاجة إلى مراجع ألكانات","تطبيع مساحة القمة"],why:"يستخدم التشغيل المبرمج حراريًا عادةً الاستيفاء الخطي لمؤشر الاحتجاز؛ معادلة كوفات المتساوية الحرارة تستخدم لوغاريتم أزمنة الاحتجاز المعدّلة."}},
-  {title:"التعرّف على المركبات ودرجة الثقة",core:"تشابه طيف الكتلة وتوافق مؤشر الاحتجاز دليلان متكاملان للتعرّف المبدئي. حدود مثل تطابق مكتبة 80% أو فرق RI بمقدار ±10 أمثلة تعتمد على الطريقة والمكتبة وليست معايير تأكيد عامة. راعِ جودة المرجع والتراكب والتماكب، واستخدم معايير أصيلة عند الحاجة.",vocab:["التطابق الأمامي","مكتبة مرجعية","تعرّف مبدئي","تداخل المتماكبات"],quiz:{q:"إذا كان تطابق الطيف مرتفعًا لكن RI لا يوافق المرجع، فما الإجراء؟",options:["اعتباره مؤكدًا","الإبلاغ عن عدم اليقين والتحقق من المراجع والتراكب والمتماكبات المحتملة","تجاهل RI","حذف القمة"],why:"ينبغي الإبلاغ عن الأدلة المتعارضة والتحقق منها؛ تطابق المكتبة وحده لا يثبت الهوية."}},
-  {title:"التقدير الكمي النسبي",core:"تُحسب النسبة المئوية لمساحة القمة نسبةً إلى مجموع المساحات المتكاملة. قد يكون ذلك مفيدًا للتوصيف النسبي، لكنه يفترض ضمنًا استجابات متقاربة ولا يعادل تركيزًا مطلقًا. استبعد المناطق غير الملائمة وفق الطريقة واذكر القيود.",vocab:["تطبيع مساحة القمة","عامل الاستجابة","TIC","الجزء غير المتطاير"],quiz:{q:"ما القيد الأساسي للتقدير بمساحة القمم؟",options:["يثبت التركيز المطلق دائمًا","قد تختلف عوامل الاستجابة؛ لذا لا تساوي النسبة بالمساحة تركيزًا مطلقًا","لا يحتاج إلى كروماتوغرام","يضمن استجابة متساوية"],why:"تعتمد النسبة بالمساحة على الاستجابة النسبية للمركبات، وقد تتطلب التقديرات المطلقة معايرة مناسبة وعوامل استجابة."}},
-  {title:"ضبط الجودة وملاءمة النظام",core:"استخدم الفراغات لتقييم الحمل المتبقي ومواد مرجعية مناسبة لمراقبة الأداء. حدّد حدود زمن الاحتجاز وRI وشكل القمة وملاءمة النظام أثناء تطوير الطريقة أو التحقق منها. القيم مثل ±0.05 دقيقة أو ±5 وحدات RI أو معامل ذيل أقل من 2 أمثلة وليست متطلبات عامة.",vocab:["الحمل المتبقي","معامل الذيل","ملاءمة النظام","مركب مرجعي"],quiz:{q:"كيف تُختار حدود ملاءمة النظام؟",options:["تطبيق ±0.05 دقيقة و±5 RI على جميع الطرق","وضع حدود موثقة للطريقة والجهاز والاستخدام المقصود","عدم استخدام أي حدود قبول","نسخ الحدود دون تحقق"],why:"ينبغي تبرير معايير الملاءمة وتوثيقها للطريقة والجهاز؛ القيم الرقمية في هذا الدليل ليست مواصفات عامة."}},
-  {title:"متطلبات إعداد التقرير",core:"ينبغي أن يحدد التقرير العينة والتاريخ وظروف GC-MS وأرقام القمم وأسماء المركبات وأزمنة الاحتجاز وRI المحسوب والمرجعي والنسبة المئوية للمساحة ودرجة التطابق ومصدر المرجع وكروماتوغرام TIC الموسوم. ميّز النتائج المقاسة عن التعرّف المبدئي.",vocab:["TIC","درجة التطابق","مصدر RI المرجعي","جدول النتائج"],quiz:{q:"ما البيانات التي تدعم قابلية تتبع النتائج؟",options:["اسم المركب والنسبة فقط","RT وRI المحسوب والمرجعي والنسبة ودرجة التطابق ومصدر المرجع","الكروماتوغرام فقط","اسم العينة فقط"],why:"تجمع قابلية التتبع بين البيانات التجريبية ومصدر المقارنة والنتائج المبدئية."}},
-  {title:"تأخير المذيب والمركبات المبكرة",core:"قد يقلل تأخير المذيب تعرض المصدر لكمية كبيرة من المذيب، لكنه يمنع جمع البيانات أثناء فترة التأخير. اختره وفق منحنى خروج المذيب واحتجاز المركبات المستهدفة، وتأكد من عدم خروج مركبات مهمة قبل بدء التسجيل، واتبع إرشادات الجهاز.",vocab:["خروج المذيب","نافذة جمع البيانات","حماية المصدر","المركبات المبكرة"],quiz:{q:"ما الخطر التحليلي الرئيسي من تأخير مذيب طويل أكثر من اللازم؟",options:["تقليل مدة برنامج الفرن","قد تخرج المركبات المبكرة قبل بدء جمع البيانات","تحسين شكل كل القمم","تغيير نوع العمود"],why:"لا تُجمع البيانات أثناء التأخير، وقد تفوت المركبات التي تخرج خلاله. تحقّق من أزمنة خروج المذيب والمحلَّلات."}}
+  {title:"نطاق SOP v3 والسلامة",core:"يتبع هذا الدليل ثلاثي الأبعاد إجراء تحليل الزيوت العطرية بـ GC-MS، الإصدار الثالث (مايو 2026)، للتحليل النوعي وشبه الكمي للزيوت العطرية والمستخلصات النباتية وكسور الروائح. يستهدف الإجراء المجال المعتاد للمركبات المتطايرة RI 800–2500. الأسيتونتريل والهكسان قابلان للاشتعال وسامّان: اعمل في خزانة شفط وارتدِ القفازات وتخلّص من المذيبات في حاويات النفايات الخطرة. وقد تهيّج الزيوت العطرية الجلد.",vocab:["SOP v3 · مايو 2026","GC-MS","RI 800–2500 نموذجي","خزانة شفط · معدات وقاية"],quiz:{q:"ما العينات والمجال التقريبي التي يشملها هذا الإجراء؟",options:["الزيوت العطرية والمستخلصات وكسور الروائح؛ RI 800–2500","كل المركبات على كل الأعمدة؛ RI 0–10,000","الزيوت الثابتة فقط؛ RI فوق 2500","العينات المائية فقط"],why:"هذه فئات العينات ومجال الجزء المتطاير المعتاد في نطاق الإجراء، وفق القسم 1."}},
+  {title:"المواد والمعدات (SOP v3)",core:"يحدد الإجراء عينة زيت عطري؛ أسيتونتريل أو هكسان بدرجة HPLC؛ ألكانات C8–C30 (سلسلة زوجية أو متتابعة، ويمكن استخدام C8–C20 للتشغيل الأقصر)؛ وعمودًا شعريًا DB-5/HP-5/Rxi-5Sil من نوع (5%-phenyl)-methylpolysiloxane بأبعاد 30 م × 0.25 مم × 0.25 µm. ويحدد هيليومًا بنقاوة ≥99.999% وتدفقًا ثابتًا 1.0 mL/min وجهاز GC-MS ومحقنة 1 µL ومكتبة NIST/NIH إصدار 2.0f أو أحدث.",vocab:["DB-5 · 30 م × 0.25 مم × 0.25 µm","ألكانات C8–C30","هيليوم ≥99.999% · 1.0 mL/min","مكتبة NIST/NIH ≥2.0f"],quiz:{q:"ما مواصفة العمود الواردة في الإجراء؟",options:["DB-5، 30 م × 0.25 مم × 0.25 µm","PEG، 60 م × 0.53 مم","عمود كيرالي فقط","عمود محشو فقط"],why:"يحدد القسم 3.2 عمودًا من نوع 5%-phenyl-methylpolysiloxane مثل DB-5 أو HP-5 أو Rxi-5Sil."}},
+  {title:"تحضير العينة والألكانات",core:"وفق هذا الإجراء، حضّر محلول الزيت بتركيز 1 mg/mL في أسيتونتريل أو هكسان بدرجة HPLC، وامزج أو عالج بالموجات فوق الصوتية 1–2 دقيقة. إذا كان المحلول عكرًا، رشّحه بمرشح حقني PTFE ‏0.45 µm في قارورة GC؛ ثم انقل نحو 1 mL إلى قارورة أخذ عينات 2 mL وأحكم إغلاقها. حضّر الألكانات بتركيز 1 mg/mL لكل ألكان في المذيب نفسه. استخدم العمود وبرنامج الحرارة نفسيهما للمعيار والعينة.",formula:"العينة: 1 mg/mL\nالألكانات: 1 mg/mL لكل ألكان، المذيب نفسه\nمزج 1–2 دقيقة؛ ترشيح عند العكارة",vocab:["PTFE ‏0.45 µm عند العكارة","مزج / موجات فوق صوتية 1–2 دقيقة","نحو 1 mL في قارورة 2 mL","العمود وبرنامج الحرارة نفسيهما"],quiz:{q:"كيف يُحضّر مزيج الألكانات في SOP v3؟",options:["1 mg/mL لكل ألكان بالمذيب نفسه المستخدم للعينة","ألكانات نقية بمذيب مختلف","أي تركيز دون توثيقه","دون معيار ألكانات"],why:"يحدد القسم 4.2 تركيز 1 mg/mL لكل ألكان في المذيب نفسه، مع استخدام العمود وبرنامج الحرارة نفسيهما."}},
+  {title:"ظروف GC-MS وتسلسل التشغيل",core:"شروط SOP v3: الحاقن 250 °C؛ حقن 1 µL؛ تقسيم 1:100 (أو 1:50 لحساسية أعلى)؛ هيليوم 1.0 mL/min بتدفق ثابت؛ فرن 50 °C لدقيقتين، ثم 4 °C/min حتى 280 °C مع تثبيت 5 دقائق؛ EI+ عند 70 eV؛ مصدر 250 °C؛ مسح كامل m/z 50–500 بعد تأخير مذيب 4.5 دقيقة. التسلسل: فراغ مذيب، ثم معيار الألكانات، ثم العينة؛ ويوصى بحقن العينة مكررًا. هذه الإعدادات خاصة بهذا الإجراء.",formula:"الفرن: 50 °C (2 min) → 4 °C/min → 280 °C (5 min)\nالحاقن 250 °C · He 1.0 mL/min · 1 µL\nEI+ 70 eV · m/z 50–500 · التأخير 4.5 min",vocab:["تقسيم 1:100 أو 1:50","EI+ 70 eV · مسح كامل","فراغ ← ألكانات ← عينة","يوصى بتكرار حقن العينة"],quiz:{q:"ما ترتيب التشغيل الذي يحدده الإجراء؟",options:["العينة ثم الفراغ ثم الألكانات","فراغ المذيب ثم معيار الألكانات ثم عينة الزيت","الألكانات فقط","العينة فقط"],why:"يحدد القسم 4.4 فراغ المذيب ثم معيار الألكانات ثم العينة، مع توصية بتكرار حقن العينة."}},
+  {title:"تحذير حرارة الحاقن للمركبات الفينولية",core:"يحذّر الإجراء من تجاوز حرارة الحاقن 250 °C مع الثيمول والكارفاكرول والأوجينول. ويذكر زيادة الأيونات الأقل من m/z 135 واختفاء m/z 135 بوصفه الأيون الأساسي وانخفاض تطابق المكتبة عند 280 °C. إذا احتوى الزيت على مونوتربينات شديدة التطاير ومركبات فينولية معًا، يوصي بظروف معدلة عند 240 °C؛ وإذا كانت الطريقة الحالية تستخدم 280 °C فينصح الإجراء بخفضها إلى 220–240 °C. هذه توصيات الطريقة المحددة ويجب التحقق من أدائها على الجهاز.",formula:"SOP v3: لا تتجاوز 250 °C لهذه الفينولات\nالزيت المختلط: ظروف معدّلة عند 240 °C\nإذا كانت الحرارة 280 °C: يوصي الإجراء بـ220–240 °C",vocab:["ثيمول · كارفاكرول · أوجينول","m/z 135 الأيون الأساسي","تحلل طيفي مذكور عند 280 °C","توصية خاصة بالطريقة"],quiz:{q:"ما درجة الحاقن المعدّلة التي يوصي بها SOP v3 لزيت يحوي مونوتربينات وفينولات؟",options:["180 °C","240 °C","280 °C","دون تغيير عند 300 °C"],why:"يوصي القسم 4.3 بظروف معدلة عند 240 °C للخليط، وبخفض 280 °C إلى 220–240 °C."}},
+  {title:"حساب مؤشر الاحتجاز (SOP v3)",core:"للمحلَّل الواقع بين الألكان z والألكان التالي في السلسلة المرجعية، يستخدم الإجراء استيفاءً خطيًا مبرمجًا حراريًا بأزمنة الاحتجاز الخام وخطوة عدد الكربونات. في سلسلة C8، C9… تكون الخطوة 1؛ وفي السلسلة الزوجية C8، C10… تكون 2. استخدم ألكانات تحيط بالمحلَّل والعمود وبرنامج الحرارة نفسيهما. هذه معادلة الإجراء المبرمج؛ ومعادلة كوفات المتساوية الحرارة مختلفة.",formula:"I = 100z + 100Δn × (RTx − RTz) / (RTnext − RTz)\nألكانات متتابعة: Δn = 1 (مثل C8، C9)\nألكانات زوجية فقط: Δn = 2 (مثل C8، C10)\nRTx = المحلَّل؛ وRTz / RTnext = الألكانان المحيطان",vocab:["RTx: زمن احتجاز المحلَّل","z: رقم كربون الألكان الأدنى","Δn: فرق عدد الكربونات","C8/C9: 1 · C8/C10: 2"],quiz:{q:"في سلسلة زوجية C8، C10، C12، ما معامل فرق عدد الكربونات؟",options:["1","2","10","فرق زمن الاحتجاز"],why:"تختلف المعايير الزوجية المتجاورة بكربونين، لذا Δn=2؛ أما الألكانات المتتابعة فـΔn=1."}},
+  {title:"معايير التعرف ومقياس التطابق",core:"يقبل SOP v3 التعرّف المقترح عند تحقق الشرطين: تطابق أمامي لطيف الكتلة في مكتبة NIST لا يقل عن 80%، ومؤشر RI محسوب ضمن ±10 وحدات من القيمة المنشورة (Adams أو NIST أو Babushok). إذا كان التطابق مرتفعًا لكن فرق RI أكبر من 20 وحدة، فيُذكر التعرف على أنه مبدئي أو يُتحقق من تداخل المتماكبات. تختلف المقاييس: 80% تعادل 800 على مقياس 0–1000؛ اذكر المقياس الفعلي للبرنامج.",formula:"شروط SOP v3: تطابق أمامي ≥80% و |RIcalc − RIlit| ≤10\nعلى مقياس 0–1000: ‏80% ≈ 800\nفرق RI >20 مع تطابق عالٍ: مبدئي / يحتاج تحققًا",vocab:["تطابق NIST الأمامي","80% أو 800/1000","توافق RI ±10 (شرط الإجراء)","فرق >20: تعرّف مبدئي"],quiz:{q:"إذا عرض البرنامج مقياس تطابق من 0 إلى 1000، فما الدرجة التي تعادل معيار 80%؟",options:["80","500","800","1000 فقط"],why:"على مقياس 0–1000، تقابل 800 نسبة 80%. تحقّق من المقياس ونوع التطابق في برنامج الجهاز."}},
+  {title:"التقدير النسبي بمساحة القمم",core:"يحسب SOP v3 النسبة بقسمة مساحة كل قمة متكاملة على مجموع المساحات المتكاملة لجميع المركبات في الكروماتوغرام ثم الضرب في 100. استبعد المنطقة السابقة لتأخير المذيب والذيل غير المتطاير فوق RI 2500، وقرّب النسب إلى منزلتين عشريتين. هذا توصيف نسبي يفترض تقارب عوامل الاستجابة، وليس تركيزًا مطلقًا.",formula:"% المساحة = مساحة القمة / مجموع المساحات المتكاملة × 100\nيُستبعد: ما قبل تأخير المذيب والذيل فوق RI 2500\nالتقرير إلى منزلتين عشريتين",vocab:["جميع قمم المركبات المتكاملة","استبعاد منطقة تأخير المذيب","استبعاد الذيل فوق RI 2500","نسبي وليس تركيزًا مطلقًا"],quiz:{q:"إلى كم منزلة عشرية يوصي SOP v3 بالإبلاغ عن النسب؟",options:["عدد صحيح","منزلة واحدة","منزلتان","ست منازل"],why:"يحدد القسم 5.3 الإبلاغ عن نسب المساحة إلى منزلتين عشريتين."}},
+  {title:"ضبط الجودة وملاءمة النظام",core:"فحوص SOP v3: حقن فراغ بعد معيار الألكانات وبعد العينة دون قمم حمل متبقٍ؛ ثبات أزمنة الألكانات ضمن ±0.05 دقيقة بين التشغيلات؛ مركب مرجعي معروف مثل n-octanal أو limonene ضمن ±5 وحدات RI من الأدبيات؛ قمم متماثلة ومعامل ذيل أقل من 2.0 للقمم الرئيسية. هذه حدود هذا الإجراء.",formula:"فراغ بعد الألكانات والعينة: دون حمل متبقٍ\nثبات RT للألكانات: ±0.05 دقيقة\nRI للمرجع: ±5 وحدات\nمعامل ذيل القمم الرئيسية: <2.0",vocab:["فراغ بعد المعيار وبعد العينة","RT ±0.05 دقيقة","RI المرجعي ±5","معامل الذيل <2.0"],quiz:{q:"ما ثبات زمن الاحتجاز للألكانات الذي يحدده SOP v3؟",options:["±0.5 دقيقة","±0.05 دقيقة","±5 دقائق","دون حد"],why:"يحدد القسم 6 ثبات أزمنة الألكانات ضمن ±0.05 دقيقة بين التشغيلات."}},
+  {title:"التقرير والمراجع",core:"يتضمن تقرير الإجراء اسم العينة وتاريخ التحليل؛ العمود وبرنامج الحرارة والتدفق؛ جدول رقم القمة واسم المركب وRT وRI المحسوب وRI الأدبي ونسبة المساحة ودرجة التطابق؛ مصدر RI (Adams أو NIST أو Babushok)؛ وكروماتوغرام TIC مع تسمية القمم. يستشهد المستند بكتاب Adams ‏(2017) وBabushok وآخرين (2011) وNIST Chemistry WebBook وPubChem. رابط DOI للإجراء أدناه.",formula:"رقم القمة · المركب · RT · RI المحسوب · RI الأدبي\n% المساحة · درجة التطابق · مصدر RI\nTIC موسوم + ظروف GC-MS",vocab:["اسم العينة وتاريخها","الطريقة وظروف الجهاز","مصدر RI قابل للتتبع","كروماتوغرام TIC موسوم"],quiz:{q:"ما المعلومة اللازمة مع قيم RI المبلّغ عنها؟",options:["دون ذكر مصدر أدبي","مصدر RI المستخدم مثل Adams أو NIST أو Babushok","اسم العينة فقط","صورة الطيف فقط"],why:"يطلب القسم 7 مصدر الأدبيات المستخدم للمؤشر، إضافة إلى TIC موسوم وظروف الطريقة."}},
+  {title:"مناطق RI وتأخير المذيب",core:"يصف الإجراء RI للمذيب بأنه أقل تقريبًا من 800؛ ويمتد المجال المعتاد لمكونات الزيت المتطايرة نحو 800–2500؛ وقد تمثل المواد فوق 2500 جزءًا ثقيلًا أو غير متطاير. المجالات التقريبية متداخلة: مونوتربينات هيدروكربونية ~800–1200، مؤكسجة ~1200–1600، سيسكويتربينات هيدروكربونية ~1400–1800، ومؤكسجة/فينيل بروبانويدات أثقل حتى ~2000–2500. في مثال DB-5 يحدد الإجراء تأخيرًا 4.5 دقيقة؛ تحقّق من خروج المذيب والمركبات المبكرة على جهازك.",formula:"المذيب: RI <~800 · تأخير SOP: ‏4.5 دقيقة\nمونوتربينات هيدروكربونية: ~800–1200\nمونوتربينات مؤكسجة: ~1200–1600\nسيسكويتربينات هيدروكربونية: ~1400–1800\nجزء أثقل حتى ~2000–2500 · فوق 2500: متأخر/ثقيل",vocab:["المناطق تقريبية ومتداخلة","تأخير المذيب في SOP v3: ‏4.5 دقيقة","تسجيل المركبات المبكرة","الجزء الثقيل فوق RI 2500"],quiz:{q:"ما تأخير المذيب الذي يحدده SOP v3 لظروفه النموذجية؟",options:["دون تأخير","4.5 دقائق","20 دقيقة","بعد آخر مركب"],why:"يحدد القسم 4.3 تأخيرًا قدره 4.5 دقائق للظروف المعروضة؛ تحقّق من خروج المذيب والمركبات المستهدفة على النظام الفعلي."}}
 ];
 
 let language=new URLSearchParams(location.search).get("lang")==="ar"?"ar":"en";
@@ -360,57 +424,59 @@ function buildDiagram(type){
   if(type==="scope" || type==="regions"){
     const column = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 1.65, 32), metal(0x4a5568, 0.3, 0.8));
     column.position.y = 0.9;
-    addPart(column, "GC Capillary Column", "30 m × 0.25 mm DB-5 type column. Separation occurs here.");
+    addPart(column, ...diagramText("column"));
     
-    const zoneColors = [0x3182ce, 0x38a169, 0xd69e2e, 0xdd6b20, 0xe53e3e];
-    const zoneNames = ["Monoterpenes", "Oxygenated MT", "Sesquiterpenes", "Oxygenated ST", "Diterpenes / Late"];
-    zoneColors.forEach((c,i)=>{
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.025, 8, 32), new THREE.MeshStandardMaterial({color:c, roughness:0.4}));
+    const zones = [
+      ["solvent",0x718096],["mono",0x3182ce],["oxyMono",0x38a169],
+      ["sesqui",0xd69e2e],["oxySesqui",0xdd6b20],["heavy",0xe53e3e]
+    ];
+    zones.forEach(([key,color],i)=>{
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.025, 8, 32), new THREE.MeshStandardMaterial({color, roughness:0.4}));
       ring.rotation.x = Math.PI/2;
-      ring.position.y = 0.28 + i * 0.28;
-      addPart(ring, zoneNames[i], `KRI region approximately ${800 + i*300} – ${1100 + i*300}`);
+      ring.position.y = 0.24 + i * 0.23;
+      addPart(ring, ...diagramText(key));
     });
     
     const base = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, 0.1, 24), metal(0x2d3748));
     base.position.y = 0.05;
-    addPart(base, "Column Oven Base", "Temperature programmed oven");
+    addPart(base, ...diagramText("oven"));
   }
   else if(type==="equipment" || type==="conditions"){
     const inj = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.16, 0.38, 20), metal(0x4a5568));
     inj.position.set(-0.75, 0.35, 0);
-    addPart(inj, "Injector", "250 °C – sample is vaporized here. Split 1:100 or 1:50.");
+    addPart(inj, ...diagramText("injector"));
     
     const nut = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.08, 16), metal(0x718096));
     nut.position.set(-0.75, 0.58, 0);
-    addPart(nut, "Septum Nut", "Holds the injection septum");
+    addPart(nut, ...diagramText("septum"));
     
     const col = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 1.15, 20), metal(0xa0aec0, 0.25, 0.9));
     col.rotation.z = Math.PI/2; col.position.set(0.05, 0.32, 0);
-    addPart(col, "Transfer Line / Column", "Connects injector to the mass spectrometer");
+    addPart(col, ...diagramText("transfer"));
     
     const ms = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.48, 0.38), metal(0x2d3748, 0.4, 0.6));
     ms.position.set(0.8, 0.35, 0);
-    addPart(ms, "Mass Spectrometer", "EI+ 70 eV, scan m/z 50–500. Identifies compounds by fragmentation pattern.");
+    addPart(ms, ...diagramText("ms"));
     
     const pump = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.2, 12), metal(0x4a5568));
     pump.rotation.x = Math.PI/2; pump.position.set(0.8, 0.12, 0.25);
-    addPart(pump, "Vacuum System", "Maintains high vacuum inside the MS");
+    addPart(pump, ...diagramText("vacuum"));
   }
   else if(type==="prep"){
     [-0.4, 0.4].forEach((x, idx)=>{
       const body = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.19, 0.5, 24), glass(idx===0 ? 0x90cdf4 : 0x9ae6b4));
       body.position.set(x, 0.38, 0);
-      addPart(body, idx===0 ? "Essential Oil Vial" : "Alkane Standard Vial", "1 mg/mL in acetonitrile or hexane");
+      addPart(body, ...diagramText(idx===0?"sampleVial":"alkaneVial"));
       
       const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.1, 20), metal(0x4a5568));
       cap.position.set(x, 0.68, 0);
-      addPart(cap, "Screw Cap", "PTFE/silicone septum recommended");
+      addPart(cap, ...diagramText("cap"));
     });
   }
   else if(type==="warning"){
     const tri = new THREE.Mesh(new THREE.ConeGeometry(0.42, 0.72, 3), new THREE.MeshStandardMaterial({color:0xe53e3e, roughness:0.35}));
     tri.position.y = 0.48; tri.rotation.y = Math.PI;
-    addPart(tri, "Method-specific inlet settings", "Set temperature limits using method-specific evidence and instrument guidance; this guide does not establish a universal maximum.");
+    addPart(tri, ...diagramText("inletWarning"));
     
     const bar = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.26, 0.07), new THREE.MeshStandardMaterial({color:0xffffff}));
     bar.position.y = 0.55; diagramGroup.add(bar);
@@ -418,18 +484,25 @@ function buildDiagram(type){
     dot.position.y = 0.32; diagramGroup.add(dot);
   }
   else if(type==="kri"){
-    for(let i=0; i<8; i++){
-      const isTarget = i === 3;
+    const points=[
+      {carbon:8},{carbon:10},{carbon:12},{target:true},{carbon:14},{carbon:16},{carbon:18}
+    ];
+    points.forEach((point,i)=>{
+      const isTarget=Boolean(point.target);
       const sphere = new THREE.Mesh(new THREE.SphereGeometry(isTarget ? 0.13 : 0.1, 20, 20), metal(isTarget ? 0xe53e3e : 0x3182ce, 0.3, 0.5));
       sphere.position.set(-0.85 + i*0.24, 0.38, 0);
-      addPart(sphere, isTarget ? "Unknown Compound" : `n-Alkane C${8+i}`, isTarget ? "RTx – used to calculate KRI between neighbouring alkanes" : `Reference alkane for KRI calculation`);
+      if(isTarget)addPart(sphere,...diagramText("unknown"));
+      else{
+        const [name,description]=diagramText("alkane");
+        addPart(sphere,`n-Alkane C${point.carbon}`,`${name}: ${description}`);
+      }
       
-      if(i < 7){
+      if(i < points.length-1){
         const bond = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.1, 8), metal(0xa0aec0));
         bond.rotation.z = Math.PI/2;
         bond.position.set(-0.73 + i*0.24, 0.38, 0); diagramGroup.add(bond);
       }
-    }
+    });
   }
   else if(type==="id" || type==="quant"){
     const heights = [0.28, 0.55, 0.38, 0.85, 0.48, 0.32, 0.22];
@@ -437,7 +510,7 @@ function buildDiagram(type){
     heights.forEach((h, i)=>{
       const peak = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.09, h, 12), new THREE.MeshStandardMaterial({color: i===3 ? 0xe53e3e : 0x38a169, roughness:0.4}));
       peak.position.set(-0.85 + i*0.28, h/2 + 0.05, 0);
-      addPart(peak, names[i], i===3 ? "Target compound – click to highlight area contribution" : "Other component in the essential oil");
+      addPart(peak, names[i], ...(i===3?diagramText("targetPeak"):diagramText("peak")));
     });
     const base = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.035, 0.4), plastic(0x2d3748));
     base.position.y = 0.04; diagramGroup.add(base);
@@ -445,7 +518,7 @@ function buildDiagram(type){
   else if(type==="qc" || type==="report"){
     const page = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1.25, 0.05), new THREE.MeshStandardMaterial({color:0xf7fafc, roughness:0.7}));
     page.position.y = 0.7;
-    addPart(page, "Analysis Report", "Must include: RT, KRI calc, KRI lit, % Area, Match Factor, and TIC");
+    addPart(page, ...diagramText("report"));
     
     const header = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.12, 0.02), metal(0x2b6cb0));
     header.position.set(0, 1.2, 0.04); diagramGroup.add(header);
@@ -600,6 +673,8 @@ function setLanguage(nextLanguage){
   document.documentElement.dir=language==="ar"?"rtl":"ltr";
   document.title=copy.title;
   document.querySelector('meta[name="description"]').content=copy.description;
+  document.querySelector('meta[property="og:title"]').content=copy.title;
+  document.querySelector('meta[property="og:description"]').content=copy.description;
   document.querySelectorAll('[data-i18n]').forEach(element=>{
     const text=copy[element.dataset.i18n];
     if(text)element.textContent=text;
