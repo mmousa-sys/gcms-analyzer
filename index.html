@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f8faf8">
-  <meta name="description" content="A multilingual laboratory toolkit combining general lab calculations, GC-MS essential-oil analysis, and HPLC method validation in a free web app with a downloadable offline edition.">
-  <meta name="keywords" content="laboratory tools, laboratory technician, GC-MS, KRI, essential oils, HPLC validation, ICH Q2(R1), offline laboratory app">
+  <meta name="description" content="A multilingual laboratory toolkit with general lab calculations, GC-MS essential-oil analysis, HPLC method validation, and an interactive 3D GC-MS learning guide.">
+  <meta name="keywords" content="laboratory tools, laboratory technician, GC-MS, KRI, essential oils, HPLC validation, 3D GC-MS, interactive learning, ICH Q2(R1), offline laboratory app">
   <meta name="author" content="Mohammad Asaad Mousa">
   <meta property="og:type" content="website">
   <meta property="og:title" content="LabSuite — Laboratory tools in one workspace">
-  <meta property="og:description" content="Explore lab calculations, GC-MS analysis, and HPLC validation online or offline.">
+  <meta property="og:description" content="Explore laboratory tools and an interactive 3D GC-MS learning guide in English and Arabic.">
   <meta property="og:url" content="https://mmousa-sys.github.io/gcms-analyzer/">
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://mmousa-sys.github.io/gcms-analyzer/">
@@ -31,7 +31,7 @@
         "name": "Mohammad Asaad Mousa",
         "jobTitle": "Chemical Laboratory Technician"
       },
-      "description": "A browser-based suite for general laboratory calculations, GC-MS essential-oil analysis, and HPLC method validation, with a portable offline edition.",
+      "description": "A browser-based suite for laboratory calculations, GC-MS essential-oil analysis, HPLC method validation, and an interactive 3D GC-MS learning guide, with a portable offline edition.",
       "url": "https://mmousa-sys.github.io/gcms-analyzer/"
     }
   </script>
@@ -192,7 +192,7 @@
     .section-heading .eyebrow { margin-bottom: 12px; }
     .section-heading h2 { margin: 0 0 11px; font-size: clamp(29px, 4vw, 42px); letter-spacing: -1.3px; }
     .section-heading p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
     .card {
       display: flex;
       flex-direction: column;
@@ -340,8 +340,8 @@
     <section class="hero" id="top">
       <div class="container hero-inner">
         <div class="eyebrow" data-i18n="hero-label">A practical toolkit for the laboratory</div>
-        <h1 data-i18n="hero-title">Three laboratory tools.<br><span>One focused workspace.</span></h1>
-        <p class="hero-copy" data-i18n="hero-copy">Move from everyday laboratory calculations to GC‑MS essential-oil analysis and HPLC method validation in one clear, multilingual suite—available in your browser or as a portable offline file.</p>
+        <h1 data-i18n="hero-title">Three laboratory tools.<br><span>Plus an interactive 3D guide.</span></h1>
+        <p class="hero-copy" data-i18n="hero-copy">Move from everyday laboratory calculations to GC‑MS essential-oil analysis and HPLC method validation, then explore GC-MS methods in an interactive 3D learning guide—available in English and Arabic.</p>
         <div class="hero-actions">
           <a class="button" href="Lab_Technician_Suite_Offline.html"><span data-i18n="hero-primary">Explore the laboratory suite</span><span aria-hidden="true">↗</span></a>
           <a class="button secondary" href="Lab_Technician_Suite_Offline.zip" download><span aria-hidden="true">↓</span><span data-i18n="hero-secondary">Get the offline edition</span></a>
@@ -356,7 +356,7 @@
 
     <section class="intro-strip" aria-label="Suite overview">
       <div class="container intro-inner">
-        <p data-i18n="intro"><strong>Built for day-to-day laboratory work.</strong> Three focused applications, brought together so technicians can move between common calculations, chromatographic analysis, and method validation without changing tools.</p>
+        <p data-i18n="intro"><strong>Built for day-to-day laboratory work and learning.</strong> Three focused applications plus an interactive GC-MS guide bring common calculations, chromatographic analysis, method validation, and method education into one workspace.</p>
         <a class="button light" href="Lab_Technician_Suite_Offline.html"><span data-i18n="intro-link">Open the suite</span><span aria-hidden="true">→</span></a>
       </div>
     </section>
@@ -366,7 +366,7 @@
         <div class="section-heading">
           <div class="eyebrow" data-i18n="tools-label">The toolkit</div>
           <h2 data-i18n="tools-title">The right workspace for each task.</h2>
-          <p data-i18n="tools-copy">Open a module on its own or launch the unified suite to move between all three applications.</p>
+          <p data-i18n="tools-copy">Open any application or explore the interactive GC-MS learning guide.</p>
         </div>
         <div class="cards">
           <article class="card">
@@ -401,6 +401,17 @@
               <li data-i18n="hplc-point-three">Charts and validation report support</li>
             </ul>
             <a class="text-link" href="https://mmousa-sys.github.io/hplc-method-validation/" target="_blank" rel="noopener noreferrer"><span data-i18n="open-module">Open this module</span><span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">🧭</div>
+            <h3 data-i18n="gcms3d-title">Interactive 3D GC-MS methods guide</h3>
+            <p data-i18n="gcms3d-copy">Explore essential-oil GC-MS concepts through a 3D model, short lessons, and knowledge checks in English or Arabic.</p>
+            <ul>
+              <li data-i18n="gcms3d-point-one">11 guided lessons with interactive 3D diagrams</li>
+              <li data-i18n="gcms3d-point-two">Retention indices, identification, and quality control</li>
+              <li data-i18n="gcms3d-point-three">Educational examples with method-specific cautions</li>
+            </ul>
+            <a class="text-link" href="gcms-essential-oils-3d.html"><span data-i18n="open-module">Open this module</span><span aria-hidden="true">↗</span></a>
           </article>
         </div>
       </div>
@@ -500,19 +511,21 @@
     const copy = {
       en: {
         "page-title":"LabSuite — Laboratory tools in one workspace",
-        "page-description":"A multilingual laboratory toolkit combining general lab calculations, GC-MS essential-oil analysis, and HPLC method validation in a free web app with a downloadable offline edition.",
+        "page-description":"A multilingual laboratory toolkit with general lab calculations, GC-MS essential-oil analysis, HPLC method validation, and an interactive 3D GC-MS learning guide.",
         "skip":"Skip to content","nav-tools":"Tools","nav-how":"How it works","nav-research":"Research","nav-launch":"Launch suite",
-        "hero-label":"A practical toolkit for the laboratory","hero-title":"Three laboratory tools.<br><span>One focused workspace.</span>",
-        "hero-copy":"Move from everyday laboratory calculations to GC‑MS essential-oil analysis and HPLC method validation in one clear, multilingual suite—available in your browser or as a portable offline file.",
+        "hero-label":"A practical toolkit for the laboratory","hero-title":"Three laboratory tools.<br><span>Plus an interactive 3D guide.</span>",
+        "hero-copy":"Move from everyday laboratory calculations to GC‑MS essential-oil analysis and HPLC method validation, then explore GC-MS methods in an interactive 3D learning guide—available in English and Arabic.",
         "hero-primary":"Explore the laboratory suite","hero-secondary":"Get the offline edition","trust-free":"Free to access","trust-browser":"Works in a modern browser","trust-language":"Arabic and English interface",
-        "intro":"<strong>Built for day-to-day laboratory work.</strong> Three focused applications, brought together so technicians can move between common calculations, chromatographic analysis, and method validation without changing tools.",
-        "intro-link":"Open the suite","tools-label":"The toolkit","tools-title":"The right workspace for each task.","tools-copy":"Open a module on its own or launch the unified suite to move between all three applications.",
+        "intro":"<strong>Built for day-to-day laboratory work and learning.</strong> Three focused applications plus an interactive GC-MS guide bring common calculations, chromatographic analysis, method validation, and method education into one workspace.",
+        "intro-link":"Open the suite","tools-label":"The toolkit","tools-title":"The right workspace for each task.","tools-copy":"Open any application or explore the interactive GC-MS learning guide.",
         "lab-title":"General laboratory assistant","lab-copy":"A practical collection of common laboratory calculators and reference tools for routine preparation and data review.",
         "lab-point-one":"Units, solutions, dilutions, and acid preparation","lab-point-two":"pH, pKa, buffers, molecular weight, and statistics","lab-point-three":"Analytical validation tools and reference tables",
         "gcms-title":"GC‑MS essential-oil analyzer","gcms-copy":"Calculate retention indices, review candidate compounds against reference data, quantify peak areas, and prepare a report.",
         "gcms-point-one":"Kovats / linear retention-index calculations","gcms-point-two":"Reference matching across column types","gcms-point-three":"Area-percent calculations and report export",
         "hplc-title":"HPLC method validation","hplc-copy":"Organize method-validation measurements and review calculated outcomes alongside acceptance criteria and charts.",
-        "hplc-point-one":"Linearity, precision, accuracy, and robustness","hplc-point-two":"System suitability and ANOVA analysis","hplc-point-three":"Charts and validation report support","open-module":"Open this module",
+        "hplc-point-one":"Linearity, precision, accuracy, and robustness","hplc-point-two":"System suitability and ANOVA analysis","hplc-point-three":"Charts and validation report support",
+        "gcms3d-title":"Interactive 3D GC-MS methods guide","gcms3d-copy":"Explore essential-oil GC-MS concepts through a 3D model, short lessons, and knowledge checks in English or Arabic.",
+        "gcms3d-point-one":"11 guided lessons with interactive 3D diagrams","gcms3d-point-two":"Retention indices, identification, and quality control","gcms3d-point-three":"Educational examples with method-specific cautions","open-module":"Open this module",
         "approach-label":"Designed for access","approach-title":"Use it online. Take it offline.","approach-copy":"Start in the browser, then keep a self-contained copy of the suite on your computer or USB drive for offline use.",
         "approach-note":"The downloadable edition includes the applications and charting library in one HTML file. The suite itself does not need an internet connection once downloaded; publication links do.",
         "step-one-title":"Choose a working mode","step-one-copy":"Launch the combined application online or open an individual tool directly from this site.",
@@ -530,19 +543,21 @@
       },
       ar: {
         "page-title":"LabSuite — أدوات المختبر في مساحة عمل واحدة",
-        "page-description":"منصة مخبرية متعددة اللغات تجمع الحسابات العامة وتحليل الزيوت العطرية GC-MS والتحقق من طرق HPLC، مع نسخة ويب وتنزيل محمول يعمل دون اتصال.",
+        "page-description":"منصة مخبرية متعددة اللغات للحسابات العامة وتحليل الزيوت العطرية GC-MS والتحقق من طرق HPLC، مع دليل تعليمي تفاعلي ثلاثي الأبعاد لـ GC-MS.",
         "skip":"انتقل إلى المحتوى","nav-tools":"الأدوات","nav-how":"طريقة الاستخدام","nav-research":"الأبحاث","nav-launch":"افتح البرنامج",
-        "hero-label":"أدوات عملية للعمل المخبري","hero-title":"ثلاث أدوات مخبرية.<br><span>ومساحة عمل واحدة.</span>",
-        "hero-copy":"انتقل بين الحسابات المخبرية اليومية وتحليل الزيوت العطرية GC‑MS والتحقق من طرق HPLC ضمن برنامج واضح متعدد اللغات، يعمل عبر المتصفح أو كملف محمول دون اتصال.",
+        "hero-label":"أدوات عملية للعمل المخبري","hero-title":"ثلاث أدوات مخبرية.<br><span>ودليل تفاعلي ثلاثي الأبعاد.</span>",
+        "hero-copy":"انتقل بين الحسابات المخبرية اليومية وتحليل الزيوت العطرية GC‑MS والتحقق من طرق HPLC، واستكشف طرق GC-MS عبر دليل تعليمي تفاعلي ثلاثي الأبعاد باللغتين العربية والإنجليزية.",
         "hero-primary":"استكشف البرنامج المخبري","hero-secondary":"نزّل النسخة دون اتصال","trust-free":"متاح مجانًا","trust-browser":"يعمل في متصفح حديث","trust-language":"واجهة بالعربية والإنجليزية",
-        "intro":"<strong>مصمم لمهام المختبر اليومية.</strong> يجمع ثلاثة تطبيقات عملية لمساعدة فنيي المختبر على التنقل بين الحسابات والتحليل الكروماتوغرافي والتحقق من الطرق في مساحة عمل واحدة.",
-        "intro-link":"افتح البرنامج","tools-label":"الأدوات","tools-title":"أداة مناسبة لكل مهمة.","tools-copy":"افتح إحدى الأدوات مباشرة أو شغّل البرنامج الموحّد للتنقل بين التطبيقات الثلاثة.",
+        "intro":"<strong>مصمم لمهام المختبر اليومية والتعلّم.</strong> تجمع ثلاثة تطبيقات عملية ودليل GC-MS تفاعلي بين الحسابات والتحليل الكروماتوغرافي والتحقق من الطرق والتعلّم في مساحة واحدة.",
+        "intro-link":"افتح البرنامج","tools-label":"الأدوات","tools-title":"أداة مناسبة لكل مهمة.","tools-copy":"افتح أي تطبيق أو استكشف الدليل التعليمي التفاعلي لـ GC-MS.",
         "lab-title":"مساعد المختبر العام","lab-copy":"مجموعة عملية من الحاسبات المخبرية وأدوات المراجع للتحضير اليومي ومراجعة البيانات.",
         "lab-point-one":"تحويل الوحدات وتحضير المحاليل والتخفيفات والأحماض","lab-point-two":"الأس الهيدروجيني pH وpKa والمحاليل المنظمة والوزن الجزيئي والإحصاء","lab-point-three":"أدوات التحقق التحليلي والجداول المرجعية",
         "gcms-title":"محلل GC‑MS للزيوت العطرية","gcms-copy":"احسب مؤشرات الاحتجاز، وراجع المركبات المحتملة بمقارنتها بالبيانات المرجعية، واحسب مساحات القمم وجهّز تقريرًا.",
         "gcms-point-one":"حساب مؤشر كوفات أو مؤشر الاحتجاز الخطي","gcms-point-two":"مطابقة مرجعية لأنواع متعددة من الأعمدة","gcms-point-three":"حساب النسب المئوية للمساحة وتصدير التقارير",
         "hplc-title":"التحقق من طرق HPLC","hplc-copy":"نظّم قياسات التحقق من الطريقة وراجع النتائج المحسوبة ومعايير القبول والرسوم البيانية.",
-        "hplc-point-one":"الخطية والدقة والصحة والمتانة","hplc-point-two":"ملاءمة النظام وتحليل ANOVA","hplc-point-three":"رسوم بيانية ودعم تقارير التحقق","open-module":"افتح هذه الأداة",
+        "hplc-point-one":"الخطية والدقة والصحة والمتانة","hplc-point-two":"ملاءمة النظام وتحليل ANOVA","hplc-point-three":"رسوم بيانية ودعم تقارير التحقق",
+        "gcms3d-title":"دليل تفاعلي ثلاثي الأبعاد لطرق GC-MS","gcms3d-copy":"استكشف مفاهيم تحليل الزيوت العطرية بـ GC-MS من خلال نموذج ثلاثي الأبعاد ودروس قصيرة وأسئلة باللغتين العربية والإنجليزية.",
+        "gcms3d-point-one":"11 درسًا موجّهًا مع رسوم ثلاثية الأبعاد تفاعلية","gcms3d-point-two":"مؤشرات الاحتجاز والتعرّف على المركبات وضبط الجودة","gcms3d-point-three":"أمثلة تعليمية وتنبيهات تراعي اختلاف الطرق","open-module":"افتح هذه الأداة",
         "approach-label":"مصمم لسهولة الوصول","approach-title":"استخدمه عبر الإنترنت أو دون اتصال.","approach-copy":"ابدأ من المتصفح، ثم احتفظ بنسخة كاملة من البرنامج على الكمبيوتر أو الفلاشة لاستخدامها دون اتصال.",
         "approach-note":"تضم النسخة القابلة للتنزيل التطبيقات ومكتبة الرسوم البيانية داخل ملف HTML واحد. لا يحتاج البرنامج إلى الإنترنت بعد تنزيله، لكن روابط الأبحاث الخارجية تحتاج إليه.",
         "step-one-title":"اختر طريقة الاستخدام","step-one-copy":"شغّل التطبيق الموحّد عبر الإنترنت أو افتح أداة محددة مباشرة من هذا الموقع.",

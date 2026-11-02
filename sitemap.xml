@@ -22,4 +22,13 @@
   <url>
     <loc>https://mmousa-sys.github.io/gcms-analyzer/Lab_Technician_Assistant_22_6_2026_2.html</loc>
   </url>
+  <url>
+    <loc>https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html</loc>
+    <xhtml:link rel="alternate" hreflang="en"
+                href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+    <xhtml:link rel="alternate" hreflang="ar"
+                href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default"
+                href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+  </url>
 </urlset>

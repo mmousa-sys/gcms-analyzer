@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Explore an interactive 3D learning guide to GC-MS analysis of essential oils, retention indices, identification, quality control, and reporting." />
+<meta name="author" content="Mohammad Asaad Mousa" />
+<meta name="theme-color" content="#0f0f16" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="GC-MS Essential Oils — Interactive 3D Learning Guide" />
+<meta property="og:description" content="A bilingual interactive learning guide to GC-MS methods for essential-oil analysis." />
+<meta property="og:url" content="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+<meta name="twitter:card" content="summary" />
+<link rel="canonical" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+<link rel="alternate" hreflang="en" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+<link rel="alternate" hreflang="ar" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html?lang=ar" />
+<link rel="alternate" hreflang="x-default" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+<title>GC-MS Essential Oils — Interactive 3D Learning Guide</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{overflow:hidden;background:#0f0f16;font-family:Georgia,"Times New Roman",serif}
+  #canvas{display:block;width:100vw;height:100vh;touch-action:none}
+  #appStatus{
+    position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:500;
+    max-width:min(720px,calc(100% - 24px));padding:9px 14px;border:1px solid #6b7280;
+    border-radius:8px;background:#111827;color:#fff;font:13px/1.5 "Segoe UI",Tahoma,Arial,sans-serif;
+    text-align:center
+  }
+  #appStatus:empty{display:none}
+  #homeLink{
+    position:fixed;top:14px;right:16px;z-index:100;padding:9px 12px;border-radius:8px;
+    background:rgba(12,12,20,.9);color:#fff;text-decoration:none;
+    font:600 13px "Segoe UI",Tahoma,Arial,sans-serif
+  }
+  #homeLink:hover,#homeLink:focus-visible{background:#263548;outline:2px solid #9fc5ff;outline-offset:2px}
+  
+  #hud{
+    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+    background:rgba(12,12,20,0.95);backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.1);border-radius:50px;
+    padding:8px 12px;display:flex;gap:6px;align-items:center;
+    color:#f0f0f0;font-size:13px;z-index:300;box-shadow:0 10px 40px rgba(0,0,0,.5);
+    max-width:calc(100vw - 24px)
+  }
+  #hud button{
+    background:transparent;border:none;color:#eee;cursor:pointer;
+    font-size:17px;width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;transition:all .2s
+  }
+  #hud button:hover{background:rgba(255,255,255,.12);transform:scale(1.1)}
+  #hud .title{font-family:Georgia,"Times New Roman",serif;font-size:13px;max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+  #hud button:focus-visible,#toc button:focus-visible,#quizBox button:focus-visible{
+    outline:3px solid #4a90e2;outline-offset:2px
+  }
+  
+  #leftUI{
+    position:absolute;top:0;left:0;width:45%;height:100%;
+    pointer-events:none;z-index:50;padding:26px 22px 90px 26px;
+    display:flex;flex-direction:column;gap:11px
+  }
+  #lessonHeader{
+    background:rgba(248,241,227,.97);border:2px solid #222;border-radius:10px;
+    padding:13px 15px;box-shadow:0 8px 28px rgba(0,0,0,.28);pointer-events:auto
+  }
+  #methodNote{
+    padding:8px 11px;border:1px solid rgba(255,255,255,.18);border-radius:8px;
+    background:rgba(12,12,20,.88);color:#fff;font:12px/1.5 "Segoe UI",Tahoma,Arial,sans-serif;
+    pointer-events:auto
+  }
+  #lessonHeader h1{font-family:Georgia,"Times New Roman",serif;font-size:17px;margin-bottom:4px;color:#1a1a1a}
+  #lessonHeader .core{font-size:13.2px;line-height:1.55;color:#222;margin-top:6px}
+  #lessonHeader .interactionHint{font:11px/1.45 "Segoe UI",Tahoma,Arial,sans-serif;color:#52606b;margin-top:6px}
+  #formulaBox{
+    background:rgba(255,250,240,.98);border:1.5px dashed #555;border-radius:8px;
+    padding:8px 12px;font-size:12.5px;font-family:monospace;color:#222;margin-top:8px;
+    white-space:pre-wrap;display:none
+  }
+  #vocab{font-size:12px;color:#444;margin-top:6px}
+  #vocab span{background:#eee;padding:2px 6px;border-radius:4px;margin-right:4px;display:inline-block;margin-bottom:3px}
+  
+  #quizBox{
+    background:rgba(248,241,227,.97);border:2px solid #222;border-radius:10px;
+    padding:11px 13px;box-shadow:0 6px 22px rgba(0,0,0,.22);pointer-events:auto
+  }
+  #quizBox strong{display:block;margin-bottom:7px;font-size:13.5px}
+  #quizBox button{
+    display:block;width:100%;margin:4px 0;padding:7px 9px;
+    background:#fff;border:1.5px solid #bbb;border-radius:6px;cursor:pointer;
+    text-align:left;font-family:inherit;font-size:12.8px;transition:all .15s
+  }
+  #quizBox button:hover{background:#eef4ff;border-color:#4a90e2}
+  #quizBox button.correct{background:#d4edda;border-color:#28a745;color:#155724}
+  #quizBox button.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24}
+  
+  #flap{
+    background:rgba(255,248,220,.98);border:2.5px solid #222;border-radius:8px;
+    padding:11px 13px;font-size:12.8px;line-height:1.5;color:#1a1a1a;
+    box-shadow:0 10px 26px rgba(0,0,0,.3);transform-origin:top center;
+    transform:scaleY(.02);opacity:0;pointer-events:none;
+    transition:all .5s cubic-bezier(.22,1.2,.36,1);max-height:160px;overflow-y:auto
+  }
+  #flap.open{transform:scaleY(1);opacity:1;pointer-events:auto}
+  
+  #stamp{
+    width:62px;height:62px;border:3px dashed #888;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:10px;color:#888;
+    margin-top:auto;align-self:flex-start;transition:all .4s
+  }
+  #stamp.inked{border-color:#c0392b;color:#c0392b;background:rgba(192,57,43,.08);transform:rotate(-12deg)}
+  
+  /* 3D Info tooltip */
+  #info3d{
+    position:fixed;pointer-events:none;background:rgba(15,15,25,0.92);
+    color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;
+    border:1px solid rgba(255,255,255,0.15);opacity:0;transition:opacity .2s;
+    z-index:200;max-width:220px;backdrop-filter:blur(8px)
+  }
+  
+  #toc{
+    position:fixed;top:0;right:-300px;width:280px;height:100%;
+    background:rgba(16,16,24,.97);backdrop-filter:blur(20px);
+    border-left:1px solid rgba(255,255,255,.08);padding:20px 14px;z-index:400;
+    transition:right .35s ease;overflow-y:auto;color:#eee
+  }
+  #toc.open{right:0}
+  #toc h2{font-family:Georgia,"Times New Roman",serif;margin-bottom:14px;font-size:16px}
+  #toc button{
+    display:block;width:100%;text-align:left;background:transparent;border:none;
+    color:#ddd;padding:9px 7px;margin:2px 0;border-radius:6px;cursor:pointer;
+    font-family:inherit;font-size:12.5px
+  }
+  #toc button:hover,#toc button.active{background:rgba(255,255,255,.1)}
+  #toc button[aria-current="step"]{background:rgba(255,255,255,.12);color:#fff}
+  [dir="rtl"] #toc{text-align:right}
+  [dir="rtl"] #toc button{text-align:right}
+  [dir="rtl"] #lessonHeader,#quizBox,#flap{text-align:right}
+  [dir="rtl"] #vocab span{margin-right:0;margin-left:4px}
+  [dir="rtl"] #hud{direction:ltr}
+  #formulaBox{direction:ltr;text-align:left}
+  @media(max-width:850px){
+    #leftUI{width:53%;padding:16px 14px 82px 16px}
+    #lessonHeader .core{font-size:12.5px}
+    #quizBox button{font-size:12px}
+    #hud .title{max-width:200px}
+  }
+  @media(max-width:600px){
+    #leftUI{top:8px;left:8px;width:calc(100% - 16px);height:auto;max-height:46vh;
+      padding:0;gap:6px;overflow-y:auto;overscroll-behavior:contain}
+    #lessonHeader,#quizBox{padding:9px 10px;border-width:1px}
+    #lessonHeader h1{font-size:15px}
+    #lessonHeader .core{font-size:12px;line-height:1.4}
+    #formulaBox{font-size:11px;padding:6px 8px}
+    #vocab{font-size:11px}
+    #quizBox strong{font-size:12px}
+    #quizBox button{display:inline-block;width:calc(50% - 5px);vertical-align:top;
+      margin:2px 1px;padding:6px;font-size:11px}
+    #flap{font-size:12px}
+    #stamp{display:none}
+    #hud{bottom:8px;padding:5px 7px;gap:2px}
+    #hud button{width:34px;height:34px;font-size:16px}
+    #hud .title{max-width:min(37vw,160px);font-size:11px}
+    #homeLink{top:auto;bottom:57px;right:10px;padding:7px 9px;font-size:11px}
+    #info3d{max-width:180px;font-size:12px}
+    #toc{width:min(300px,85vw)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+<div id="appStatus" role="status" aria-live="polite">Loading the 3D lesson… An internet connection is required to load the 3D libraries.</div>
+<a id="homeLink" href="./" data-i18n="home">← LabSuite home</a>
+<canvas id="canvas" aria-label="Interactive 3D model illustrating the current GC-MS lesson"></canvas>
+<div id="info3d" role="status" aria-live="polite"></div>
+
+<div id="leftUI">
+  <div id="lessonHeader">
+    <h1 id="hTitle">...</h1>
+    <div class="core" id="hCore">...</div>
+    <div class="interactionHint" data-i18n="interact">Drag to rotate; hover or tap a 3D object for details.</div>
+    <div id="formulaBox"></div>
+    <div id="vocab"></div>
+  </div>
+  <div id="quizBox">
+    <strong id="qText" aria-live="polite">...</strong>
+    <div id="qOptions"></div>
+  </div>
+  <div id="flap"></div>
+  <div id="methodNote" data-i18n="disclaimer">Educational example only. Verify method settings and acceptance limits against validated procedures and current instrument guidance.</div>
+  <div id="stamp" data-i18n="completed">Completed</div>
+</div>
+
+<div id="hud">
+  <button id="btnToc" type="button" title="Table of Contents" aria-label="Table of Contents" aria-expanded="false">≡</button>
+  <button id="btnPrev" type="button" title="Previous lesson" aria-label="Previous lesson">‹</button>
+  <span class="title" id="lessonTitle" aria-live="polite">1 / 11</span>
+  <button id="btnNext" type="button" title="Next lesson" aria-label="Next lesson">›</button>
+  <button id="btnPlay" type="button" title="Watch demo" aria-label="Watch demo">▶</button>
+  <button id="btnReset" type="button" title="Reset view" aria-label="Reset view">↺</button>
+  <button id="btnLanguage" type="button" title="Switch language" aria-label="Switch language">العربية</button>
+</div>
+
+<div id="toc" aria-label="Lesson contents">
+  <h2 data-i18n="contents">Contents</h2>
+  <div id="tocList"></div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import gsap from 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/+esm';
+
+const spreads = [
+  {id:0,title:"Method Overview (Training Example)",core:"This educational example introduces qualitative and semi-quantitative GC-MS profiling of volatile essential-oil components. It covers sample preparation, example operating conditions, retention-index calculation, tentative compound identification, and relative peak-area reporting. The approximate RI range 800–2500 is illustrative, not a universal method limit.",formula:null,vocab:["GC-MS","Retention index (RI)","Essential oil","Peak-area normalization"],quiz:{q:"How should the example RI range (about 800–2500) be interpreted?",options:["A universal acceptance range","An illustrative range that depends on the sample and method","A detector specification","A required range for every column"],correct:1,why:"The analyte range depends on the sample, column, temperature program, and method. Do not treat this example as a universal limit."},diagram:"scope"},
+  {id:1,title:"Materials & Key Equipment",core:"An example setup may include an essential-oil sample, a compatible GC-grade solvent, an n-alkane reference mixture, a suitable capillary column such as (5%-phenyl)-methylpolysiloxane, carrier gas, and access to a mass-spectral reference library. Select specifications for the instrument and intended method.",formula:null,vocab:["DB-5 / HP-5-type column","n-Alkane reference","Carrier gas","Mass-spectral library"],quiz:{q:"Which column is an example option in this learning guide?",options:["Polar PEG column","(5%-phenyl)-methylpolysiloxane (DB-5 type)","Chiral column only","Packed column"],correct:1,why:"DB-5-type columns are one common example; the column must be selected for the intended separation and method."},diagram:"equipment"},
+  {id:2,title:"Sample & Alkane Standard Preparation",core:"Prepare sample and n-alkane solutions using a validated concentration and a solvent compatible with the sample and instrument. Clarify or filter the sample when appropriate. Run the alkane series and sample using the same column and chromatographic conditions; matching solvent and concentration are not mathematical requirements for RI calculation.",formula:"Example concentration only: 1 mg/mL",vocab:["0.45 µm PTFE filter, if suitable","Vortex / sonicate","Autosampler vial","n-Alkane mixture"],quiz:{q:"What is essential when comparing a sample with an n-alkane series for a retention index?",options:["Identical solvent and concentration in every case","Same column and chromatographic conditions, with retention times measured reliably","Same injection volume only","Nothing"],correct:1,why:"Retention-index comparison requires suitable bracketing alkanes and consistent chromatographic conditions. Solvent and concentration should be selected for the method, not treated as universal formula requirements."},diagram:"prep"},
+  {id:3,title:"GC-MS Operating Conditions",core:"The temperatures, flow, split, scan range, and oven program shown here are example starting conditions, not a validated universal method. Set solvent delay from the actual solvent elution and target analyte retention; verify that early analytes are not suppressed. Follow instrument-manufacturer guidance.",formula:"Example oven: 50 °C (2 min) → 4 °C/min → 280 °C (5 min)",vocab:["Solvent delay","Split ratio","EI+ 70 eV","Constant flow"],quiz:{q:"How should solvent delay be selected?",options:["Use 4.5 min for every method","Set it from the solvent and target-analyte elution, then verify early analytes are acquired","Set it after the last analyte","It never affects results"],correct:1,why:"A solvent delay can suppress acquisition of early-eluting compounds. Set and verify it for the actual solvent, method, and instrument; follow the vendor's instructions."},diagram:"conditions"},
+  {id:4,title:"Injector Temperature — Method-Specific",core:"There is no universal 250 °C maximum for thymol, carvacrol, or eugenol established by this learning guide. Inlet temperature, liner, split conditions, and analyte stability can affect transfer and response. Optimize with suitable standards and system-suitability checks; do not infer thermal degradation from temperature alone.",formula:"Select inlet conditions by method development and verification",vocab:["Thymol","Carvacrol","Eugenol","Inlet discrimination"],quiz:{q:"How should an injector-temperature limit be set for a target compound?",options:["Assume 250 °C is a universal maximum","Evaluate suitable standards under the intended method and document performance","Use the highest available setting","Infer degradation from a library match alone"],correct:1,why:"A temperature limit must be supported by method-specific evidence and instrument guidance. This guide does not establish a universal threshold."},diagram:"warning"},
+  {id:5,title:"Retention Index Calculation",core:"For temperature-programmed GC, the linear retention index is interpolated between two n-alkanes that bracket the analyte, using their carbon numbers and retention times. The isothermal Kovats index uses logarithms of adjusted retention times and is a different calculation. State which convention and conditions were used.",formula:"Programmed, consecutive alkanes: I = 100n + 100 × (RTx − RTn) / (RTn+1 − RTn)\nProgrammed, n to n+2: I = 100n + 200 × (RTx − RTn) / (RTn+2 − RTn)\nIsothermal Kovats: I = 100n + 100 × [log(t'R,x) − log(t'R,n)] / [log(t'R,n+1) − log(t'R,n)]",vocab:["RTx: analyte retention time","RTn: lower bracketing alkane","Carbon number n","Linear RI vs. Kovats index"],quiz:{q:"Which calculation convention is typically used for a temperature-programmed GC run?",options:["Isothermal Kovats equation using raw retention times","Linear interpolation between bracketing n-alkanes","No alkane references are needed","Peak-area normalization"],correct:1,why:"Temperature-programmed runs commonly use the linear retention-index interpolation. The isothermal Kovats equation uses logarithms of adjusted retention times."},diagram:"kri"},
+  {id:6,title:"Identification and Confidence",core:"Mass-spectrum similarity and retention-index agreement are complementary evidence for tentative identification. Numerical cutoffs such as an 80% library match or ±10 RI units are method- and library-dependent examples, not universal confirmation criteria. Consider reference quality, co-elution, isomers, and authentic standards where needed.",formula:"Assess together: spectrum + RI + reference quality + method-specific limits",vocab:["Forward match","Reference library","Tentative identification","Isomer interference"],quiz:{q:"If the spectrum match is high but the measured RI disagrees with a reference, what should you do?",options:["Call it confirmed","Report the uncertainty and investigate references, co-elution, and possible isomers","Ignore the RI","Delete the peak"],correct:1,why:"Conflicting evidence should be reported and investigated. A library match alone does not establish identity."},diagram:"id"},
+  {id:7,title:"Relative Quantification",core:"Relative percentage is calculated by peak-area normalization against the selected integrated peaks. This is a semi-quantitative profile that assumes sufficiently similar response factors; it is not an absolute concentration. Define integration and excluded regions for the method and report the limitation.",formula:"% Area = (Peak area of compound / Total selected peak area) × 100",vocab:["Peak-area normalization","Response factor","TIC","Integration window"],quiz:{q:"What is the key limitation of reporting peak-area percentages?",options:["They always give absolute concentration","Response factors may differ, so area percentages are relative estimates","They do not require a chromatogram","They guarantee equal response"],correct:1,why:"Area normalization is useful for relative profiles but may not represent absolute composition unless response differences are addressed."},diagram:"quant"},
+  {id:8,title:"Quality Control & System Suitability",core:"Use blanks to assess carry-over and suitable reference materials to monitor performance. Define retention-time, RI, peak-shape, and other system-suitability limits during method development or validation; values such as ±0.05 min, ±5 RI units, or tailing factor <2 are examples only, not universal requirements.",formula:null,vocab:["Carry-over","Tailing factor","System suitability","Reference compound"],quiz:{q:"How should system-suitability limits be chosen?",options:["Apply ±0.05 min and ±5 RI units to every method","Establish and document limits for the intended method, instrument, and use","Use no acceptance limits","Copy limits without verification"],correct:1,why:"Suitability criteria should be justified and documented for the method and instrument. This guide's numerical examples are not universal specifications."},diagram:"qc"},
+  {id:9,title:"Reporting Results",core:"A traceable report should identify the sample and date, state GC-MS conditions, and present peak number, proposed compound, RT, calculated and reference RI, relative area, match information, reference source, and a labelled TIC where available. Distinguish measured results from tentative identifications.",formula:null,vocab:["TIC","Match information","Reference RI source","Traceable report"],quiz:{q:"Which information best supports traceability of a proposed identification?",options:["Compound name and area only","RT, calculated and reference RI, area, match information, and reference source","Chromatogram only","Sample name only"],correct:1,why:"Traceability combines experimental values, comparison data, and the source used for the proposed identification."},diagram:"report"},
+  {id:10,title:"Solvent Delay & Early Analytes",core:"A solvent delay can reduce source exposure to a large solvent load, but also prevents data acquisition during that interval. Select it from the solvent elution profile and target analytes; confirm that no compounds of interest elute before acquisition begins. Follow the instrument manufacturer's guidance.",formula:null,vocab:["Solvent elution","Acquisition window","Source protection","Early-eluting analytes"],quiz:{q:"What is the main analytical risk of an overly long solvent delay?",options:["It shortens the oven program","Early analytes may elute before data acquisition starts","It improves all peak shapes","It changes the column type"],correct:1,why:"No data are collected during the delay, so compounds eluting in that period can be missed. Verify the solvent and analyte retention windows."},diagram:"regions"}
+];
+
+const pageCopy={
+  en:{
+    home:"← LabSuite home",contents:"Contents",completed:"Completed",toc:"Table of Contents",interact:"Drag to rotate; hover or tap a 3D object for details.",
+    previous:"Previous lesson",next:"Next lesson",play:"Watch demo",reset:"Reset view",
+    switchLanguage:"Switch language to Arabic",languageButton:"العربية",
+    loading:"Loading the 3D lesson… An internet connection is required to load the 3D libraries.",
+    disclaimer:"Educational example only. Verify method settings and acceptance limits against validated procedures and current instrument guidance.",
+    canvas:"Interactive 3D model illustrating the current GC-MS lesson",
+    title:"GC-MS Essential Oils — Interactive 3D Learning Guide",
+    description:"Explore an interactive 3D learning guide to GC-MS analysis of essential oils, retention indices, identification, quality control, and reporting."
+  },
+  ar:{
+    home:"العودة إلى LabSuite ↗",contents:"محتويات الدروس",completed:"مكتمل",toc:"محتويات الدروس",interact:"اسحب لتدوير النموذج؛ مرّر المؤشر أو المس مجسمًا لعرض التفاصيل.",
+    previous:"الدرس السابق",next:"الدرس التالي",play:"عرض توضيحي",reset:"إعادة ضبط العرض",
+    switchLanguage:"Switch language to English",languageButton:"English",
+    loading:"جارٍ تحميل الدرس ثلاثي الأبعاد… يلزم اتصال بالإنترنت لتحميل مكتبات العرض.",
+    disclaimer:"مثال تعليمي فقط. تحقّق من إعدادات الطريقة وحدود القبول بالرجوع إلى الإجراءات المعتمدة وإرشادات الجهاز الحالية.",
+    canvas:"نموذج ثلاثي الأبعاد تفاعلي يوضح درس GC-MS الحالي",
+    title:"تحليل الزيوت العطرية بـ GC-MS — دليل تعليمي ثلاثي الأبعاد",
+    description:"دليل تعليمي تفاعلي ثنائي اللغة لتحليل الزيوت العطرية بـ GC-MS ومؤشرات الاحتجاز والتعرّف على المركبات وضبط الجودة والتقارير."
+  }
+};
+
+const arabicLessons=[
+  {title:"نظرة عامة على الطريقة (مثال تعليمي)",core:"يقدّم هذا المثال التعليمي لمحة عن التحليل النوعي وشبه الكمي للمركبات المتطايرة في الزيوت العطرية باستخدام GC-MS. ويستعرض تحضير العينة وظروف تشغيل نموذجية وحساب مؤشر الاحتجاز والتعرّف المبدئي على المركبات والإبلاغ عن مساحات القمم النسبية. المجال التقريبي 800–2500 توضيحي وليس حدًا عامًا للطريقة.",vocab:["GC-MS","مؤشر الاحتجاز (RI)","زيت عطري","تطبيع مساحة القمة"],quiz:{q:"كيف ينبغي تفسير مجال RI التقريبي في المثال (نحو 800–2500)؟",options:["مجال قبول عالمي","مجال توضيحي يعتمد على العينة والطريقة","مواصفة للكاشف","مجال إلزامي لكل عمود"],why:"يعتمد مجال المركبات على العينة والعمود وبرنامج الحرارة والطريقة؛ لا يُعد هذا المثال حدًا عامًا."}},
+  {title:"المواد والمعدات الأساسية",core:"تشمل المواد عينة الزيت العطري ومذيبًا مناسبًا مثل الأسيتونتريل أو الهكسان ومرجع ألكانات طبيعية (مثل C8–C30) وعمودًا من نوع (5%-phenyl)-methylpolysiloxane وغازًا حاملًا. يجب اختيار المواد والإعدادات وفق الطريقة والجهاز.",vocab:["عمود DB-5 / HP-5","مرجع n-alkanes","الهيليوم","مكتبة NIST"],quiz:{q:"ما نوع العمود المذكور في هذا المثال؟",options:["عمود PEG قطبي","عمود (5%-phenyl)-methylpolysiloxane من نوع DB-5","عمود كيرالي فقط","عمود محشو"],why:"عمود DB-5 مثال شائع غير قطبي، لكن اختيار العمود يجب أن يتوافق مع الطريقة والمراجع المقارنة."}},
+  {title:"تحضير العينة ومرجع الألكانات",core:"حضّر محلول العينة ومزيج n-alkanes بتركيز ومذيب مناسبين ومتحقق منهما للطريقة والجهاز. صفِّ العينة عند الحاجة وباستخدام مرشح متوافق. شغّل مزيج الألكانات والعينة على العمود نفسه وبالظروف الكروماتوغرافية نفسها؛ لا يشترط التطابق الحسابي للمذيب والتركيز.",vocab:["مرشح PTFE ‏0.45 µm عند الملاءمة","الخلط / الموجات فوق الصوتية","قارورة جهاز أخذ العينات","مزيج n-alkanes"],quiz:{q:"ما الشرط الأساسي لمقارنة العينة بسلسلة n-alkanes لحساب مؤشر الاحتجاز؟",options:["المذيب والتركيز نفسيهما دائمًا","العمود والظروف الكروماتوغرافية نفسها وقياس موثوق لأزمنة الاحتجاز","حجم الحقن نفسه فقط","لا شيء"],why:"يتطلب حساب المؤشر ألكانات مناسبة تحيط بالمحلَّل وظروفًا كروماتوغرافية متسقة. اختيار المذيب والتركيز خاص بالطريقة."}},
+  {title:"ظروف تشغيل GC-MS",core:"درجات الحرارة والتدفق ونسبة التقسيم ومجال المسح وبرنامج الفرن المعروض أمثلة أولية وليست طريقة عامة معتمدة. حدّد تأخير المذيب وفق خروجه وزمن احتجاز المركبات المستهدفة، وتحقق من عدم فقد المركبات المبكرة، واتبع تعليمات الشركة المصنّعة.",vocab:["تأخير المذيب","نسبة التقسيم","EI+ 70 eV","تدفق ثابت"],quiz:{q:"كيف يُحدَّد تأخير المذيب؟",options:["استخدم 4.5 دقائق لكل الطرق","حدده وفق خروج المذيب واحتجاز المركبات المستهدفة ثم تحقق من تسجيل المركبات المبكرة","اجعله بعد آخر مركب","لا يؤثر أبدًا"],why:"يمنع التأخير جمع البيانات خلال مدته وقد يحجب مركبات مبكرة؛ تحقّق منه للطريقة والمذيب والجهاز."}},
+  {title:"درجة حرارة الحاقن — حسب الطريقة",core:"لا يثبت هذا الدليل حدًا أقصى عامًا قدره 250 °C للثيمول أو الكارفاكرول أو الأوجينول. قد تؤثر حرارة المدخل والبطانة والتقسيم وثبات المحلَّل في النقل والاستجابة. حسّن الظروف باستخدام معايير مناسبة وفحوص ملاءمة النظام، ولا تستنتج التحلل الحراري من الحرارة وحدها.",vocab:["ثيمول","كارفاكرول","أوجينول","تمييز المدخل"],quiz:{q:"كيف ينبغي تحديد حد حرارة الحاقن للمركب المستهدف؟",options:["اعتبار 250 °C حدًا أقصى عالميًا","تقييم معايير مناسبة بالطريقة المقصودة وتوثيق الأداء","استخدام أعلى إعداد متاح","استنتاج التحلل من تطابق المكتبة فقط"],why:"يجب أن يستند الحد إلى أدلة خاصة بالطريقة وإرشادات الجهاز؛ لا يحدد هذا الدليل عتبة عامة."}},
+  {title:"حساب مؤشر الاحتجاز",core:"في GC المبرمج حراريًا، يُحسب مؤشر الاحتجاز الخطي بالاستيفاء بين ألكانين طبيعيين يحيطان بالمحلَّل، مع استخدام رقمي الكربون وزمني الاحتجاز. أما مؤشر كوفات المتساوي الحرارة فيستخدم لوغاريتم أزمنة الاحتجاز المعدّلة وهو حساب مختلف. اذكر الاصطلاح والظروف المستخدمة.",vocab:["RTx: زمن احتجاز المحلَّل","RTn: الألكان الأدنى المحيط","رقم الكربون n","مؤشر خطي أم مؤشر كوفات"],quiz:{q:"أي حساب يُستخدم عادةً في تشغيل GC مبرمج حراريًا؟",options:["معادلة كوفات المتساوية الحرارة بأزمنة خام","استيفاء خطي بين ألكانات n متجاورة","لا حاجة إلى مراجع ألكانات","تطبيع مساحة القمة"],why:"يستخدم التشغيل المبرمج حراريًا عادةً الاستيفاء الخطي لمؤشر الاحتجاز؛ معادلة كوفات المتساوية الحرارة تستخدم لوغاريتم أزمنة الاحتجاز المعدّلة."}},
+  {title:"التعرّف على المركبات ودرجة الثقة",core:"تشابه طيف الكتلة وتوافق مؤشر الاحتجاز دليلان متكاملان للتعرّف المبدئي. حدود مثل تطابق مكتبة 80% أو فرق RI بمقدار ±10 أمثلة تعتمد على الطريقة والمكتبة وليست معايير تأكيد عامة. راعِ جودة المرجع والتراكب والتماكب، واستخدم معايير أصيلة عند الحاجة.",vocab:["التطابق الأمامي","مكتبة مرجعية","تعرّف مبدئي","تداخل المتماكبات"],quiz:{q:"إذا كان تطابق الطيف مرتفعًا لكن RI لا يوافق المرجع، فما الإجراء؟",options:["اعتباره مؤكدًا","الإبلاغ عن عدم اليقين والتحقق من المراجع والتراكب والمتماكبات المحتملة","تجاهل RI","حذف القمة"],why:"ينبغي الإبلاغ عن الأدلة المتعارضة والتحقق منها؛ تطابق المكتبة وحده لا يثبت الهوية."}},
+  {title:"التقدير الكمي النسبي",core:"تُحسب النسبة المئوية لمساحة القمة نسبةً إلى مجموع المساحات المتكاملة. قد يكون ذلك مفيدًا للتوصيف النسبي، لكنه يفترض ضمنًا استجابات متقاربة ولا يعادل تركيزًا مطلقًا. استبعد المناطق غير الملائمة وفق الطريقة واذكر القيود.",vocab:["تطبيع مساحة القمة","عامل الاستجابة","TIC","الجزء غير المتطاير"],quiz:{q:"ما القيد الأساسي للتقدير بمساحة القمم؟",options:["يثبت التركيز المطلق دائمًا","قد تختلف عوامل الاستجابة؛ لذا لا تساوي النسبة بالمساحة تركيزًا مطلقًا","لا يحتاج إلى كروماتوغرام","يضمن استجابة متساوية"],why:"تعتمد النسبة بالمساحة على الاستجابة النسبية للمركبات، وقد تتطلب التقديرات المطلقة معايرة مناسبة وعوامل استجابة."}},
+  {title:"ضبط الجودة وملاءمة النظام",core:"استخدم الفراغات لتقييم الحمل المتبقي ومواد مرجعية مناسبة لمراقبة الأداء. حدّد حدود زمن الاحتجاز وRI وشكل القمة وملاءمة النظام أثناء تطوير الطريقة أو التحقق منها. القيم مثل ±0.05 دقيقة أو ±5 وحدات RI أو معامل ذيل أقل من 2 أمثلة وليست متطلبات عامة.",vocab:["الحمل المتبقي","معامل الذيل","ملاءمة النظام","مركب مرجعي"],quiz:{q:"كيف تُختار حدود ملاءمة النظام؟",options:["تطبيق ±0.05 دقيقة و±5 RI على جميع الطرق","وضع حدود موثقة للطريقة والجهاز والاستخدام المقصود","عدم استخدام أي حدود قبول","نسخ الحدود دون تحقق"],why:"ينبغي تبرير معايير الملاءمة وتوثيقها للطريقة والجهاز؛ القيم الرقمية في هذا الدليل ليست مواصفات عامة."}},
+  {title:"متطلبات إعداد التقرير",core:"ينبغي أن يحدد التقرير العينة والتاريخ وظروف GC-MS وأرقام القمم وأسماء المركبات وأزمنة الاحتجاز وRI المحسوب والمرجعي والنسبة المئوية للمساحة ودرجة التطابق ومصدر المرجع وكروماتوغرام TIC الموسوم. ميّز النتائج المقاسة عن التعرّف المبدئي.",vocab:["TIC","درجة التطابق","مصدر RI المرجعي","جدول النتائج"],quiz:{q:"ما البيانات التي تدعم قابلية تتبع النتائج؟",options:["اسم المركب والنسبة فقط","RT وRI المحسوب والمرجعي والنسبة ودرجة التطابق ومصدر المرجع","الكروماتوغرام فقط","اسم العينة فقط"],why:"تجمع قابلية التتبع بين البيانات التجريبية ومصدر المقارنة والنتائج المبدئية."}},
+  {title:"تأخير المذيب والمركبات المبكرة",core:"قد يقلل تأخير المذيب تعرض المصدر لكمية كبيرة من المذيب، لكنه يمنع جمع البيانات أثناء فترة التأخير. اختره وفق منحنى خروج المذيب واحتجاز المركبات المستهدفة، وتأكد من عدم خروج مركبات مهمة قبل بدء التسجيل، واتبع إرشادات الجهاز.",vocab:["خروج المذيب","نافذة جمع البيانات","حماية المصدر","المركبات المبكرة"],quiz:{q:"ما الخطر التحليلي الرئيسي من تأخير مذيب طويل أكثر من اللازم؟",options:["تقليل مدة برنامج الفرن","قد تخرج المركبات المبكرة قبل بدء جمع البيانات","تحسين شكل كل القمم","تغيير نوع العمود"],why:"لا تُجمع البيانات أثناء التأخير، وقد تفوت المركبات التي تخرج خلاله. تحقّق من أزمنة خروج المذيب والمحلَّلات."}}
+];
+
+let language=new URLSearchParams(location.search).get("lang")==="ar"?"ar":"en";
+let current=0,isDemo=false;
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const interacted=new Set();
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x0f0f16);
+scene.fog=new THREE.Fog(0x0f0f16,14,30);
+
+const camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,0.1,100);
+camera.position.set(0,3.9,7.4);
+
+let renderer;
+try{
+  renderer=new THREE.WebGLRenderer({canvas:document.getElementById('canvas'),antialias:true});
+}catch(error){
+  const status=document.getElementById('appStatus');
+  status.dataset.state='error';
+  status.textContent=language==='ar'
+    ?'تعذر بدء العرض ثلاثي الأبعاد في هذا المتصفح. استخدم متصفحًا حديثًا يدعم WebGL.'
+    :'3D rendering could not start in this browser. Use a modern browser with WebGL support.';
+  throw error;
+}
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+
+const ambient=new THREE.AmbientLight(0xffffff,0.4);
+scene.add(ambient);
+const key=new THREE.DirectionalLight(0xfff4e6,1.25);
+key.position.set(5,11,7);
+key.castShadow=true;
+key.shadow.mapSize.set(2048,2048);
+scene.add(key);
+const fill=new THREE.DirectionalLight(0xc5d8ff,0.35);
+fill.position.set(-4,3,-2);
+scene.add(fill);
+
+const desk=new THREE.Mesh(new THREE.BoxGeometry(14,0.35,9),new THREE.MeshStandardMaterial({color:0x2a1c12,roughness:0.75}));
+desk.position.y=-0.18;desk.receiveShadow=true;scene.add(desk);
+
+const book=new THREE.Group();scene.add(book);
+const coverMat=new THREE.MeshStandardMaterial({color:0xb8860b,roughness:0.55,metalness:0.15});
+const leftCover=new THREE.Mesh(new THREE.BoxGeometry(2.7,0.09,3.7),coverMat);
+leftCover.position.set(-1.4,0.05,0);leftCover.rotation.y=0.09;leftCover.castShadow=true;book.add(leftCover);
+const rightCover=leftCover.clone();rightCover.position.set(1.4,0.05,0);rightCover.rotation.y=-0.09;book.add(rightCover);
+
+const pageMat=new THREE.MeshStandardMaterial({color:0xf7f0e0,roughness:0.88});
+const leftPage=new THREE.Mesh(new THREE.PlaneGeometry(2.45,3.45),pageMat);
+leftPage.position.set(-1.28,0.1,0);leftPage.rotation.x=-Math.PI/2;leftPage.rotation.z=0.045;book.add(leftPage);
+const rightPage=leftPage.clone();rightPage.position.set(1.28,0.1,0);rightPage.rotation.z=-0.045;book.add(rightPage);
+
+const spine=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.13,3.55),new THREE.MeshStandardMaterial({color:0x8b6914}));
+spine.position.set(0,0.07,0);book.add(spine);
+
+const ribbon=new THREE.Mesh(new THREE.PlaneGeometry(0.13,1.9),new THREE.MeshBasicMaterial({color:0x1e3a8a,side:THREE.DoubleSide}));
+ribbon.position.set(0.02,-0.75,1.65);ribbon.rotation.x=-0.35;book.add(ribbon);
+
+const diagramGroup=new THREE.Group();diagramGroup.position.set(1.28,0.13,0);book.add(diagramGroup);
+
+const info3d = document.getElementById('info3d');
+let hoveredObject = null;
+
+function clearDiagram(){
+  while(diagramGroup.children.length){
+    const c=diagramGroup.children[0];
+    if(c.geometry)c.geometry.dispose();
+    if(c.material)c.material.dispose();
+    diagramGroup.remove(c);
+  }
+  hoveredObject = null;
+  info3d.style.opacity = 0;
+}
+
+function metal(color=0x4a5568, roughness=0.35, metalness=0.7){
+  return new THREE.MeshStandardMaterial({color, roughness, metalness});
+}
+function plastic(color=0x2d3748){return new THREE.MeshStandardMaterial({color, roughness:0.55, metalness:0.1});}
+function glass(color=0x90cdf4){return new THREE.MeshStandardMaterial({color, roughness:0.15, metalness:0.1, transparent:true, opacity:0.75});}
+
+function addPart(mesh, name, description){
+  mesh.userData = { interactive: true, name, description };
+  diagramGroup.add(mesh);
+  return mesh;
+}
+
+function buildDiagram(type){
+  clearDiagram();
+
+  if(type==="scope" || type==="regions"){
+    const column = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 1.65, 32), metal(0x4a5568, 0.3, 0.8));
+    column.position.y = 0.9;
+    addPart(column, "GC Capillary Column", "30 m × 0.25 mm DB-5 type column. Separation occurs here.");
+    
+    const zoneColors = [0x3182ce, 0x38a169, 0xd69e2e, 0xdd6b20, 0xe53e3e];
+    const zoneNames = ["Monoterpenes", "Oxygenated MT", "Sesquiterpenes", "Oxygenated ST", "Diterpenes / Late"];
+    zoneColors.forEach((c,i)=>{
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.025, 8, 32), new THREE.MeshStandardMaterial({color:c, roughness:0.4}));
+      ring.rotation.x = Math.PI/2;
+      ring.position.y = 0.28 + i * 0.28;
+      addPart(ring, zoneNames[i], `KRI region approximately ${800 + i*300} – ${1100 + i*300}`);
+    });
+    
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, 0.1, 24), metal(0x2d3748));
+    base.position.y = 0.05;
+    addPart(base, "Column Oven Base", "Temperature programmed oven");
+  }
+  else if(type==="equipment" || type==="conditions"){
+    const inj = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.16, 0.38, 20), metal(0x4a5568));
+    inj.position.set(-0.75, 0.35, 0);
+    addPart(inj, "Injector", "250 °C – sample is vaporized here. Split 1:100 or 1:50.");
+    
+    const nut = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.08, 16), metal(0x718096));
+    nut.position.set(-0.75, 0.58, 0);
+    addPart(nut, "Septum Nut", "Holds the injection septum");
+    
+    const col = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 1.15, 20), metal(0xa0aec0, 0.25, 0.9));
+    col.rotation.z = Math.PI/2; col.position.set(0.05, 0.32, 0);
+    addPart(col, "Transfer Line / Column", "Connects injector to the mass spectrometer");
+    
+    const ms = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.48, 0.38), metal(0x2d3748, 0.4, 0.6));
+    ms.position.set(0.8, 0.35, 0);
+    addPart(ms, "Mass Spectrometer", "EI+ 70 eV, scan m/z 50–500. Identifies compounds by fragmentation pattern.");
+    
+    const pump = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.2, 12), metal(0x4a5568));
+    pump.rotation.x = Math.PI/2; pump.position.set(0.8, 0.12, 0.25);
+    addPart(pump, "Vacuum System", "Maintains high vacuum inside the MS");
+  }
+  else if(type==="prep"){
+    [-0.4, 0.4].forEach((x, idx)=>{
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.19, 0.5, 24), glass(idx===0 ? 0x90cdf4 : 0x9ae6b4));
+      body.position.set(x, 0.38, 0);
+      addPart(body, idx===0 ? "Essential Oil Vial" : "Alkane Standard Vial", "1 mg/mL in acetonitrile or hexane");
+      
+      const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.1, 20), metal(0x4a5568));
+      cap.position.set(x, 0.68, 0);
+      addPart(cap, "Screw Cap", "PTFE/silicone septum recommended");
+    });
+  }
+  else if(type==="warning"){
+    const tri = new THREE.Mesh(new THREE.ConeGeometry(0.42, 0.72, 3), new THREE.MeshStandardMaterial({color:0xe53e3e, roughness:0.35}));
+    tri.position.y = 0.48; tri.rotation.y = Math.PI;
+    addPart(tri, "Method-specific inlet settings", "Set temperature limits using method-specific evidence and instrument guidance; this guide does not establish a universal maximum.");
+    
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.26, 0.07), new THREE.MeshStandardMaterial({color:0xffffff}));
+    bar.position.y = 0.55; diagramGroup.add(bar);
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 12), new THREE.MeshStandardMaterial({color:0xffffff}));
+    dot.position.y = 0.32; diagramGroup.add(dot);
+  }
+  else if(type==="kri"){
+    for(let i=0; i<8; i++){
+      const isTarget = i === 3;
+      const sphere = new THREE.Mesh(new THREE.SphereGeometry(isTarget ? 0.13 : 0.1, 20, 20), metal(isTarget ? 0xe53e3e : 0x3182ce, 0.3, 0.5));
+      sphere.position.set(-0.85 + i*0.24, 0.38, 0);
+      addPart(sphere, isTarget ? "Unknown Compound" : `n-Alkane C${8+i}`, isTarget ? "RTx – used to calculate KRI between neighbouring alkanes" : `Reference alkane for KRI calculation`);
+      
+      if(i < 7){
+        const bond = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.1, 8), metal(0xa0aec0));
+        bond.rotation.z = Math.PI/2;
+        bond.position.set(-0.73 + i*0.24, 0.38, 0); diagramGroup.add(bond);
+      }
+    }
+  }
+  else if(type==="id" || type==="quant"){
+    const heights = [0.28, 0.55, 0.38, 0.85, 0.48, 0.32, 0.22];
+    const names = ["Peak 1", "Peak 2", "Peak 3", "Main Peak", "Peak 5", "Peak 6", "Peak 7"];
+    heights.forEach((h, i)=>{
+      const peak = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.09, h, 12), new THREE.MeshStandardMaterial({color: i===3 ? 0xe53e3e : 0x38a169, roughness:0.4}));
+      peak.position.set(-0.85 + i*0.28, h/2 + 0.05, 0);
+      addPart(peak, names[i], i===3 ? "Target compound – click to highlight area contribution" : "Other component in the essential oil");
+    });
+    const base = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.035, 0.4), plastic(0x2d3748));
+    base.position.y = 0.04; diagramGroup.add(base);
+  }
+  else if(type==="qc" || type==="report"){
+    const page = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1.25, 0.05), new THREE.MeshStandardMaterial({color:0xf7fafc, roughness:0.7}));
+    page.position.y = 0.7;
+    addPart(page, "Analysis Report", "Must include: RT, KRI calc, KRI lit, % Area, Match Factor, and TIC");
+    
+    const header = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.12, 0.02), metal(0x2b6cb0));
+    header.position.set(0, 1.2, 0.04); diagramGroup.add(header);
+  }
+
+  if(!reducedMotion){
+    diagramGroup.children.forEach((c,i)=>{
+      c.scale.set(1, 0.01, 1);
+      gsap.to(c.scale, {y:1, duration:0.55, delay:i*0.035, ease:"back.out(1.6)"});
+    });
+  }
+}
+
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;controls.dampingFactor=0.07;
+controls.minDistance=3.8;controls.maxDistance=14;
+controls.maxPolarAngle=Math.PI*0.47;controls.minPolarAngle=0.15;
+controls.target.set(0,0.7,0);controls.update();
+
+const raycaster=new THREE.Raycaster();
+const mouse=new THREE.Vector2();
+let pointerDown=false, hasMoved=false;
+
+renderer.domElement.addEventListener('pointerdown',()=>{pointerDown=true;hasMoved=false});
+renderer.domElement.addEventListener('pointermove',(e)=>{
+  if(pointerDown) hasMoved=true;
+  
+  // Hover detection
+  mouse.x = (e.clientX / innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(diagramGroup.children, true);
+  
+  if(hits.length && hits[0].object.userData.interactive){
+    const obj = hits[0].object;
+    if(hoveredObject !== obj){
+      if(hoveredObject){
+        if(reducedMotion)hoveredObject.scale.set(1,1,1);
+        else gsap.to(hoveredObject.scale, {x:1, y:1, z:1, duration:0.2});
+      }
+      hoveredObject = obj;
+      if(reducedMotion)obj.scale.set(1.12,1.12,1.12);
+      else gsap.to(obj.scale, {x:1.12, y:1.12, z:1.12, duration:0.2});
+      
+      info3d.textContent = `${obj.userData.name}: ${obj.userData.description || ''}`;
+      info3d.style.opacity = 1;
+    }
+    const tip=info3d.getBoundingClientRect();
+    info3d.style.left=Math.max(8,Math.min(e.clientX+14,innerWidth-tip.width-8))+'px';
+    info3d.style.top=Math.max(8,Math.min(e.clientY+14,innerHeight-tip.height-8))+'px';
+  } else {
+    if(hoveredObject){
+      if(reducedMotion)hoveredObject.scale.set(1,1,1);
+      else gsap.to(hoveredObject.scale, {x:1, y:1, z:1, duration:0.2});
+      hoveredObject = null;
+      info3d.style.opacity = 0;
+    }
+  }
+});
+
+renderer.domElement.addEventListener('pointerup',e=>{
+  if(pointerDown && !hasMoved){
+    mouse.x = (e.clientX / innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(diagramGroup.children, true);
+    
+    if(hits.length && hits[0].object.userData.interactive){
+      const obj = hits[0].object;
+      
+      if(!reducedMotion){
+        gsap.timeline()
+          .to(obj.scale, {x:1.25, y:1.25, z:1.25, duration:0.12})
+          .to(obj.scale, {x:1.05, y:1.05, z:1.05, duration:0.2});
+        if(obj.userData.name.includes("Column") || obj.userData.name.includes("Transfer")){
+          gsap.to(obj.rotation, {z: obj.rotation.z + Math.PI*0.1, duration:0.4, yoyo:true, repeat:1});
+        }
+        if(obj.userData.name.includes("Peak") || obj.userData.name.includes("Main")){
+          gsap.to(obj.position, {y: obj.position.y + 0.08, duration:0.25, yoyo:true, repeat:1});
+        }
+      }
+      
+      interacted.add(current);
+      updateStamp();
+    }
+  }
+  pointerDown=false;
+});
+renderer.domElement.addEventListener('pointercancel',()=>{pointerDown=false});
+
+const hTitle=document.getElementById('hTitle'),hCore=document.getElementById('hCore');
+const formulaBox=document.getElementById('formulaBox'),vocab=document.getElementById('vocab');
+const qText=document.getElementById('qText'),qOptions=document.getElementById('qOptions'),flap=document.getElementById('flap');
+const stamp=document.getElementById('stamp'),lessonTitle=document.getElementById('lessonTitle'),tocList=document.getElementById('tocList'),toc=document.getElementById('toc');
+
+function lessonAt(index){
+  if(language!=="ar")return spreads[index];
+  const translation=arabicLessons[index];
+  return{...spreads[index],...translation,quiz:{...spreads[index].quiz,...translation.quiz}};
+}
+function updateStamp(){interacted.has(current)?stamp.classList.add('inked'):stamp.classList.remove('inked')}
+function renderContents(){
+  tocList.replaceChildren();
+  spreads.forEach((spread,index)=>{
+    const button=document.createElement('button');
+    const lesson=lessonAt(index);
+    button.textContent=`${(index+1).toLocaleString(language)}. ${lesson.title}`;
+    button.onclick=()=>{
+      loadSpread(index);
+      toc.classList.remove('open');
+      document.getElementById('btnToc').setAttribute('aria-expanded','false');
+    };
+    tocList.appendChild(button);
+  });
+}
+function loadSpread(idx){
+  current=(idx+spreads.length)%spreads.length;
+  const s=lessonAt(current);
+  hTitle.textContent=s.title;hCore.textContent=s.core;
+  if(s.formula){formulaBox.style.display='block';formulaBox.textContent=s.formula}else formulaBox.style.display='none';
+  vocab.replaceChildren();
+  s.vocab.forEach(word=>{
+    const tag=document.createElement('span');
+    tag.textContent=word;
+    vocab.appendChild(tag);
+  });
+  lessonTitle.textContent=`${(current+1).toLocaleString(language)} / ${spreads.length} — ${s.title}`;
+  qText.textContent=s.quiz.q;qOptions.replaceChildren();
+  s.quiz.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');btn.type='button';btn.textContent=opt;
+    btn.onclick=()=>{
+      if(i===s.quiz.correct){
+        btn.classList.add('correct');flap.textContent=s.quiz.why;flap.classList.add('open');
+        qOptions.querySelectorAll('button').forEach(option=>option.disabled=true);
+        interacted.add(current);updateStamp();
+      }else btn.classList.add('wrong');
+    };
+    qOptions.appendChild(btn);
+  });
+  flap.classList.remove('open');updateStamp();buildDiagram(s.diagram);
+  document.querySelectorAll('#tocList button').forEach((button,index)=>{
+    if(index===current)button.setAttribute('aria-current','step');
+    else button.removeAttribute('aria-current');
+    button.classList.toggle('active',index===current);
+  });
+  document.getElementById('canvas').setAttribute('aria-label',pageCopy[language].canvas);
+}
+function setLanguage(nextLanguage){
+  language=nextLanguage;
+  const copy=pageCopy[language];
+  document.documentElement.lang=language;
+  document.documentElement.dir=language==="ar"?"rtl":"ltr";
+  document.title=copy.title;
+  document.querySelector('meta[name="description"]').content=copy.description;
+  document.querySelectorAll('[data-i18n]').forEach(element=>{
+    const text=copy[element.dataset.i18n];
+    if(text)element.textContent=text;
+  });
+  document.getElementById('btnLanguage').textContent=copy.languageButton;
+  document.getElementById('btnLanguage').setAttribute('aria-label',copy.switchLanguage);
+  document.getElementById('btnLanguage').title=copy.switchLanguage;
+  document.getElementById('btnToc').setAttribute('aria-label',copy.toc);
+  document.getElementById('btnToc').title=copy.toc;
+  document.getElementById('btnPrev').setAttribute('aria-label',copy.previous);
+  document.getElementById('btnPrev').title=copy.previous;
+  document.getElementById('btnNext').setAttribute('aria-label',copy.next);
+  document.getElementById('btnNext').title=copy.next;
+  document.getElementById('btnPlay').setAttribute('aria-label',copy.play);
+  document.getElementById('btnPlay').title=copy.play;
+  document.getElementById('btnReset').setAttribute('aria-label',copy.reset);
+  document.getElementById('btnReset').title=copy.reset;
+  const url=new URL(location.href);
+  if(language==="ar")url.searchParams.set('lang','ar');
+  else url.searchParams.delete('lang');
+  if(location.protocol!=="file:")history.replaceState(null,'',url);
+  renderContents();
+  loadSpread(current);
+}
+
+document.getElementById('btnToc').onclick=()=>{
+  const isOpen=toc.classList.toggle('open');
+  document.getElementById('btnToc').setAttribute('aria-expanded',String(isOpen));
+};
+document.getElementById('btnPrev').onclick=()=>loadSpread(current-1);
+document.getElementById('btnNext').onclick=()=>loadSpread(current+1);
+document.getElementById('btnLanguage').onclick=()=>setLanguage(language==="ar"?"en":"ar");
+document.getElementById('btnReset').onclick=()=>{
+  if(reducedMotion){camera.position.set(0,3.9,7.4);controls.target.set(0,0.7,0)}
+  else{gsap.to(camera.position,{x:0,y:3.9,z:7.4,duration:1.3,ease:'power2.inOut'});gsap.to(controls.target,{x:0,y:0.7,z:0,duration:1.3})}
+};
+document.getElementById('btnPlay').hidden=reducedMotion;
+document.getElementById('btnPlay').onclick=()=>{
+  if(isDemo)return;
+  isDemo=true;controls.enabled=false;
+  const tl=gsap.timeline({onComplete:()=>{isDemo=false;controls.enabled=true}});
+  tl.to(camera.position,{x:2.4,y:1.6,z:3.2,duration:1.9,ease:'power2.inOut'})
+    .to(controls.target,{x:1.25,y:0.55,z:0,duration:1.9},0)
+    .to(camera.position,{x:0,y:3.9,z:7.4,duration:1.7,delay:1.0})
+    .to(controls.target,{x:0,y:0.7,z:0,duration:1.7},'-=1.7');
+};
+window.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&toc.classList.contains('open')){
+    toc.classList.remove('open');
+    document.getElementById('btnToc').setAttribute('aria-expanded','false');
+  }else if(event.target===document.body&&event.key==='ArrowLeft')loadSpread(current-1);
+  else if(event.target===document.body&&event.key==='ArrowRight')loadSpread(current+1);
+});
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+setLanguage(language);
+document.getElementById('appStatus').textContent='';
+(function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera)})();
+</script>
+</body>
+</html>
