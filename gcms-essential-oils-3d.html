@@ -11,15 +11,17 @@
 <meta property="og:description" content="A bilingual interactive guide to the supplied third-edition essential-oil GC-MS SOP." />
 <meta property="og:url" content="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
 <meta name="twitter:card" content="summary" />
+<meta name="keywords" content="GC-MS, essential oils, 3D learning, retention index, KRI, SOP v3, laboratory education" />
 <link rel="canonical" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
 <link rel="alternate" hreflang="en" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
 <link rel="alternate" hreflang="ar" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html?lang=ar" />
 <link rel="alternate" hreflang="x-default" href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
 <title>Essential-Oil GC-MS SOP v3 — Interactive 3D Guide</title>
 <style>
+  :root{--lesson-sidebar-width:260px}
   *{margin:0;padding:0;box-sizing:border-box}
   body{overflow:hidden;background:#0f0f16;font-family:Georgia,"Times New Roman",serif}
-  #canvas{display:block;width:100vw;height:100vh;touch-action:none}
+  #canvas{display:block;width:calc(100vw - var(--lesson-sidebar-width));height:100vh;touch-action:none}
   #appStatus{
     position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:500;
     max-width:min(720px,calc(100% - 24px));padding:9px 14px;border:1px solid #6b7280;
@@ -123,13 +125,16 @@
   }
   
   #toc{
-    position:fixed;top:0;right:-300px;width:280px;height:100%;
+    position:fixed;top:0;right:0;width:var(--lesson-sidebar-width);height:100dvh;
+    display:flex;flex-direction:column;gap:8px;
     background:rgba(16,16,24,.97);backdrop-filter:blur(20px);
-    border-left:1px solid rgba(255,255,255,.08);padding:20px 14px;z-index:400;
-    transition:right .35s ease;overflow-y:auto;color:#eee
+    border-left:1px solid rgba(255,255,255,.08);padding:18px 12px;z-index:400;
+    overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;
+    scrollbar-color:#657084 #171923;color:#eee
   }
-  #toc.open{right:0}
-  #toc h2{font-family:Georgia,"Times New Roman",serif;margin-bottom:14px;font-size:16px}
+  #toc h2{position:sticky;top:-18px;z-index:1;margin:-18px -12px 0;padding:18px 12px 10px;
+    background:rgba(16,16,24,.98);font-family:Georgia,"Times New Roman",serif;font-size:16px}
+  #tocList{min-height:0}
   #toc button{
     display:block;width:100%;text-align:left;background:transparent;border:none;
     color:#ddd;padding:9px 7px;margin:2px 0;border-radius:6px;cursor:pointer;
@@ -137,6 +142,9 @@
   }
   #toc button:hover,#toc button.active{background:rgba(255,255,255,.1)}
   #toc button[aria-current="step"]{background:rgba(255,255,255,.12);color:#fff}
+  #toc button.active{border-inline-start:3px solid #61c5a6;font-weight:700}
+  #btnToc{display:none}
+  #leftUI{width:min(45vw,calc(100vw - var(--lesson-sidebar-width) - 24px))}
   [dir="rtl"] #toc{text-align:right}
   [dir="rtl"] #toc button{text-align:right}
   [dir="rtl"] #lessonHeader,#quizBox,#flap{text-align:right}
@@ -144,12 +152,18 @@
   [dir="rtl"] #hud{direction:ltr}
   #formulaBox{direction:ltr;text-align:left}
   @media(max-width:850px){
-    #leftUI{width:53%;padding:16px 14px 82px 16px}
+    :root{--lesson-sidebar-width:240px}
+    #leftUI{width:min(53vw,calc(100vw - var(--lesson-sidebar-width) - 24px));padding:16px 14px 82px 16px}
     #lessonHeader .core{font-size:12.5px}
     #quizBox button{font-size:12px}
     #hud .title{max-width:200px}
   }
   @media(max-width:600px){
+    :root{--lesson-sidebar-width:0px}
+    #canvas{width:100vw}
+    #toc{right:-100%;width:min(320px,85vw);transition:right .35s ease}
+    #toc.open{right:0}
+    #btnToc{display:flex}
     #leftUI{top:8px;left:8px;width:calc(100% - 16px);height:auto;max-height:46vh;
       padding:0;gap:6px;overflow-y:auto;overscroll-behavior:contain}
     #lessonHeader,#quizBox{padding:9px 10px;border-width:1px}
@@ -167,7 +181,6 @@
     #hud .title{max-width:min(37vw,160px);font-size:11px}
     #homeLink{top:auto;bottom:57px;right:10px;padding:7px 9px;font-size:11px}
     #info3d{max-width:180px;font-size:12px}
-    #toc{width:min(300px,85vw)}
   }
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
@@ -208,10 +221,10 @@
   <button id="btnLanguage" type="button" title="Switch language" aria-label="Switch language">العربية</button>
 </div>
 
-<div id="toc" aria-label="Lesson contents">
+<nav id="toc" aria-label="Lesson contents">
   <h2 data-i18n="contents">Contents</h2>
   <div id="tocList"></div>
-</div>
+</nav>
 
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
@@ -353,7 +366,7 @@ try{
     :'3D rendering could not start in this browser. Use a modern browser with WebGL support.';
   throw error;
 }
-renderer.setSize(innerWidth,innerHeight);
+renderer.setSize(renderer.domElement.clientWidth,innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -543,12 +556,16 @@ const mouse=new THREE.Vector2();
 let pointerDown=false, hasMoved=false;
 
 renderer.domElement.addEventListener('pointerdown',()=>{pointerDown=true;hasMoved=false});
+function setPointerFromEvent(event){
+  const bounds=renderer.domElement.getBoundingClientRect();
+  mouse.x=((event.clientX-bounds.left)/bounds.width)*2-1;
+  mouse.y=-((event.clientY-bounds.top)/bounds.height)*2+1;
+}
 renderer.domElement.addEventListener('pointermove',(e)=>{
   if(pointerDown) hasMoved=true;
   
   // Hover detection
-  mouse.x = (e.clientX / innerWidth) * 2 - 1;
-  mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+  setPointerFromEvent(e);
   raycaster.setFromCamera(mouse, camera);
   const hits = raycaster.intersectObjects(diagramGroup.children, true);
   
@@ -581,8 +598,7 @@ renderer.domElement.addEventListener('pointermove',(e)=>{
 
 renderer.domElement.addEventListener('pointerup',e=>{
   if(pointerDown && !hasMoved){
-    mouse.x = (e.clientX / innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+    setPointerFromEvent(e);
     raycaster.setFromCamera(mouse, camera);
     const hits = raycaster.intersectObjects(diagramGroup.children, true);
     
@@ -663,6 +679,7 @@ function loadSpread(idx){
     if(index===current)button.setAttribute('aria-current','step');
     else button.removeAttribute('aria-current');
     button.classList.toggle('active',index===current);
+    if(index===current)button.scrollIntoView({block:'nearest'});
   });
   document.getElementById('canvas').setAttribute('aria-label',pageCopy[language].canvas);
 }
@@ -684,6 +701,7 @@ function setLanguage(nextLanguage){
   document.getElementById('btnLanguage').title=copy.switchLanguage;
   document.getElementById('btnToc').setAttribute('aria-label',copy.toc);
   document.getElementById('btnToc').title=copy.toc;
+  toc.setAttribute('aria-label',copy.toc);
   document.getElementById('btnPrev').setAttribute('aria-label',copy.previous);
   document.getElementById('btnPrev').title=copy.previous;
   document.getElementById('btnNext').setAttribute('aria-label',copy.next);
@@ -728,7 +746,12 @@ window.addEventListener('keydown',event=>{
   }else if(event.target===document.body&&event.key==='ArrowLeft')loadSpread(current-1);
   else if(event.target===document.body&&event.key==='ArrowRight')loadSpread(current+1);
 });
-window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+window.addEventListener('resize',()=>{
+  const width=renderer.domElement.clientWidth;
+  camera.aspect=width/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(width,innerHeight);
+});
 setLanguage(language);
 document.getElementById('appStatus').textContent='';
 (function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera)})();
