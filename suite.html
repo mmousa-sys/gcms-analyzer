@@ -85,6 +85,7 @@
         <button class="module" type="button" data-module="lab" aria-current="page">🧪 مساعد فني المختبر</button>
         <button class="module" type="button" data-module="gcms">🔬 محلل GC-MS</button>
         <button class="module" type="button" data-module="hplc">📈 التحقق من HPLC</button>
+        <button class="module" type="button" data-module="gcms3d">🧭 دليل GC-MS ثلاثي الأبعاد</button>
       </nav>
       <button class="utility" id="languageToggle" type="button" aria-label="Switch language">English</button>
     </header>
@@ -109,22 +110,27 @@
         src: "https://mmousa-sys.github.io/hplc-method-validation/",
         title: "نظام التحقق من طرق HPLC",
         standalone: "https://mmousa-sys.github.io/hplc-method-validation/"
+      },
+      gcms3d: {
+        src: "gcms-essential-oils-3d.html",
+        title: "دليل GC-MS ثلاثي الأبعاد — SOP v3",
+        standalone: "gcms-essential-oils-3d.html"
       }
     };
     const labels = {
       ar: {
         title: "البرنامج الشامل لفني المختبر",
         subtitle: "منصة واحدة لأدوات التحليل والتحقق المخبري",
-        nav: ["🧪 مساعد فني المختبر", "🔬 محلل GC-MS", "📈 التحقق من HPLC"],
-        names: ["مساعد فني المختبرات الشامل", "محلل GC-MS للزيوت العطرية", "نظام التحقق من طرق HPLC"],
+        nav: ["🧪 مساعد فني المختبر", "🔬 محلل GC-MS", "📈 التحقق من HPLC", "🧭 دليل GC-MS ثلاثي الأبعاد"],
+        names: ["مساعد فني المختبرات الشامل", "محلل GC-MS للزيوت العطرية", "نظام التحقق من طرق HPLC", "دليل GC-MS ثلاثي الأبعاد — SOP v3"],
         standalone: "فتح التطبيق الحالي في نافذة مستقلة ↗",
         navLabel: "أدوات المختبر"
       },
       en: {
         title: "Comprehensive Laboratory Technician Suite",
         subtitle: "One workspace for laboratory analysis and method validation",
-        nav: ["🧪 Lab Technician Assistant", "🔬 GC-MS Analyzer", "📈 HPLC Validation"],
-        names: ["Comprehensive Lab Technician Assistant", "GC-MS Essential Oil Analyzer", "HPLC Method Validation System"],
+        nav: ["🧪 Lab Technician Assistant", "🔬 GC-MS Analyzer", "📈 HPLC Validation", "🧭 3D GC-MS Guide"],
+        names: ["Comprehensive Lab Technician Assistant", "GC-MS Essential Oil Analyzer", "HPLC Method Validation System", "3D GC-MS Guide — SOP v3"],
         standalone: "Open the current app in a separate window ↗",
         navLabel: "Laboratory tools"
       }

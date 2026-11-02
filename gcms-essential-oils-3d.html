@@ -713,7 +713,7 @@ function setLanguage(nextLanguage){
   const url=new URL(location.href);
   if(language==="ar")url.searchParams.set('lang','ar');
   else url.searchParams.delete('lang');
-  if(location.protocol!=="file:")history.replaceState(null,'',url);
+  if(location.protocol!=="file:"&&location.protocol!=="about:")history.replaceState(null,'',url);
   renderContents();
   loadSpread(current);
 }
