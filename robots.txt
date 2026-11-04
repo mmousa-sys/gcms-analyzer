@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mmousa-sys.github.io/gcms-analyzer/sitemap.xml
+Sitemap: https://mmousa-sys.github.io/unified-analytical-laboratory-suite/sitemap.xml

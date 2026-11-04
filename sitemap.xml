@@ -2,33 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://mmousa-sys.github.io/gcms-analyzer/</loc>
+    <loc>https://mmousa-sys.github.io/unified-analytical-laboratory-suite/</loc>
     <xhtml:link rel="alternate" hreflang="en"
-                href="https://mmousa-sys.github.io/gcms-analyzer/" />
+                href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/" />
     <xhtml:link rel="alternate" hreflang="ar"
-                href="https://mmousa-sys.github.io/gcms-analyzer/?lang=ar" />
+                href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/?lang=ar" />
     <xhtml:link rel="alternate" hreflang="x-default"
-                href="https://mmousa-sys.github.io/gcms-analyzer/" />
+                href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/" />
   </url>
   <url>
-    <loc>https://mmousa-sys.github.io/gcms-analyzer/suite.html</loc>
+    <loc>https://mmousa-sys.github.io/unified-analytical-laboratory-suite/suite.html</loc>
   </url>
   <url>
-    <loc>https://mmousa-sys.github.io/gcms-analyzer/Lab_Technician_Suite_Offline.html</loc>
+    <loc>https://mmousa-sys.github.io/unified-analytical-laboratory-suite/Lab_Technician_Suite_Offline.html</loc>
   </url>
   <url>
-    <loc>https://mmousa-sys.github.io/gcms-analyzer/gcms-analyzer.html</loc>
+    <loc>https://mmousa-sys.github.io/unified-analytical-laboratory-suite/gcms-analyzer.html</loc>
   </url>
   <url>
-    <loc>https://mmousa-sys.github.io/gcms-analyzer/Lab_Technician_Assistant_22_6_2026_2.html</loc>
+    <loc>https://mmousa-sys.github.io/unified-analytical-laboratory-suite/Lab_Technician_Assistant_22_6_2026_2.html</loc>
   </url>
   <url>
-    <loc>https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html</loc>
+    <loc>https://mmousa-sys.github.io/unified-analytical-laboratory-suite/gcms-essential-oils-3d.html</loc>
     <xhtml:link rel="alternate" hreflang="en"
-                href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+                href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/gcms-essential-oils-3d.html" />
     <xhtml:link rel="alternate" hreflang="ar"
-                href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html?lang=ar" />
+                href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/gcms-essential-oils-3d.html?lang=ar" />
     <xhtml:link rel="alternate" hreflang="x-default"
-                href="https://mmousa-sys.github.io/gcms-analyzer/gcms-essential-oils-3d.html" />
+                href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/gcms-essential-oils-3d.html" />
   </url>
 </urlset>
