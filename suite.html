@@ -87,7 +87,11 @@
         <button class="module" type="button" data-module="hplc">📈 التحقق من HPLC</button>
         <button class="module" type="button" data-module="gcms3d">🧭 دليل GC-MS ثلاثي الأبعاد</button>
       </nav>
-      <button class="utility" id="languageToggle" type="button" aria-label="Switch language">English</button>
+      <select class="utility" id="languageToggle" aria-label="Choose language">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+      </select>
     </header>
     <main class="workspace">
       <iframe id="appFrame" title="مساعد فني المختبرات الشامل" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -124,7 +128,8 @@
         nav: ["🧪 مساعد فني المختبر", "🔬 محلل GC-MS", "📈 التحقق من HPLC", "🧭 دليل GC-MS ثلاثي الأبعاد"],
         names: ["مساعد فني المختبرات الشامل", "محلل GC-MS للزيوت العطرية", "نظام التحقق من طرق HPLC", "دليل GC-MS ثلاثي الأبعاد — SOP v3"],
         standalone: "فتح التطبيق الحالي في نافذة مستقلة ↗",
-        navLabel: "أدوات المختبر"
+        navLabel: "أدوات المختبر",
+        languageLabel: "اختر اللغة"
       },
       en: {
         title: "UALS — Unified Analytical Laboratory Suite",
@@ -132,23 +137,37 @@
         nav: ["🧪 Lab Technician Assistant", "🔬 GC-MS Analyzer", "📈 HPLC Validation", "🧭 3D GC-MS Guide"],
         names: ["Comprehensive Lab Technician Assistant", "GC-MS Essential Oil Analyzer", "HPLC Method Validation System", "3D GC-MS Guide — SOP v3"],
         standalone: "Open the current app in a separate window ↗",
-        navLabel: "Laboratory tools"
+        navLabel: "Laboratory tools",
+        languageLabel: "Choose language"
+      },
+      de: {
+        title: "UALS — Einheitliche Analytische Laborplattform",
+        subtitle: "Wissenschaftliche Werkzeuge und Forschung für verschiedene Analytikbereiche",
+        nav: ["🧪 Laborassistent", "🔬 GC-MS-Analysator", "📈 HPLC-Validierung", "🧭 3D-GC-MS-Leitfaden"],
+        names: ["Umfassender Laborassistent", "GC-MS-Analysator für ätherische Öle", "System zur HPLC-Methodenvalidierung", "3D-GC-MS-Leitfaden — SOP v3"],
+        standalone: "Aktuelle Anwendung in einem neuen Fenster öffnen ↗",
+        navLabel: "Laborwerkzeuge",
+        languageLabel: "Sprache auswählen"
       }
     };
     const frame = document.getElementById("appFrame");
     const standalone = document.getElementById("openStandalone");
     const buttons = [...document.querySelectorAll("[data-module]")];
-    let language = "ar";
+    const supportedLanguages = ["ar", "en", "de"];
+    const requestedLanguage = new URLSearchParams(location.search).get("lang");
+    let language = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ar";
 
     function renderLanguage() {
       const text = labels[language];
       document.documentElement.lang = language;
       document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+      document.title = text.title;
       document.getElementById("pageTitle").textContent = text.title;
       document.getElementById("pageSubtitle").textContent = text.subtitle;
       document.querySelector("nav").setAttribute("aria-label", text.navLabel);
       buttons.forEach((button, index) => { button.textContent = text.nav[index]; });
-      document.getElementById("languageToggle").textContent = language === "ar" ? "English" : "العربية";
+      document.getElementById("languageToggle").value = language;
+      document.getElementById("languageToggle").setAttribute("aria-label", text.languageLabel);
       const current = modules[getCurrentModule()];
       frame.title = text.names[buttons.findIndex(button => button.dataset.module === getCurrentModule())];
       standalone.textContent = text.standalone;
@@ -177,8 +196,11 @@
     buttons.forEach(button => {
       button.addEventListener("click", () => { location.hash = button.dataset.module; });
     });
-    document.getElementById("languageToggle").addEventListener("click", () => {
-      language = language === "ar" ? "en" : "ar";
+    document.getElementById("languageToggle").addEventListener("change", event => {
+      language = event.target.value;
+      const url = new URL(location.href);
+      url.searchParams.set("lang", language);
+      history.replaceState(null, "", url);
       renderLanguage();
     });
     window.addEventListener("hashchange", showModule);

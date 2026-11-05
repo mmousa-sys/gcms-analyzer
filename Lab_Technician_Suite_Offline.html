@@ -199,7 +199,11 @@
         <button class="module" type="button" data-module="gcms3d">🧭 دليل GC-MS ثلاثي الأبعاد</button>
       </nav>
       <button class="utility" id="aboutButton" type="button">ℹ️ عن البرنامج</button>
-      <button class="utility" id="languageToggle" type="button" aria-label="Switch language">English</button>
+      <select class="utility" id="languageToggle" aria-label="Choose language">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+      </select>
     </header>
     <main class="home-page" id="homePage">
       <div class="home-container">
@@ -331,7 +335,8 @@
         nav: ["⌂ UALS", "🧪 مساعد فني المختبر", "🔬 محلل GC-MS", "📈 التحقق من HPLC", "🧭 دليل GC-MS ثلاثي الأبعاد"],
         names: ["UALS — المنصة المخبرية التحليلية الموحّدة", "مساعد فني المختبرات الشامل", "محلل GC-MS للزيوت العطرية", "نظام التحقق من طرق HPLC", "دليل GC-MS ثلاثي الأبعاد — SOP v3"],
         standalone: "فتح التطبيق الحالي في نافذة مستقلة ↗",
-        navLabel: "أدوات المختبر"
+        navLabel: "أدوات المختبر",
+        languageLabel: "اختر اللغة"
       },
       en: {
         title: "UALS — Unified Analytical Laboratory Suite",
@@ -339,23 +344,37 @@
         nav: ["⌂ UALS home", "🧪 Lab Technician Assistant", "🔬 GC-MS Analyzer", "📈 HPLC Validation", "🧭 3D GC-MS Guide"],
         names: ["UALS — Unified Analytical Laboratory Suite", "Comprehensive Lab Technician Assistant", "GC-MS Essential Oil Analyzer", "HPLC Method Validation System", "3D GC-MS Guide — SOP v3"],
         standalone: "Open the current app in a separate window ↗",
-        navLabel: "Laboratory tools"
+        navLabel: "Laboratory tools",
+        languageLabel: "Choose language"
+      },
+      de: {
+        title: "UALS — Einheitliche Analytische Laborplattform",
+        subtitle: "Wissenschaftliche Werkzeuge und Forschung für verschiedene Analytikbereiche",
+        nav: ["⌂ UALS-Startseite", "🧪 Laborassistent", "🔬 GC-MS-Analysator", "📈 HPLC-Validierung", "🧭 3D-GC-MS-Leitfaden"],
+        names: ["UALS — Einheitliche Analytische Laborplattform", "Umfassender Laborassistent", "GC-MS-Analysator für ätherische Öle", "System zur HPLC-Methodenvalidierung", "3D-GC-MS-Leitfaden — SOP v3"],
+        standalone: "Aktuelle Anwendung in einem neuen Fenster öffnen ↗",
+        navLabel: "Laborwerkzeuge",
+        languageLabel: "Sprache auswählen"
       }
     };
     const modules = ["lab", "gcms", "hplc", "gcms3d"];
     const frame = document.getElementById("appFrame");
     const buttons = [...document.querySelectorAll("[data-module]")];
-    let language = "ar";
+    const supportedLanguages = ["ar", "en", "de"];
+    const requestedLanguage = new URLSearchParams(location.search).get("lang");
+    let language = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ar";
 
     function renderLanguage() {
       const text = labels[language];
       document.documentElement.lang = language;
       document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+      document.title = text.title;
       document.getElementById("pageTitle").textContent = text.title;
       document.getElementById("pageSubtitle").textContent = text.subtitle;
       document.querySelector("nav").setAttribute("aria-label", text.navLabel);
       buttons.forEach((button, index) => { button.textContent = text.nav[index]; });
-      document.getElementById("languageToggle").textContent = language === "ar" ? "English" : "العربية";
+      document.getElementById("languageToggle").value = language;
+      document.getElementById("languageToggle").setAttribute("aria-label", text.languageLabel);
       frame.title = text.names[buttons.findIndex(button => button.dataset.module === getCurrentModule())];
     }
 
@@ -395,8 +414,11 @@
     document.querySelectorAll("[data-open-module]").forEach(button => {
     button.addEventListener("click", () => { location.hash = button.dataset.openModule; });
     });
-    document.getElementById("languageToggle").addEventListener("click", () => {
-    language = language === "ar" ? "en" : "ar";
+    document.getElementById("languageToggle").addEventListener("change", event => {
+    language = event.target.value;
+    const url = new URL(location.href);
+    url.searchParams.set("lang", language);
+    history.replaceState(null, "", url);
     renderLanguage();
     renderHome();
     });
@@ -445,6 +467,47 @@
         scientificRefs:"Additional references: Adams (2017); Babushok, Linstrom & Zenkevich (2011); Van den Dool & Kratz (1963); ICH Q2(R1); and NIST Chemistry WebBook (SRD 69). Independently review reference data, methods, calculations, and acceptance criteria before using results.",
         author:"Prepared by Mohammad Asaad Mousa, Chemical Laboratory Technician.",
         disclaimer:"For research and workflow support. Verify calculations, methods, reference data, and acceptance criteria against current validated procedures and applicable standards before making laboratory decisions."
+      },
+      de: {
+        eyebrow:"Einheitliche Analytische Laborplattform · Wissenschaftliche Werkzeuge und Forschung",
+        heroTitle:"Ein wissenschaftlicher Arbeitsbereich.<br><span>Mit selbstständigen Theorie- und Praxislektionen.</span>",
+        heroCopy:"UALS vereint Laborberechnungen, GC-MS- und HPLC-Abläufe, Methodenvalidierung und interaktives wissenschaftliches Lernen in einem mehrsprachigen Arbeitsbereich – online oder als portable Version.",
+        launch:"Suite starten",free:"Kostenlos nutzbar",browser:"Funktioniert in einem modernen Browser",offline:"Kernfunktionen offline verfügbar",
+        toolsHeading:"Der passende Arbeitsbereich für jede Aufgabe.",
+        toolsIntro:"Vier spezialisierte Werkzeuge in einer portablen Datei. Wählen Sie ein Modul aus, um zu beginnen.",
+        labTitle:"Allgemeiner Laborassistent",
+        labCopy:"Eine praktische Sammlung gängiger Laborrechner und Nachschlagewerkzeuge für die Routinevorbereitung und Datenprüfung.",
+        labPoint1:"Einheiten, Lösungen, Verdünnungen und Säurevorbereitung",
+        labPoint2:"pH, pKa, Puffer, Molekulargewicht und Statistik",
+        labPoint3:"Werkzeuge zur analytischen Validierung und Referenztabellen",
+        gcmsTitle:"GC-MS-Analysator für ätherische Öle",
+        gcmsCopy:"Berechnen Sie Retentionsindizes, vergleichen Sie mögliche Verbindungen mit Referenzdaten, quantifizieren Sie Peakflächen und erstellen Sie Berichte.",
+        gcmsPoint1:"Berechnung der Kovats- und linearen Retentionsindizes",
+        gcmsPoint2:"Referenzabgleich für verschiedene Säulentypen",
+        gcmsPoint3:"Peakflächenprozent berechnen und Berichte exportieren",
+        hplcTitle:"HPLC-Methodenvalidierung",
+        hplcCopy:"Organisieren Sie Validierungsmessungen und prüfen Sie berechnete Ergebnisse zusammen mit Akzeptanzkriterien und Diagrammen.",
+        hplcPoint1:"Linearität, Präzision, Richtigkeit und Robustheit",
+        hplcPoint2:"Systemeignung und ANOVA-Analyse",
+        hplcPoint3:"Diagramme und Unterstützung bei Validierungsberichten",
+        gcms3dTitle:"Interaktiver 3D-Leitfaden zu GC-MS-Methoden",
+        gcms3dCopy:"Elf Lektionen in drei Sprachen, korrigiert nach der SOP v3 des Autors, mit scrollbarer Seitenleiste und Lernkontrollen.",
+        gcms3dPoint1:"SOP-v3-Ablauf, Sicherheit und methodenspezifische Hinweise",
+        gcms3dPoint2:"Retentionsindex, Identifizierung, Qualitätskontrolle und Berichterstellung",
+        gcms3dPoint3:"Die 3D-Darstellung wird von einem CDN geladen und benötigt Internet",
+        openTool:"Modul öffnen",
+        downloadPdf:"Präsentations-PDF herunterladen",
+        accessHeading:"Online nutzen. Offline weiterarbeiten.",
+        accessIntro:"Starten Sie ein beliebiges Werkzeug auf dieser Seite oder nutzen Sie alle vier Werkzeuge samt vollständiger Startseite in dieser portablen HTML-Datei.",
+        howHeading:"Eine Datei, vier Werkzeuge",
+        howCopy:"Diese Datei enthält die Startseite, den Laborassistenten, den GC-MS-Analysator, das HPLC-Validierungswerkzeug und den nach SOP v3 korrigierten 3D-GC-MS-Leitfaden. Mit der Navigationsleiste wechseln Sie zwischen den Bereichen.",
+        offlineHeading:"Bereit für Ihren USB-Stick",
+        offlineCopy:"Kopieren Sie diese HTML-Datei auf einen USB-Stick und öffnen Sie sie in einem aktuellen Browser. Anwendungen und Lektionen sind eingebettet. Das ZIP enthält außerdem beide Präsentations-PDFs. Die 3D-Szene benötigt zum Laden der Rendering-Bibliotheken Internet; externe Forschungslinks ebenfalls.",
+        researchHeading:"Forschung und wissenschaftliche Referenzen",
+        researchIntro:"Die UALS-Forschungspräsentation und zugehörige Veröffentlichungen sowie wissenschaftliche Quellen zu den analytischen Referenzdaten.",
+        scientificRefs:"Weitere Referenzen: Adams (2017); Babushok, Linstrom & Zenkevich (2011); Van den Dool & Kratz (1963); ICH Q2(R1); und NIST Chemistry WebBook (SRD 69). Prüfen Sie Referenzdaten, Methoden, Berechnungen und Akzeptanzkriterien vor der Verwendung der Ergebnisse unabhängig.",
+        author:"Erstellt von Mohammad Asaad Mousa, chemisch-technischer Laborassistent.",
+        disclaimer:"Zur Unterstützung von Forschung und Arbeitsabläufen. Prüfen Sie Berechnungen, Methoden, Referenzdaten und Akzeptanzkriterien anhand aktueller validierter Verfahren und geltender Standards, bevor Sie Laborentscheidungen treffen."
       },
       ar: {
         eyebrow:"المنصة المخبرية التحليلية الموحّدة · أدوات علمية وأبحاث",
@@ -499,7 +562,7 @@
     }
 
     renderHome();
-    document.getElementById("languageToggle").addEventListener("click", renderHome);
+    document.getElementById("languageToggle").addEventListener("change", renderHome);
   </script>
   <script>
     const aboutCopy = {
@@ -562,6 +625,36 @@
             <li>ICH (2005). <em>Q2(R1): Validation of Analytical Procedures: Text and Methodology.</em></li>
             <li><a href="https://webbook.nist.gov/chemistry/" target="_blank" rel="noopener noreferrer">NIST Chemistry WebBook, SRD 69</a>.</li>
           </ul>`
+      },
+      de: {
+        title: "Über UALS — Einheitliche Analytische Laborplattform",
+        close: "Schließen",
+        button: "ℹ️ Über UALS",
+        content: `
+          <p><strong>Erstellt von:</strong> Mohammad Asaad Mousa — chemisch-technischer Laborassistent. Diese portable HTML-Suite vereint vier Laboranwendungen in einem Arbeitsbereich, wobei jede Anwendung ihre Funktionen behält.</p>
+          <p><strong>Forschungspräsentation:</strong> <em>THE UNIFIED OFFLINE HTML LABORATORY SUITE: INTEGRATION OF THREE PUBLISHED RESEARCHGATE MODULES IN MULTIPLE ANALYTICAL DOMAINS</em> (2026) — <a href="https://doi.org/10.13140/RG.2.2.21162.38085" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.21162.38085</a>.</p>
+          <h3>Fachbereiche und Werkzeuge</h3>
+          <ul>
+            <li><strong>Allgemeine Laborberechnungen:</strong> Einheitenumrechnung, Herstellung von Lösungen und Verdünnungen, Säuren, pH und pKa, Puffer, Molekulargewicht, Statistik, analytische Validierung und Referenztabellen.</li>
+            <li><strong>GC-MS-Analyse ätherischer Öle:</strong> Retentionszeiten von Alkanen, KRI-Berechnung, Abgleich von Verbindungen mit Referenzbibliotheken, Peakflächen-Quantifizierung und Berichtserstellung.</li>
+            <li><strong>HPLC-Methodenvalidierung:</strong> Linearität, Präzision, Richtigkeit, Robustheit, Systemeignung, ANOVA, Diagramme und Validierungsberichte.</li>
+            <li><strong>Interaktiver 3D-GC-MS-Leitfaden:</strong> Elf nach SOP v3 korrigierte Lektionen zu Probenvorbereitung, Retentionsindizes, Identifizierung, Qualitätskontrolle und Berichterstellung.</li>
+          </ul>
+          <p class="about-note">Anwendungen und Lektionen sind in dieser Datei enthalten. Die 3D-Szene benötigt Internet, um die Rendering-Bibliotheken zu laden; auch die folgenden Forschungslinks erfordern eine Verbindung.</p>
+          <h3>Veröffentlichungen zu den Werkzeugen</h3>
+          <ul>
+            <li><em>What is HTML GCMS Analyzer application? and How Save the File GCMS Analyzer HTML code to GCMS_Analyzer.html</em> (Oktober 2026) — <a href="https://doi.org/10.13140/RG.2.2.16378.25284" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.16378.25284</a> · <a href="https://www.researchgate.net/publication/417228367" target="_blank" rel="noopener noreferrer">ResearchGate</a>.</li>
+            <li><em>HPLC Method Validation System ICH Q2(R1) Compliant | Multi-Compound | ANOVA &amp; Charts Included</em> (Oktober 2026) — <a href="https://doi.org/10.13140/RG.2.2.10552.10246" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.10552.10246</a> · <a href="https://www.researchgate.net/publication/416909029" target="_blank" rel="noopener noreferrer">ResearchGate</a>.</li>
+            <li><em>Comprehensive Lab Assistant 2</em> (Oktober 2026) — <a href="https://doi.org/10.13140/RG.2.2.11473.70247" target="_blank" rel="noopener noreferrer">DOI: 10.13140/RG.2.2.11473.70247</a>.</li>
+          </ul>
+          <h3>Wissenschaftliche Referenzen</h3>
+          <ul>
+            <li>Adams, R. P. (2017). <em>Identification of Essential Oil Components by Gas Chromatography/Mass Spectrometry</em>, 4. Auflage.</li>
+            <li>Babushok, V. I., Linstrom, P. J., &amp; Zenkevich, I. G. (2011). Retentionsindizes häufig berichteter Verbindungen ätherischer Pflanzenöle. <em>J. Phys. Chem. Ref. Data, 40</em>(4), 043101.</li>
+            <li>Van den Dool, H., &amp; Kratz, P. D. (1963). <em>Journal of Chromatography A, 11</em>, 463–471.</li>
+            <li>ICH (2005). <em>Q2(R1): Validation of Analytical Procedures: Text and Methodology.</em></li>
+            <li><a href="https://webbook.nist.gov/chemistry/" target="_blank" rel="noopener noreferrer">NIST Chemistry WebBook, SRD 69</a>.</li>
+          </ul>`
       }
     };
     const aboutDialog = document.getElementById("aboutDialog");
@@ -574,7 +667,7 @@
     }
     document.getElementById("aboutButton").addEventListener("click", () => aboutDialog.showModal());
     document.getElementById("aboutClose").addEventListener("click", () => aboutDialog.close());
-    document.getElementById("languageToggle").addEventListener("click", renderAbout);
+    document.getElementById("languageToggle").addEventListener("change", renderAbout);
     aboutDialog.addEventListener("click", event => {
       if (event.target === aboutDialog) aboutDialog.close();
     });
