@@ -15,6 +15,7 @@
   <link rel="canonical" href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/">
   <link rel="alternate" hreflang="en" href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/">
   <link rel="alternate" hreflang="ar" href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/?lang=ar">
+  <link rel="alternate" hreflang="de" href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/?lang=de">
   <link rel="alternate" hreflang="x-default" href="https://mmousa-sys.github.io/unified-analytical-laboratory-suite/">
   <title>UALS — Unified Analytical Laboratory Suite</title>
   <script type="application/ld+json">
@@ -25,7 +26,7 @@
       "alternateName": ["UALS", "LabSuite"],
       "applicationCategory": "ScientificApplication",
       "operatingSystem": "Any device with a modern web browser",
-      "inLanguage": ["en", "ar"],
+      "inLanguage": ["en", "ar", "de"],
       "isAccessibleForFree": true,
       "author": {
         "@type": "Person",
@@ -102,7 +103,7 @@
     .nav a:hover, .text-link:hover { color: var(--teal); }
     .top-actions { display: flex; align-items: center; gap: 9px; }
     .language {
-      min-width: 48px;
+      min-width: 72px;
       padding: 8px 10px;
       border: 1px solid var(--line);
       border-radius: 7px;
@@ -159,7 +160,8 @@
       box-shadow: 0 0 0 36px rgb(8 124 112 / 3%), 0 0 0 78px rgb(8 124 112 / 2%);
       pointer-events: none;
     }
-    .hero-inner { position: relative; z-index: 1; max-width: 760px; }
+    .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(340px, .85fr); align-items: center; gap: 48px; }
+    .hero-content { min-width: 0; }
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -174,9 +176,9 @@
     .hero h1 {
       max-width: 760px;
       margin: 20px 0 17px;
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 1.07;
-      letter-spacing: -2.6px;
+      font-size: clamp(42px, 5.4vw, 66px);
+      line-height: 1.08;
+      letter-spacing: -2.4px;
     }
     .hero h1 span { color: var(--teal); }
     .hero-copy { max-width: 650px; margin: 0; color: var(--ink-soft); font-size: 17px; line-height: 1.8; }
@@ -184,6 +186,27 @@
     .trust-row { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 30px; color: var(--muted); font-size: 12px; }
     .trust-row span { display: inline-flex; align-items: center; gap: 7px; }
     .trust-row span::before { content: "✓"; color: var(--teal); font-weight: 800; }
+    .hero-visual { position: relative; padding: 18px; border: 1px solid rgb(255 255 255 / 75%); border-radius: 20px; background: rgb(255 255 255 / 62%); box-shadow: 0 25px 70px rgb(18 40 45 / 12%); transform: rotate(1.2deg); }
+    .hero-visual::before { content: ""; position: absolute; inset: 12px -12px -12px 12px; z-index: -1; border: 1px solid rgb(8 124 112 / 13%); border-radius: inherit; }
+    .preview-card { overflow: hidden; border: 1px solid rgb(255 255 255 / 12%); border-radius: 13px; background: linear-gradient(145deg, #17373a, #10272b 72%); color: #f4fbf7; box-shadow: 0 14px 34px rgb(16 39 43 / 20%); }
+    .preview-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 17px 19px; border-bottom: 1px solid rgb(255 255 255 / 9%); }
+    .preview-brand { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 800; letter-spacing: .04em; }
+    .preview-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgb(183 234 211 / 12%); color: #b7ead3; font-size: 17px; }
+    .preview-brand small { color: #94aaa2; font-size: 9px; font-weight: 700; letter-spacing: .12em; }
+    .preview-status { display: flex; align-items: center; gap: 6px; color: #b7ead3; font-size: 10px; font-weight: 700; }
+    .preview-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #74d6a5; box-shadow: 0 0 12px rgb(116 214 165 / 70%); }
+    .preview-chart { padding: 20px 20px 15px; }
+    .preview-chart-heading { display: flex; justify-content: space-between; align-items: end; gap: 10px; margin-bottom: 13px; }
+    .preview-chart-heading strong { display: block; font-size: 13px; }
+    .preview-chart-heading span { color: #9ab0a7; font-size: 10px; }
+    .preview-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .preview-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 20px 18px; }
+    .preview-stat { padding: 11px 13px; border: 1px solid rgb(255 255 255 / 9%); border-radius: 9px; background: rgb(255 255 255 / 4%); }
+    .preview-stat span { display: block; margin-bottom: 5px; color: #9ab0a7; font-size: 9px; font-weight: 700; letter-spacing: .1em; }
+    .preview-stat strong { color: #d7f0e2; font-size: 17px; }
+    .preview-modules { display: flex; gap: 8px; padding: 12px 20px; border-top: 1px solid rgb(255 255 255 / 9%); background: rgb(0 0 0 / 10%); }
+    .preview-module { display: flex; align-items: center; gap: 7px; color: #d0dfd9; font-size: 10px; font-weight: 650; }
+    .preview-module span { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 7px; background: rgb(183 234 211 / 10%); color: #b7ead3; font-size: 12px; }
     .intro-strip { background: var(--night); color: var(--white); }
     .intro-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 26px; padding-block: 25px; }
     .intro-inner p { margin: 0; color: #d0dfd9; font-size: 14px; line-height: 1.7; }
@@ -203,7 +226,9 @@
       border-radius: 11px;
       background: var(--white);
       box-shadow: 0 4px 18px rgb(18 40 45 / 3%);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
+    .card:hover { transform: translateY(-4px); border-color: #c5ddd2; box-shadow: 0 16px 34px rgb(18 40 45 / 8%); }
     .card-icon {
       display: grid;
       place-items: center;
@@ -268,7 +293,9 @@
       border: 1px solid var(--line);
       border-radius: 9px;
       background: var(--white);
+      transition: transform .2s ease, box-shadow .2s ease;
     }
+    .reference:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgb(18 40 45 / 7%); }
     .reference-label { color: var(--teal); font-size: 10px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
     .reference h3 { margin: 10px 0 9px; font-size: 14px; line-height: 1.55; }
     .reference p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
@@ -281,6 +308,11 @@
     .footer small { display: block; margin-top: 11px; color: #788b88; font-size: 10px; }
     [dir="rtl"] .hero h1 { letter-spacing: 0; }
     [dir="rtl"] .note-card { border-radius: 8px 0 0 8px; }
+    [dir="rtl"] .preview-brand { letter-spacing: 0; }
+    @media (max-width: 950px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+    }
     @media (max-width: 850px) {
       .topbar-inner { gap: 17px; }
       .nav { gap: 14px; }
@@ -295,7 +327,7 @@
       .nav { display: none; }
       .top-actions { margin-inline-start: auto; }
       .top-actions .button { min-height: 38px; padding: 8px 10px; font-size: 11px; }
-      .language { min-width: 43px; padding: 7px; }
+      .language { min-width: 66px; padding: 7px; }
       .hero { padding: 65px 0 60px; }
       .hero::after { inset-inline-end: -190px; top: 44px; opacity: .65; }
       .hero h1 { max-width: 540px; font-size: clamp(39px, 11vw, 58px); letter-spacing: -1.8px; }
@@ -321,17 +353,21 @@
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
   <header class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="#top" aria-label="UALS home">
+      <a class="brand" href="#top" aria-label="UALS home" data-i18n-aria-label="brand-label">
         <span class="brand-mark" aria-hidden="true">⌬</span>
         <span class="brand-name">UALS<span> · LabSuite</span></span>
       </a>
-      <nav class="nav" aria-label="Main navigation">
+      <nav class="nav" aria-label="Main navigation" data-i18n-aria-label="nav-label">
         <a href="#tools" data-i18n="nav-tools">Tools</a>
         <a href="#how-it-works" data-i18n="nav-how">How it works</a>
         <a href="#research" data-i18n="nav-research">Research</a>
       </nav>
       <div class="top-actions">
-        <button class="language" id="languageToggle" type="button" aria-label="Change language">عربي</button>
+        <select class="language" id="languageToggle" aria-label="Change language">
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+          <option value="de">Deutsch</option>
+        </select>
         <a class="button" href="Lab_Technician_Suite_Offline.html"><span data-i18n="nav-launch">Launch suite</span><span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -340,22 +376,64 @@
   <main id="main">
     <section class="hero" id="top">
       <div class="container hero-inner">
-        <div class="eyebrow" data-i18n="hero-label">Unified Analytical Laboratory Suite · Scientific tools &amp; research</div>
-        <h1 data-i18n="hero-title">One scientific workspace.<br><span>Plus self-paced theoretical and practical lectures.</span></h1>
-        <p class="hero-copy" data-i18n="hero-copy">UALS brings laboratory calculations, GC‑MS and HPLC workflows, method validation, and interactive scientific learning together in one multilingual workspace—online or portable.</p>
-        <div class="hero-actions">
-          <a class="button" href="Lab_Technician_Suite_Offline.html"><span data-i18n="hero-primary">Explore the laboratory suite</span><span aria-hidden="true">↗</span></a>
-          <a class="button secondary" href="Lab_Technician_Suite_Offline.zip" download><span aria-hidden="true">↓</span><span data-i18n="hero-secondary">Get the offline edition</span></a>
+        <div class="hero-content">
+          <div class="eyebrow" data-i18n="hero-label">Unified Analytical Laboratory Suite · Scientific tools &amp; research</div>
+          <h1 data-i18n="hero-title">One scientific workspace.<br><span>Plus self-paced theoretical and practical lectures.</span></h1>
+          <p class="hero-copy" data-i18n="hero-copy">UALS brings laboratory calculations, GC‑MS and HPLC workflows, method validation, and interactive scientific learning together in one multilingual workspace—online or portable.</p>
+          <div class="hero-actions">
+            <a class="button" href="Lab_Technician_Suite_Offline.html"><span data-i18n="hero-primary">Explore the laboratory suite</span><span aria-hidden="true">↗</span></a>
+            <a class="button secondary" href="Lab_Technician_Suite_Offline.zip" download><span aria-hidden="true">↓</span><span data-i18n="hero-secondary">Get the offline edition</span></a>
+          </div>
+          <div class="trust-row">
+            <span data-i18n="trust-free">Free to access</span>
+            <span data-i18n="trust-browser">Works in a modern browser</span>
+            <span data-i18n="trust-language">Arabic and English interface</span>
+          </div>
         </div>
-        <div class="trust-row">
-          <span data-i18n="trust-free">Free to access</span>
-          <span data-i18n="trust-browser">Works in a modern browser</span>
-          <span data-i18n="trust-language">Arabic and English interface</span>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="preview-card">
+            <div class="preview-topline">
+              <div class="preview-brand"><span class="preview-mark">⌬</span> UALS <small data-i18n="preview-workspace">ANALYTICS WORKSPACE</small></div>
+              <span class="preview-status" data-i18n="preview-ready">READY</span>
+            </div>
+            <div class="preview-chart">
+              <div class="preview-chart-heading"><strong data-i18n="preview-chart-title">Chromatogram preview</strong><span>GC–MS · TIC</span></div>
+              <svg viewBox="0 0 440 150" role="presentation">
+                <defs>
+                  <linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#65c6a0" stop-opacity=".35"/>
+                    <stop offset="100%" stop-color="#65c6a0" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <g stroke="#ffffff" stroke-opacity=".1" stroke-width="1">
+                  <path d="M0 25H440M0 60H440M0 95H440M0 130H440"/>
+                  <path d="M55 0V130M145 0V130M235 0V130M325 0V130M415 0V130"/>
+                </g>
+                <path d="M0 124 C24 123 31 121 44 122 S67 124 77 119 C84 114 87 70 95 59 C102 48 105 112 112 119 C120 125 142 121 154 122 C168 123 171 117 178 113 C185 109 189 42 198 30 C206 18 209 108 218 117 C227 126 245 120 258 122 C270 123 278 117 285 112 C292 107 296 75 304 67 C312 59 315 115 323 120 C332 125 350 121 363 122 C377 123 381 116 388 111 C395 106 399 88 406 82 C414 77 418 118 426 121 L440 122 L440 140 L0 140Z" fill="url(#chartFill)"/>
+                <path d="M0 124 C24 123 31 121 44 122 S67 124 77 119 C84 114 87 70 95 59 C102 48 105 112 112 119 C120 125 142 121 154 122 C168 123 171 117 178 113 C185 109 189 42 198 30 C206 18 209 108 218 117 C227 126 245 120 258 122 C270 123 278 117 285 112 C292 107 296 75 304 67 C312 59 315 115 323 120 C332 125 350 121 363 122 C377 123 381 116 388 111 C395 106 399 88 406 82 C414 77 418 118 426 121 L440 122" fill="none" stroke="#76d4aa" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+                <g fill="#b7ead3" stroke="#17373a" stroke-width="2">
+                  <circle cx="95" cy="59" r="4"/><circle cx="198" cy="30" r="4"/><circle cx="304" cy="67" r="4"/><circle cx="406" cy="82" r="4"/>
+                </g>
+                <g fill="#91a9a0" font-family="Segoe UI, Arial, sans-serif" font-size="9">
+                  <text x="0" y="148">0</text><text x="207" y="148">10</text><text x="420" y="148">20 min</text>
+                </g>
+              </svg>
+            </div>
+            <div class="preview-stats">
+              <div class="preview-stat"><span data-i18n="preview-peaks">IDENTIFIED PEAKS</span><strong>12</strong></div>
+              <div class="preview-stat"><span data-i18n="preview-match">TOP RI MATCH</span><strong>94.8%</strong></div>
+            </div>
+            <div class="preview-modules">
+              <div class="preview-module"><span>⌁</span> GC–MS</div>
+              <div class="preview-module"><span>▥</span> HPLC</div>
+              <div class="preview-module"><span>⚗</span><span data-i18n="preview-lab">Lab tools</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="intro-strip" aria-label="Suite overview">
+    <section class="intro-strip" aria-label="Suite overview" data-i18n-aria-label="overview-label">
       <div class="container intro-inner">
         <p data-i18n="intro"><strong>Research-informed tools for laboratory work and learning.</strong> UALS integrates practical calculations, chromatographic workflows, method validation, and interactive analytical education.</p>
         <a class="button light" href="Lab_Technician_Suite_Offline.html"><span data-i18n="intro-link">Open the suite</span><span aria-hidden="true">→</span></a>
@@ -530,10 +608,12 @@
       en: {
         "page-title":"UALS — Unified Analytical Laboratory Suite",
         "page-description":"A multilingual scientific workspace for laboratory calculations, chromatography, method validation, and interactive analytical learning.",
+        "brand-label":"UALS home","nav-label":"Main navigation","overview-label":"Suite overview",
         "skip":"Skip to content","nav-tools":"Tools","nav-how":"How it works","nav-research":"Research","nav-launch":"Launch suite",
         "hero-label":"Unified Analytical Laboratory Suite · Scientific tools &amp; research","hero-title":"One scientific workspace.<br><span>Plus self-paced theoretical and practical lectures.</span>",
         "hero-copy":"UALS brings laboratory calculations, GC‑MS and HPLC workflows, method validation, and interactive scientific learning together in one multilingual workspace—online or portable.",
         "hero-primary":"Explore the laboratory suite","hero-secondary":"Get the offline edition","trust-free":"Free to access","trust-browser":"Works in a modern browser","trust-language":"Arabic and English interface",
+        "preview-workspace":"ANALYTICS WORKSPACE","preview-ready":"READY","preview-chart-title":"Chromatogram preview","preview-peaks":"IDENTIFIED PEAKS","preview-match":"TOP RI MATCH","preview-lab":"Lab tools",
         "intro":"<strong>Research-informed tools for laboratory work and learning.</strong> UALS integrates practical calculations, chromatographic workflows, method validation, and interactive analytical education.",
         "intro-link":"Open the suite","tools-label":"The toolkit","tools-title":"The right workspace for each task.","tools-copy":"Open any application or explore the interactive GC-MS learning guide.",
         "lab-title":"General laboratory assistant","lab-copy":"A practical collection of common laboratory calculators and reference tools for routine preparation and data review.",
@@ -562,15 +642,17 @@
         "references-note":"Additional references include Adams (2017), Babushok et al. (2011), Van den Dool &amp; Kratz (1963), ICH Q2(R1), and the NIST Chemistry WebBook (SRD 69). Reference data and calculated identifications should be independently reviewed for each method and sample.",
         "footer-author":"Prepared by Mohammad Asaad Mousa, Chemical Laboratory Technician.",
         "disclaimer":"For research and workflow support. Verify calculations, methods, reference data, and acceptance criteria against current validated procedures and applicable standards before making laboratory decisions.",
-        "footer-app":"Open the suite","footer-download":"Offline download","footer-research":"Research","language-button":"عربي","language-label":"Switch page language to Arabic"
+        "footer-app":"Open the suite","footer-download":"Offline download","footer-research":"Research","language-label":"Choose page language"
       },
       ar: {
         "page-title":"UALS — المنصة المخبرية التحليلية الموحّدة",
         "page-description":"مساحة عمل علمية متعددة اللغات للحسابات المخبرية والكروماتوغرافيا والتحقق من الطرق والتعلّم التحليلي التفاعلي.",
+        "brand-label":"الصفحة الرئيسية لـ UALS","nav-label":"التنقل الرئيسي","overview-label":"نبذة عن المنصة",
         "skip":"انتقل إلى المحتوى","nav-tools":"الأدوات","nav-how":"طريقة الاستخدام","nav-research":"الأبحاث","nav-launch":"افتح البرنامج",
         "hero-label":"المنصة المخبرية التحليلية الموحّدة · أدوات علمية وأبحاث","hero-title":"مساحة علمية واحدة.<br><span>بالإضافة إلى محاضرات نظرية وعملية ذاتية التعلّم.</span>",
         "hero-copy":"تجمع UALS الحسابات المخبرية وسير عمل GC‑MS وHPLC والتحقق من الطرق والتعلّم العلمي التفاعلي في مساحة متعددة اللغات، عبر الإنترنت أو بنسخة محمولة.",
         "hero-primary":"استكشف البرنامج المخبري","hero-secondary":"نزّل النسخة دون اتصال","trust-free":"متاح مجانًا","trust-browser":"يعمل في متصفح حديث","trust-language":"واجهة بالعربية والإنجليزية",
+        "preview-workspace":"مساحة التحليل","preview-ready":"جاهز","preview-chart-title":"معاينة الكروماتوغرام","preview-peaks":"القمم المحددة","preview-match":"أفضل تطابق RI","preview-lab":"أدوات المختبر",
         "intro":"<strong>أدوات تستند إلى الأبحاث للعمل المخبري والتعلّم.</strong> تدمج UALS الحسابات العملية وسير العمل الكروماتوغرافي والتحقق من الطرق والتعليم التحليلي التفاعلي.",
         "intro-link":"افتح البرنامج","tools-label":"الأدوات","tools-title":"أداة مناسبة لكل مهمة.","tools-copy":"افتح أي تطبيق أو استكشف الدليل التعليمي التفاعلي لـ GC-MS.",
         "lab-title":"مساعد المختبر العام","lab-copy":"مجموعة عملية من الحاسبات المخبرية وأدوات المراجع للتحضير اليومي ومراجعة البيانات.",
@@ -599,35 +681,76 @@
         "references-note":"تشمل المراجع الإضافية Adams (2017)، وBabushok وآخرين (2011)، وVan den Dool وKratz (1963)، وإرشادات ICH Q2(R1)، ومرجع NIST Chemistry WebBook (SRD 69). ينبغي مراجعة البيانات المرجعية والتعريفات المحسوبة بشكل مستقل لكل طريقة وعينة.",
         "footer-author":"إعداد Mohammad Asaad Mousa، فني مختبر كيميائي.",
         "disclaimer":"للمساعدة البحثية وسير العمل. تحقّق من الحسابات والطرق والبيانات المرجعية ومعايير القبول بمقارنتها بالإجراءات المعتمدة والمعايير السارية قبل اتخاذ القرارات المخبرية.",
-        "footer-app":"افتح البرنامج","footer-download":"تنزيل النسخة دون اتصال","footer-research":"الأبحاث","language-button":"English","language-label":"Switch page language to English"
+        "footer-app":"افتح البرنامج","footer-download":"تنزيل النسخة دون اتصال","footer-research":"الأبحاث","language-label":"اختر لغة الصفحة"
+      },
+      de: {
+        "page-title":"UALS — Einheitliche Analytische Laborplattform",
+        "page-description":"Ein mehrsprachiger wissenschaftlicher Arbeitsbereich für Laborberechnungen, Chromatografie, Methodenvalidierung und interaktives analytisches Lernen.",
+        "brand-label":"UALS-Startseite","nav-label":"Hauptnavigation","overview-label":"Überblick über die Suite",
+        "skip":"Zum Inhalt springen","nav-tools":"Werkzeuge","nav-how":"So funktioniert es","nav-research":"Forschung","nav-launch":"Suite starten",
+        "hero-label":"Einheitliche Analytische Laborplattform · Wissenschaftliche Werkzeuge und Forschung","hero-title":"Ein wissenschaftlicher Arbeitsbereich.<br><span>Mit selbstständigen Theorie- und Praxislektionen.</span>",
+        "hero-copy":"UALS vereint Laborberechnungen, GC-MS- und HPLC-Abläufe, Methodenvalidierung und interaktives wissenschaftliches Lernen in einem mehrsprachigen Arbeitsbereich – online oder als portable Version.",
+        "hero-primary":"Laborplattform entdecken","hero-secondary":"Offline-Version herunterladen","trust-free":"Kostenlos zugänglich","trust-browser":"Funktioniert in modernen Browsern","trust-language":"Arabische, englische und deutsche Oberfläche",
+        "preview-workspace":"ANALYSE-ARBEITSBEREICH","preview-ready":"BEREIT","preview-chart-title":"Chromatogramm-Vorschau","preview-peaks":"IDENTIFIZIERTE PEAKS","preview-match":"BESTER RI-TREFFER","preview-lab":"Laborwerkzeuge",
+        "intro":"<strong>Forschungsgestützte Werkzeuge für Laborarbeit und Lernen.</strong> UALS vereint praktische Berechnungen, chromatografische Abläufe, Methodenvalidierung und interaktive analytische Ausbildung.",
+        "intro-link":"Suite öffnen","tools-label":"Werkzeugkasten","tools-title":"Der passende Arbeitsbereich für jede Aufgabe.","tools-copy":"Öffnen Sie eine Anwendung oder entdecken Sie den interaktiven GC-MS-Lernleitfaden.",
+        "lab-title":"Allgemeiner Laborassistent","lab-copy":"Eine praktische Sammlung gängiger Laborrechner und Nachschlagewerkzeuge für die Routinevorbereitung und Datenprüfung.",
+        "lab-point-one":"Einheiten, Lösungen, Verdünnungen und Säurevorbereitung","lab-point-two":"pH, pKa, Puffer, Molekulargewicht und Statistik","lab-point-three":"Werkzeuge zur analytischen Validierung und Referenztabellen",
+        "gcms-title":"GC-MS-Analysator für ätherische Öle","gcms-copy":"Berechnen Sie Retentionsindizes, vergleichen Sie mögliche Verbindungen mit Referenzdaten, quantifizieren Sie Peakflächen und erstellen Sie Berichte.",
+        "gcms-point-one":"Berechnung der Kovats- und linearen Retentionsindizes","gcms-point-two":"Referenzabgleich für verschiedene Säulentypen","gcms-point-three":"Peakflächenprozent berechnen und Berichte exportieren",
+        "hplc-title":"HPLC-Methodenvalidierung","hplc-copy":"Organisieren Sie Validierungsmessungen und prüfen Sie berechnete Ergebnisse zusammen mit Akzeptanzkriterien und Diagrammen.",
+        "hplc-point-one":"Linearität, Präzision, Richtigkeit und Robustheit","hplc-point-two":"Systemeignung und ANOVA-Analyse","hplc-point-three":"Diagramme und Unterstützung bei Validierungsberichten",
+        "gcms3d-title":"Interaktiver 3D-Leitfaden zu GC-MS-Methoden","gcms3d-copy":"Entdecken Sie GC-MS-Konzepte für ätherische Öle anhand eines 3D-Modells, kurzer Lektionen und Lernkontrollen auf Englisch oder Arabisch.",
+        "gcms3d-point-one":"11 geführte Lektionen mit interaktiven 3D-Diagrammen","gcms3d-point-two":"Retentionsindizes, Identifizierung und Qualitätskontrolle","gcms3d-point-three":"Lehrbeispiele mit methodenspezifischen Hinweisen","open-module":"Modul öffnen",
+        "approach-label":"Einfach zugänglich","approach-title":"Online nutzen. Offline weiterarbeiten.","approach-copy":"Starten Sie im Browser und speichern Sie anschließend eine vollständige Kopie der Suite für die Offline-Nutzung auf Ihrem Computer oder USB-Stick.",
+        "approach-note":"Die herunterladbare Version enthält die Anwendungen und die Diagrammbibliothek in einer einzigen HTML-Datei. Nach dem Download benötigt die Suite keine Internetverbindung; externe Publikationslinks schon.",
+        "step-one-title":"Nutzungsmodus wählen","step-one-copy":"Starten Sie die kombinierte Anwendung online oder öffnen Sie ein einzelnes Werkzeug direkt auf dieser Website.",
+        "step-two-title":"Labormodul auswählen","step-two-copy":"Wechseln Sie über die Navigation der Suite zwischen allgemeinen Berechnungen, GC-MS-Analysen und HPLC-Validierung.",
+        "step-three-title":"Portable Kopie speichern","step-three-copy":"Laden Sie die ZIP-Datei herunter, entpacken Sie die HTML-Datei und öffnen Sie sie in einem aktuellen Browser. Eine Installation ist nicht erforderlich.",
+        "step-four-title":"Ergebnisse prüfen und dokumentieren","step-four-copy":"Nutzen Sie die integrierten Berichte und Diagramme als Arbeitshilfen und speichern Sie wichtige Ergebnisse oder Berichte separat.",
+        "download-label":"Portable Version","download-title":"Ihr Laborwerkzeugkasten – überall einsatzbereit.","download-copy":"Speichern Sie die vollständige Offline-Suite auf Ihrem Computer oder USB-Stick. Sie besteht aus einer einzigen HTML-Datei und benötigt weder Installationsprogramm noch separate Laufzeitumgebung.",
+        "download-zip":"ZIP herunterladen","download-html":"HTML-Datei","research-label":"Hintergrundwissen","research-title":"Die Forschung hinter den Werkzeugen.",
+        "research-copy":"Entdecken Sie die zugehörigen Veröffentlichungen und wissenschaftlichen Referenzen. Externe Links führen zur jeweiligen Verlags- oder Referenzseite.",
+        "ref-label-publication":"Veröffentlichung · Laborwerkzeuge",
+        "ref-label-framework":"Forschungspräsentation · UALS",
+        "ref-label-presentation":"Präsentation · Fortbildungskurs",
+        "ref-download-pdf":"Präsentations-PDF herunterladen",
+        "ref-hplc-presentation-description":"Ein selbstständiger Theorie- und Praxiseinstieg in HPLC, Entwicklung analytischer Methoden und Validierung.",
+        "ref-gc-presentation-description":"Ein zweisprachiger Leitfaden zu GC-Grundlagen, Instrumentierung, Detektoren, Säulenauswahl und analytischen Arbeitsabläufen.",
+        "references-note":"Weitere Referenzen umfassen Adams (2017), Babushok et al. (2011), Van den Dool und Kratz (1963), ICH Q2(R1) und das NIST Chemistry WebBook (SRD 69). Referenzdaten und berechnete Identifizierungen sollten für jede Methode und Probe unabhängig überprüft werden.",
+        "footer-author":"Erstellt von Mohammad Asaad Mousa, Chemielaborant.",
+        "disclaimer":"Zur Unterstützung von Forschung und Arbeitsabläufen. Prüfen Sie Berechnungen, Methoden, Referenzdaten und Akzeptanzkriterien anhand aktueller validierter Verfahren und geltender Standards, bevor Sie Laborentscheidungen treffen.",
+        "footer-app":"Suite öffnen","footer-download":"Offline-Version herunterladen","footer-research":"Forschung","language-label":"Seitensprache auswählen"
       }
     };
 
     function setLanguage(language) {
       const direction = language === "ar" ? "rtl" : "ltr";
-      document.documentElement.lang = language;
-      document.documentElement.dir = direction;
-      document.documentElement.dataset.language = language;
-      document.title = copy[language]["page-title"];
-      document.querySelector('meta[name="description"]').content = copy[language]["page-description"];
+      const selectedLanguage = copy[language] ? language : "en";
+      document.documentElement.lang = selectedLanguage;
+      document.documentElement.dir = selectedLanguage === "ar" ? "rtl" : "ltr";
+      document.documentElement.dataset.language = selectedLanguage;
+      document.title = copy[selectedLanguage]["page-title"];
+      document.querySelector('meta[name="description"]').content = copy[selectedLanguage]["page-description"];
       document.querySelectorAll("[data-i18n]").forEach(element => {
-        const value = copy[language][element.dataset.i18n];
+        const value = copy[selectedLanguage][element.dataset.i18n];
         if (value !== undefined) element.innerHTML = value;
       });
+      document.querySelectorAll("[data-i18n-aria-label]").forEach(element => {
+        element.setAttribute("aria-label", copy[selectedLanguage][element.dataset.i18nAriaLabel]);
+      });
       const toggle = document.getElementById("languageToggle");
-      toggle.textContent = copy[language]["language-button"];
-      toggle.setAttribute("aria-label", copy[language]["language-label"]);
+      toggle.value = selectedLanguage;
+      toggle.setAttribute("aria-label", copy[selectedLanguage]["language-label"]);
       const url = new URL(window.location.href);
-      if (language === "ar") url.searchParams.set("lang", "ar");
-      else url.searchParams.delete("lang");
+      if (selectedLanguage === "en") url.searchParams.delete("lang");
+      else url.searchParams.set("lang", selectedLanguage);
       history.replaceState(null, "", url);
     }
 
-    document.getElementById("languageToggle").addEventListener("click", () => {
-      setLanguage(document.documentElement.lang === "ar" ? "en" : "ar");
-    });
+    document.getElementById("languageToggle").addEventListener("change", event => setLanguage(event.target.value));
     const queryLanguage = new URLSearchParams(location.search).get("lang");
-    setLanguage(queryLanguage === "ar" ? "ar" : "en");
+    setLanguage(queryLanguage === "ar" || queryLanguage === "de" ? queryLanguage : "en");
   </script>
 </body>
 </html>
