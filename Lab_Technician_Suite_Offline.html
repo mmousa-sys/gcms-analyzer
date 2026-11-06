@@ -174,6 +174,8 @@
     .home-video p { margin: 0; color: #607575; font-size: 12px; line-height: 1.75; }
     .home-video .home-button { margin-top: 15px; }
     .home-video video { display: block; width: min(100%, 320px); max-height: 570px; aspect-ratio: 9 / 16; margin-inline: auto; border-radius: 9px; background: #101a1c; }
+    .home-video video[hidden] { display: none; }
+    .media-fallback { margin-top: 10px; padding: 10px 12px; border-inline-start: 3px solid #b45309; background: #fef3c7; color: #92400e; border-radius: 6px; font-size: 12px; line-height: 1.6; }
     .home-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
     .home-card { display: flex; flex-direction: column; min-height: 260px; padding: 22px; border: 1px solid #e1e9e4; border-radius: 12px; background: #fff; box-shadow: 0 4px 18px rgb(18 40 45 / 3%); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
     .home-card:hover { transform: translateY(-3px); border-color: #c5ddd2; box-shadow: 0 14px 30px rgb(18 40 45 / 8%); }
@@ -349,8 +351,9 @@
             <div>
               <p data-home="videoOfflineCopy"></p>
               <a class="home-button secondary" href="UALS_Overview.mp4" download><span data-home="downloadVideo"></span> ↓</a>
+              <p class="media-fallback" id="videoFallback" hidden data-home="videoFallback"></p>
             </div>
-            <video controls playsinline preload="metadata" aria-labelledby="homeVideoTitle" aria-describedby="homeVideoIntro">
+            <video id="ualsVideo" controls playsinline preload="metadata" aria-labelledby="homeVideoTitle" aria-describedby="homeVideoIntro">
               <source src="UALS_Overview.mp4" type="video/mp4">
             </video>
           </div>
@@ -636,6 +639,7 @@
         videoIntro:"Watch a short introduction to the Unified Analytical Laboratory Suite.",
         videoOfflineCopy:"The video is included in the offline ZIP. Extract the package and keep the MP4 in the same folder as this HTML file.",
         downloadVideo:"Download the video",
+        videoFallback:"Video file is missing next to this page. Please extract it from the ZIP archive.",
         launch:"Launch the suite",free:"Free to use",browser:"Works in a modern browser",offline:"Core tools work offline",
         toolsHeading:"The right workspace for each task.",
         toolsIntro:"Four focused tools, together in one portable file. Select a module to begin.",
@@ -683,6 +687,7 @@
         videoIntro:"Sehen Sie eine kurze Einführung in die Einheitliche Analytische Laborplattform.",
         videoOfflineCopy:"Das Video ist im Offline-ZIP enthalten. Entpacken Sie das Archiv und bewahren Sie die MP4-Datei im selben Ordner wie diese HTML-Datei auf.",
         downloadVideo:"Video herunterladen",
+        videoFallback:"Die Videodatei fehlt neben dieser Seite. Bitte aus dem ZIP-Archiv extrahieren.",
         launch:"Suite starten",free:"Kostenlos nutzbar",browser:"Funktioniert in einem modernen Browser",offline:"Kernfunktionen offline verfügbar",
         toolsHeading:"Der passende Arbeitsbereich für jede Aufgabe.",
         toolsIntro:"Vier spezialisierte Werkzeuge in einer portablen Datei. Wählen Sie ein Modul aus, um zu beginnen.",
@@ -730,6 +735,7 @@
         videoIntro:"شاهد مقدمة قصيرة عن المنصة المخبرية التحليلية الموحّدة.",
         videoOfflineCopy:"الفيديو موجود ضمن ملف ZIP للاستخدام دون اتصال. فك ضغط الحزمة وأبقِ ملف MP4 في المجلد نفسه الذي يحتوي على ملف HTML.",
         downloadVideo:"تنزيل الفيديو",
+        videoFallback:"ملف الفيديو غير موجود بجوار الصفحة. الرجاء استخراجه من حزمة ZIP.",
         launch:"ابدأ استخدام البرنامج",free:"مجاني للاستخدام",browser:"يعمل في متصفح حديث",offline:"الأدوات الأساسية دون اتصال",
         toolsHeading:"أداة مناسبة لكل مهمة.",
         toolsIntro:"أربع أدوات عملية مجتمعة في ملف واحد محمول. اختر الأداة لبدء استخدامها.",
@@ -889,6 +895,37 @@
       if (event.target === aboutDialog) aboutDialog.close();
     });
     renderAbout();
+  </script>
+  <script>
+    const video = document.getElementById("ualsVideo");
+    const videoFallback = document.getElementById("videoFallback");
+    const showVideoFallback = () => {
+      videoFallback.hidden = false;
+      video.hidden = true;
+    };
+    video.addEventListener("error", showVideoFallback);
+    video.querySelector("source").addEventListener("error", showVideoFallback);
+    if (video.networkState === 3) showVideoFallback();
+
+    const pdfHintCopy = {
+      ar: "إذا لم يبدأ تنزيل ملف PDF، فتحقق من وجود الملف في المجلد أو أعد المحاولة.",
+      en: "If the PDF download did not start, check that the file is in this folder or try again.",
+      de: "Falls der PDF-Download nicht gestartet wurde, prüfen Sie, ob die Datei im Ordner liegt, oder versuchen Sie es erneut."
+    };
+    let pdfHintTimer;
+    document.querySelectorAll("a[download][data-home='downloadPdf']").forEach(link => {
+      link.addEventListener("click", () => {
+        window.clearTimeout(pdfHintTimer);
+        window.setTimeout(() => {
+          document.getElementById("pdfHint")?.remove();
+          const hint = document.createElement("p");
+          hint.id = "pdfHint";
+          hint.className = "media-fallback";
+          hint.textContent = pdfHintCopy[document.documentElement.lang] || pdfHintCopy.en;
+          link.closest(".home-reference").append(hint);
+        }, 1500);
+      });
+    });
   </script>
 </body>
 </html>
