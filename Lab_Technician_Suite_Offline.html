@@ -471,7 +471,15 @@
     const buttons = [...document.querySelectorAll("[data-module]")];
     const supportedLanguages = ["ar", "en", "de"];
     const requestedLanguage = new URLSearchParams(location.search).get("lang");
-    let language = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ar";
+    let storedLanguage = "ar";
+    try {
+      storedLanguage = localStorage.getItem("uals_lang") || "ar";
+    } catch (error) {
+      console.warn("Could not read the saved language preference.", error);
+    }
+    let language = supportedLanguages.includes(requestedLanguage)
+      ? requestedLanguage
+      : supportedLanguages.includes(storedLanguage) ? storedLanguage : "ar";
 
     function renderLanguage() {
       const text = labels[language];
@@ -492,6 +500,32 @@
       return requested === "home" || modules.includes(requested) ? requested : "home";
     }
 
+    function syncLanguageToFrame() {
+      const appWindow = frame.contentWindow;
+      if (!appWindow || !frame.dataset.module) return;
+      appWindow.postMessage({ type: "uals:setLang", lang: language }, "*");
+      if (typeof appWindow.setLang === "function") appWindow.setLang(language);
+      if (typeof appWindow.setLanguage === "function") appWindow.setLanguage(language);
+      const languageSelect = appWindow.document.getElementById("langSelect");
+      if (languageSelect) {
+        languageSelect.value = language;
+        languageSelect.dispatchEvent(new appWindow.Event("change", { bubbles: true }));
+      }
+      if (frame.dataset.module === "lab" && !appWindow.document.getElementById("labLanguageLayoutFix")) {
+        const style = appWindow.document.createElement("style");
+        style.id = "labLanguageLayoutFix";
+        style.textContent = '@media(max-width:900px){html[dir="ltr"] .main{margin-left:0}}';
+        appWindow.document.head.append(style);
+      }
+      if (frame.dataset.module === "gcms3d") {
+        const guideLanguageButton = appWindow.document.getElementById("btnLanguage");
+        const guideLanguage = language === "ar" ? "ar" : "en";
+        if (guideLanguageButton && appWindow.document.documentElement.lang !== guideLanguage) {
+          guideLanguageButton.click();
+        }
+      }
+    }
+
     function decodeApp(value) {
       const bytes = Uint8Array.from(atob(value), character => character.charCodeAt(0));
       return new TextDecoder().decode(bytes);
@@ -503,12 +537,13 @@
       document.getElementById("homePage").hidden = !onHome;
       document.querySelector(".workspace").hidden = onHome;
       if (!onHome && frame.dataset.module !== selected) {
+        frame.dataset.module = selected;
+        frame.addEventListener("load", syncLanguageToFrame, { once: true });
         if (selected === "gcms3d") {
           frame.srcdoc = decodeApp(APPS.gcms3d);
         } else {
           frame.srcdoc = decodeApp(APPS[selected]);
         }
-        frame.dataset.module = selected;
       }
       buttons.forEach(button => {
         if (button.dataset.module === selected) button.setAttribute("aria-current", "page");
@@ -524,12 +559,18 @@
     button.addEventListener("click", () => { location.hash = button.dataset.openModule; });
     });
     document.getElementById("languageToggle").addEventListener("change", event => {
-    language = event.target.value;
-    const url = new URL(location.href);
-    url.searchParams.set("lang", language);
-    history.replaceState(null, "", url);
-    renderLanguage();
-    renderHome();
+      language = event.target.value;
+      try {
+        localStorage.setItem("uals_lang", language);
+      } catch (error) {
+        console.warn("Could not save the language preference.", error);
+      }
+      const url = new URL(location.href);
+      url.searchParams.set("lang", language);
+      history.replaceState(null, "", url);
+      renderLanguage();
+      syncLanguageToFrame();
+      document.dispatchEvent(new CustomEvent("uals:languagechange", { detail: { language } }));
     });
     window.addEventListener("hashchange", showModule);
     showModule();
@@ -689,7 +730,7 @@
     }
 
     renderHome();
-    document.getElementById("languageToggle").addEventListener("change", renderHome);
+    document.addEventListener("uals:languagechange", renderHome);
   </script>
   <script>
     const aboutCopy = {
@@ -794,7 +835,7 @@
     }
     document.getElementById("aboutButton").addEventListener("click", () => aboutDialog.showModal());
     document.getElementById("aboutClose").addEventListener("click", () => aboutDialog.close());
-    document.getElementById("languageToggle").addEventListener("change", renderAbout);
+    document.addEventListener("uals:languagechange", renderAbout);
     aboutDialog.addEventListener("click", event => {
       if (event.target === aboutDialog) aboutDialog.close();
     });
