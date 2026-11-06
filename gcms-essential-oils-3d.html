@@ -58,7 +58,7 @@
   #leftUI{
     position:absolute;top:0;left:0;width:45%;height:100%;
     pointer-events:none;z-index:50;padding:26px 22px 90px 26px;
-    display:flex;flex-direction:column;gap:11px;overflow-y:auto;overscroll-behavior:contain;
+    display:flex;flex-direction:column;gap:11px;overflow-y:scroll;overscroll-behavior:contain;
     scrollbar-width:auto;scrollbar-color:#9aa8bd #242634
   }
   #leftUI::-webkit-scrollbar,#tocList::-webkit-scrollbar{width:10px}
@@ -174,7 +174,7 @@
     #toc.open{right:0}
     #btnToc{display:flex}
     #leftUI{top:8px;left:8px;width:calc(100% - 16px);height:auto;max-height:46vh;
-      padding:0;gap:6px;overflow-y:auto;overscroll-behavior:contain}
+      padding:0;gap:6px;overflow-y:scroll;overscroll-behavior:contain}
     #lessonHeader,#quizBox{padding:9px 10px;border-width:1px}
     #lessonHeader h1{font-size:15px}
     #lessonHeader .core{font-size:12px;line-height:1.4}
