@@ -108,6 +108,10 @@
     .home-section { padding-top: 37px; }
     .home-section h2 { margin: 0 0 8px; color: #12282d; font-size: clamp(23px, 4vw, 32px); }
     .home-section-intro { margin: 0 0 18px; color: #607575; font-size: 14px; line-height: 1.75; }
+    .home-video { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 320px); align-items: center; gap: 24px; padding: 19px; border: 1px solid #e1e9e4; border-radius: 11px; background: #fff; }
+    .home-video p { margin: 0; color: #607575; font-size: 12px; line-height: 1.75; }
+    .home-video .home-button { margin-top: 15px; }
+    .home-video video { display: block; width: min(100%, 320px); max-height: 570px; aspect-ratio: 9 / 16; margin-inline: auto; border-radius: 9px; background: #101a1c; }
     .home-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
     .home-card { display: flex; flex-direction: column; padding: 19px; border: 1px solid #e1e9e4; border-radius: 11px; background: #fff; }
     .home-card-icon { font-size: 23px; }
@@ -177,6 +181,8 @@
       .home-hero { padding: 24px 18px; border-radius: 14px; }
       .home-lead { font-size: 14px; }
       .home-cards, .home-references, .home-columns { grid-template-columns: 1fr; }
+      .home-video { grid-template-columns: 1fr; gap: 18px; }
+      .home-video video { max-height: 520px; }
       .home-card { padding: 16px; }
     }
   </style>
@@ -221,6 +227,20 @@
             <span data-home="free"></span>
             <span data-home="browser"></span>
             <span data-home="offline"></span>
+          </div>
+        </section>
+
+        <section class="home-section" id="homeVideo" aria-labelledby="homeVideoTitle">
+          <h2 id="homeVideoTitle" data-home="videoHeading"></h2>
+          <p class="home-section-intro" id="homeVideoIntro" data-home="videoIntro"></p>
+          <div class="home-video">
+            <div>
+              <p data-home="videoOfflineCopy"></p>
+              <a class="home-button secondary" href="UALS_Overview.mp4" download><span data-home="downloadVideo"></span> ↓</a>
+            </div>
+            <video controls playsinline preload="metadata" aria-labelledby="homeVideoTitle" aria-describedby="homeVideoIntro">
+              <source src="UALS_Overview.mp4" type="video/mp4">
+            </video>
           </div>
         </section>
 
@@ -431,6 +451,10 @@
         eyebrow:"Unified Analytical Laboratory Suite · Scientific tools &amp; research",
         heroTitle:"One scientific workspace.<br><span>Plus self-paced theoretical and practical lectures.</span>",
         heroCopy:"UALS brings laboratory calculations, GC‑MS and HPLC workflows, method validation, and interactive scientific learning together in one multilingual workspace—online or portable.",
+        videoHeading:"See the suite in action.",
+        videoIntro:"Watch a short introduction to the Unified Analytical Laboratory Suite.",
+        videoOfflineCopy:"The video is included in the offline ZIP. Extract the package and keep the MP4 in the same folder as this HTML file.",
+        downloadVideo:"Download the video",
         launch:"Launch the suite",free:"Free to use",browser:"Works in a modern browser",offline:"Core tools work offline",
         toolsHeading:"The right workspace for each task.",
         toolsIntro:"Four focused tools, together in one portable file. Select a module to begin.",
@@ -461,7 +485,7 @@
         howHeading:"One file, four tools",
         howCopy:"The home page, laboratory assistant, GC‑MS analyzer, HPLC validation tool, and corrected 3D GC‑MS SOP v3 guide are included in this document. Use the navigation bar to switch sections.",
         offlineHeading:"Ready for your USB drive",
-        offlineCopy:"Copy this HTML file to a USB drive and open it with a recent browser. The applications and guide lessons are embedded. The ZIP also includes both presentation PDFs. The 3D scene requires internet to load its rendering libraries; external research links also require internet.",
+        offlineCopy:"Copy this HTML file to a USB drive and open it with a recent browser. The applications and guide lessons are embedded. For offline video playback, keep UALS_Overview.mp4 beside this HTML file; the ZIP includes the video and both presentation PDFs. The 3D scene requires internet to load its rendering libraries; external research links also require internet.",
         researchHeading:"Research and scientific references",
         researchIntro:"The UALS research presentation and publications associated with these laboratory tools, together with the scientific sources supporting the analytical references.",
         scientificRefs:"Additional references: Adams (2017); Babushok, Linstrom & Zenkevich (2011); Van den Dool & Kratz (1963); ICH Q2(R1); and NIST Chemistry WebBook (SRD 69). Independently review reference data, methods, calculations, and acceptance criteria before using results.",
@@ -472,6 +496,10 @@
         eyebrow:"Einheitliche Analytische Laborplattform · Wissenschaftliche Werkzeuge und Forschung",
         heroTitle:"Ein wissenschaftlicher Arbeitsbereich.<br><span>Mit selbstständigen Theorie- und Praxislektionen.</span>",
         heroCopy:"UALS vereint Laborberechnungen, GC-MS- und HPLC-Abläufe, Methodenvalidierung und interaktives wissenschaftliches Lernen in einem mehrsprachigen Arbeitsbereich – online oder als portable Version.",
+        videoHeading:"Erleben Sie die Suite in Aktion.",
+        videoIntro:"Sehen Sie eine kurze Einführung in die Einheitliche Analytische Laborplattform.",
+        videoOfflineCopy:"Das Video ist im Offline-ZIP enthalten. Entpacken Sie das Archiv und bewahren Sie die MP4-Datei im selben Ordner wie diese HTML-Datei auf.",
+        downloadVideo:"Video herunterladen",
         launch:"Suite starten",free:"Kostenlos nutzbar",browser:"Funktioniert in einem modernen Browser",offline:"Kernfunktionen offline verfügbar",
         toolsHeading:"Der passende Arbeitsbereich für jede Aufgabe.",
         toolsIntro:"Vier spezialisierte Werkzeuge in einer portablen Datei. Wählen Sie ein Modul aus, um zu beginnen.",
@@ -502,7 +530,7 @@
         howHeading:"Eine Datei, vier Werkzeuge",
         howCopy:"Diese Datei enthält die Startseite, den Laborassistenten, den GC-MS-Analysator, das HPLC-Validierungswerkzeug und den nach SOP v3 korrigierten 3D-GC-MS-Leitfaden. Mit der Navigationsleiste wechseln Sie zwischen den Bereichen.",
         offlineHeading:"Bereit für Ihren USB-Stick",
-        offlineCopy:"Kopieren Sie diese HTML-Datei auf einen USB-Stick und öffnen Sie sie in einem aktuellen Browser. Anwendungen und Lektionen sind eingebettet. Das ZIP enthält außerdem beide Präsentations-PDFs. Die 3D-Szene benötigt zum Laden der Rendering-Bibliotheken Internet; externe Forschungslinks ebenfalls.",
+        offlineCopy:"Kopieren Sie diese HTML-Datei auf einen USB-Stick und öffnen Sie sie in einem aktuellen Browser. Anwendungen und Lektionen sind eingebettet. Für die Offline-Videowiedergabe muss UALS_Overview.mp4 neben dieser HTML-Datei liegen; das ZIP enthält das Video und beide Präsentations-PDFs. Die 3D-Szene benötigt zum Laden der Rendering-Bibliotheken Internet; externe Forschungslinks ebenfalls.",
         researchHeading:"Forschung und wissenschaftliche Referenzen",
         researchIntro:"Die UALS-Forschungspräsentation und zugehörige Veröffentlichungen sowie wissenschaftliche Quellen zu den analytischen Referenzdaten.",
         scientificRefs:"Weitere Referenzen: Adams (2017); Babushok, Linstrom & Zenkevich (2011); Van den Dool & Kratz (1963); ICH Q2(R1); und NIST Chemistry WebBook (SRD 69). Prüfen Sie Referenzdaten, Methoden, Berechnungen und Akzeptanzkriterien vor der Verwendung der Ergebnisse unabhängig.",
@@ -513,6 +541,10 @@
         eyebrow:"المنصة المخبرية التحليلية الموحّدة · أدوات علمية وأبحاث",
         heroTitle:"مساحة علمية واحدة.<br><span>بالإضافة إلى محاضرات نظرية وعملية ذاتية التعلّم.</span>",
         heroCopy:"تجمع UALS الحسابات المخبرية وسير عمل GC‑MS وHPLC والتحقق من الطرق والتعلّم العلمي التفاعلي في مساحة متعددة اللغات، عبر الإنترنت أو بنسخة محمولة.",
+        videoHeading:"شاهد البرنامج أثناء العمل.",
+        videoIntro:"شاهد مقدمة قصيرة عن المنصة المخبرية التحليلية الموحّدة.",
+        videoOfflineCopy:"الفيديو موجود ضمن ملف ZIP للاستخدام دون اتصال. فك ضغط الحزمة وأبقِ ملف MP4 في المجلد نفسه الذي يحتوي على ملف HTML.",
+        downloadVideo:"تنزيل الفيديو",
         launch:"ابدأ استخدام البرنامج",free:"مجاني للاستخدام",browser:"يعمل في متصفح حديث",offline:"الأدوات الأساسية دون اتصال",
         toolsHeading:"أداة مناسبة لكل مهمة.",
         toolsIntro:"أربع أدوات عملية مجتمعة في ملف واحد محمول. اختر الأداة لبدء استخدامها.",
@@ -543,7 +575,7 @@
         howHeading:"ملف واحد، وأربع أدوات",
         howCopy:"تضم هذه الوثيقة الصفحة الرئيسية ومساعد المختبر ومحلل GC‑MS وأداة تحقق HPLC ودليل GC‑MS ثلاثي الأبعاد المصحح وفق SOP v3. استخدم شريط التنقل للانتقال بين الأقسام.",
         offlineHeading:"جاهز للنسخ إلى الفلاشة",
-        offlineCopy:"انسخ ملف HTML هذا إلى الفلاشة وافتحه بمتصفح حديث. التطبيقات ومحتوى الدروس مضمّنان، كما يضم ملف ZIP عرضَي PDF. يحتاج المشهد ثلاثي الأبعاد إلى الإنترنت لتحميل مكتبات العرض، كما تحتاج روابط الأبحاث الخارجية إلى الإنترنت.",
+        offlineCopy:"انسخ ملف HTML هذا إلى الفلاشة وافتحه بمتصفح حديث. التطبيقات ومحتوى الدروس مضمّنان. لتشغيل الفيديو دون اتصال، أبقِ UALS_Overview.mp4 بجانب ملف HTML؛ ويضم ملف ZIP الفيديو وعرضَي PDF. يحتاج المشهد ثلاثي الأبعاد إلى الإنترنت لتحميل مكتبات العرض، كما تحتاج روابط الأبحاث الخارجية إلى الإنترنت.",
         researchHeading:"الأبحاث والمراجع العلمية",
         researchIntro:"العرض البحثي لـ UALS والأبحاث المرتبطة بأدوات المختبر، إلى جانب المراجع العلمية التي تدعم البيانات التحليلية.",
         scientificRefs:"مراجع إضافية: Adams (2017)؛ وBabushok وLinstrom وZenkevich (2011)؛ وVan den Dool وKratz (1963)؛ وإرشادات ICH Q2(R1)؛ وNIST Chemistry WebBook (SRD 69). تحقّق بشكل مستقل من البيانات والطرق والحسابات ومعايير القبول قبل استخدام النتائج.",

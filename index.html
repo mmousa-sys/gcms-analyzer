@@ -216,6 +216,11 @@
     .section-heading .eyebrow { margin-bottom: 12px; }
     .section-heading h2 { margin: 0 0 11px; font-size: clamp(29px, 4vw, 42px); letter-spacing: -1.3px; }
     .section-heading p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
+    .video-section { background: #f7faf8; }
+    .video-showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 360px); align-items: center; gap: 36px; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+    .video-showcase-copy p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .video-showcase-copy .button { margin-top: 20px; }
+    .video-showcase video { display: block; width: min(100%, 360px); max-height: 640px; aspect-ratio: 9 / 16; margin-inline: auto; border-radius: 11px; background: #101a1c; box-shadow: 0 12px 30px rgb(18 40 45 / 14%); }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
     .card {
       display: flex;
@@ -362,6 +367,8 @@
       .section { padding-block: 61px; }
       .cards { grid-template-columns: 1fr; }
       .card { min-height: 0; }
+      .video-showcase { grid-template-columns: 1fr; gap: 22px; padding: 18px; }
+      .video-showcase video { max-height: 560px; }
       .approach-grid { grid-template-columns: 1fr; gap: 28px; }
       .approach-aside { position: static; }
       .steps { padding: 20px 19px 18px; }
@@ -469,6 +476,25 @@
       <div class="container intro-inner">
         <p data-i18n="intro"><strong>Research-informed tools for laboratory work and learning.</strong> UALS integrates practical calculations, chromatographic workflows, method validation, and interactive analytical education.</p>
         <a class="button light" href="Lab_Technician_Suite_Offline.html"><span data-i18n="intro-link">Open the suite</span><span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section video-section" id="overview-video" aria-labelledby="video-title">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow" data-i18n="video-label">UALS overview</div>
+          <h2 id="video-title" data-i18n="video-title">See the suite in action.</h2>
+          <p data-i18n="video-copy">Watch a short introduction to the Unified Analytical Laboratory Suite.</p>
+        </div>
+        <div class="video-showcase">
+          <div class="video-showcase-copy">
+            <p data-i18n="video-offline-copy">The video is included in the offline ZIP. Extract the package and keep the MP4 in the same folder as the HTML file.</p>
+            <a class="button secondary" href="UALS_Overview.mp4" download><span aria-hidden="true">↓</span><span data-i18n="video-download">Download the video</span></a>
+          </div>
+          <video controls playsinline preload="metadata" aria-labelledby="video-title">
+            <source src="UALS_Overview.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
     </section>
 
@@ -653,6 +679,7 @@
         "hero-label":"Unified Analytical Laboratory Suite · Scientific tools &amp; research","hero-title":"One scientific workspace.<br><span>Plus self-paced theoretical and practical lectures.</span>",
         "hero-copy":"UALS brings laboratory calculations, GC‑MS and HPLC workflows, method validation, and interactive scientific learning together in one multilingual workspace—online or portable.",
         "hero-primary":"Explore the laboratory suite","hero-secondary":"Get the offline edition","trust-free":"Free to access","trust-browser":"Works in a modern browser","trust-language":"Arabic and English interface",
+        "video-label":"UALS OVERVIEW","video-title":"See the suite in action.","video-copy":"Watch a short introduction to the Unified Analytical Laboratory Suite.","video-offline-copy":"The video is included in the offline ZIP. Extract the package and keep the MP4 in the same folder as the HTML file.","video-download":"Download the video",
         "preview-workspace":"ANALYTICS WORKSPACE","preview-ready":"READY","preview-chart-title":"Chromatogram preview","preview-peaks":"IDENTIFIED PEAKS","preview-match":"TOP RI MATCH","preview-lab":"Lab tools",
         "intro":"<strong>Research-informed tools for laboratory work and learning.</strong> UALS integrates practical calculations, chromatographic workflows, method validation, and interactive analytical education.",
         "intro-link":"Open the suite","tools-label":"The toolkit","tools-title":"The right workspace for each task.","tools-copy":"Open any application or explore the interactive GC-MS learning guide.",
@@ -694,6 +721,7 @@
         "hero-label":"المنصة المخبرية التحليلية الموحّدة · أدوات علمية وأبحاث","hero-title":"مساحة علمية واحدة.<br><span>بالإضافة إلى محاضرات نظرية وعملية ذاتية التعلّم.</span>",
         "hero-copy":"تجمع UALS الحسابات المخبرية وسير عمل GC‑MS وHPLC والتحقق من الطرق والتعلّم العلمي التفاعلي في مساحة متعددة اللغات، عبر الإنترنت أو بنسخة محمولة.",
         "hero-primary":"استكشف البرنامج المخبري","hero-secondary":"نزّل النسخة دون اتصال","trust-free":"متاح مجانًا","trust-browser":"يعمل في متصفح حديث","trust-language":"واجهة بالعربية والإنجليزية",
+        "video-label":"نبذة عن UALS","video-title":"شاهد البرنامج أثناء العمل.","video-copy":"شاهد مقدمة قصيرة عن المنصة المخبرية التحليلية الموحّدة.","video-offline-copy":"الفيديو موجود ضمن ملف ZIP للاستخدام دون اتصال. فك ضغط الحزمة وأبقِ ملف MP4 في المجلد نفسه الذي يحتوي على ملف HTML.","video-download":"تنزيل الفيديو",
         "preview-workspace":"مساحة التحليل","preview-ready":"جاهز","preview-chart-title":"معاينة الكروماتوغرام","preview-peaks":"القمم المحددة","preview-match":"أفضل تطابق RI","preview-lab":"أدوات المختبر",
         "intro":"<strong>أدوات تستند إلى الأبحاث للعمل المخبري والتعلّم.</strong> تدمج UALS الحسابات العملية وسير العمل الكروماتوغرافي والتحقق من الطرق والتعليم التحليلي التفاعلي.",
         "intro-link":"افتح البرنامج","tools-label":"الأدوات","tools-title":"أداة مناسبة لكل مهمة.","tools-copy":"افتح أي تطبيق أو استكشف الدليل التعليمي التفاعلي لـ GC-MS.",
@@ -735,6 +763,7 @@
         "hero-label":"Einheitliche Analytische Laborplattform · Wissenschaftliche Werkzeuge und Forschung","hero-title":"Ein wissenschaftlicher Arbeitsbereich.<br><span>Mit selbstständigen Theorie- und Praxislektionen.</span>",
         "hero-copy":"UALS vereint Laborberechnungen, GC-MS- und HPLC-Abläufe, Methodenvalidierung und interaktives wissenschaftliches Lernen in einem mehrsprachigen Arbeitsbereich – online oder als portable Version.",
         "hero-primary":"Laborplattform entdecken","hero-secondary":"Offline-Version herunterladen","trust-free":"Kostenlos zugänglich","trust-browser":"Funktioniert in modernen Browsern","trust-language":"Arabische, englische und deutsche Oberfläche",
+        "video-label":"UALS-ÜBERBLICK","video-title":"Erleben Sie die Suite in Aktion.","video-copy":"Sehen Sie eine kurze Einführung in die Einheitliche Analytische Laborplattform.","video-offline-copy":"Das Video ist im Offline-ZIP enthalten. Entpacken Sie das Archiv und bewahren Sie die MP4-Datei im selben Ordner wie die HTML-Datei auf.","video-download":"Video herunterladen",
         "preview-workspace":"ANALYSE-ARBEITSBEREICH","preview-ready":"BEREIT","preview-chart-title":"Chromatogramm-Vorschau","preview-peaks":"IDENTIFIZIERTE PEAKS","preview-match":"BESTER RI-TREFFER","preview-lab":"Laborwerkzeuge",
         "intro":"<strong>Forschungsgestützte Werkzeuge für Laborarbeit und Lernen.</strong> UALS vereint praktische Berechnungen, chromatografische Abläufe, Methodenvalidierung und interaktive analytische Ausbildung.",
         "intro-link":"Suite öffnen","tools-label":"Werkzeugkasten","tools-title":"Der passende Arbeitsbereich für jede Aufgabe.","tools-copy":"Öffnen Sie eine Anwendung oder entdecken Sie den interaktiven GC-MS-Lernleitfaden.",
