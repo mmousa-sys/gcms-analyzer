@@ -75,6 +75,29 @@
     .workspace { flex: 1; min-height: 0; }
     .workspace[hidden], .home-page[hidden] { display: none; }
     iframe { display: block; width: 100%; height: calc(100vh - 76px); height: calc(100dvh - 76px); border: 0; background: #f0f4f8; }
+    #appLoader {
+      position: fixed;
+      inset: 76px 0 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      background: #f0f4f8;
+      color: #075e57;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    #appLoader[hidden] { display: none; }
+    #appLoader span { display: inline-flex; align-items: center; gap: 12px; }
+    #appLoader span::before {
+      width: 22px;
+      height: 22px;
+      border: 3px solid #cfe2dc;
+      border-top-color: #087c70;
+      border-radius: 50%;
+      content: "";
+      animation: uals-spin .8s linear infinite;
+    }
+    @keyframes uals-spin { to { transform: rotate(360deg); } }
     .standalone { font-size: 12px; padding: 9px 11px; }
     .home-page {
       min-height: calc(100vh - 76px);
@@ -418,6 +441,7 @@
       </div>
     </main>
     <div class="workspace" hidden>
+      <div id="appLoader" hidden aria-live="polite" role="status"><span>جارٍ تحميل التطبيق…</span></div>
       <iframe id="appFrame" title="مساعد فني المختبرات الشامل" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
   </div>
@@ -470,6 +494,7 @@
     const frame = document.getElementById("appFrame");
     const buttons = [...document.querySelectorAll("[data-module]")];
     const supportedLanguages = ["ar", "en", "de"];
+    let moduleLoadToken = 0;
     const requestedLanguage = new URLSearchParams(location.search).get("lang");
     let storedLanguage = "ar";
     try {
@@ -531,19 +556,26 @@
       return new TextDecoder().decode(bytes);
     }
 
-    function showModule() {
+    async function showModule() {
+      const token = ++moduleLoadToken;
       const selected = getCurrentModule();
       const onHome = selected === "home";
+      const loader = document.getElementById("appLoader");
       document.getElementById("homePage").hidden = !onHome;
       document.querySelector(".workspace").hidden = onHome;
+      if (onHome) loader.hidden = true;
       if (!onHome && frame.dataset.module !== selected) {
+        loader.hidden = false;
+        const appHtml = await decodeApp(APPS[selected]);
+        if (token !== moduleLoadToken) return;
         frame.dataset.module = selected;
         frame.addEventListener("load", syncLanguageToFrame, { once: true });
-        if (selected === "gcms3d") {
-          frame.srcdoc = decodeApp(APPS.gcms3d);
-        } else {
-          frame.srcdoc = decodeApp(APPS[selected]);
-        }
+        frame.addEventListener("load", () => {
+          if (token === moduleLoadToken) loader.hidden = true;
+        }, { once: true });
+        frame.srcdoc = appHtml;
+      } else {
+        loader.hidden = true;
       }
       buttons.forEach(button => {
         if (button.dataset.module === selected) button.setAttribute("aria-current", "page");
