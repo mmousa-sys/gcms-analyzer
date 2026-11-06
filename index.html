@@ -250,23 +250,49 @@
     .approach-aside .section-heading { margin: 0; }
     .note-card { margin-top: 23px; padding: 18px; border-inline-start: 3px solid var(--gold); border-radius: 0 8px 8px 0; background: rgb(255 255 255 / 70%); }
     .note-card p { margin: 0; color: var(--ink-soft); font-size: 12px; line-height: 1.75; }
-    .steps { display: grid; }
-    .step { display: grid; grid-template-columns: 48px 1fr; gap: 15px; padding: 20px 0; border-bottom: 1px solid #d5e1da; }
-    .step:first-child { padding-top: 4px; }
-    .step:last-child { border-bottom: 0; }
+    .steps {
+      position: relative;
+      display: grid;
+      padding: 23px 26px 21px;
+      border: 1px solid #dce8e0;
+      border-radius: 14px;
+      background: linear-gradient(155deg, #fff, #f8fbf8 78%);
+      box-shadow: 0 16px 42px rgb(18 40 45 / 7%);
+    }
+    .steps::before {
+      content: "";
+      position: absolute;
+      inset-block: 74px 96px;
+      inset-inline-start: 44px;
+      width: 1px;
+      background: linear-gradient(#bdd7ca, #dce8e0);
+    }
+    .steps-heading { padding: 0 0 12px 57px; }
+    .steps-kicker { color: var(--teal); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .steps-heading h3 { margin: 5px 0 0; font-size: 19px; letter-spacing: -.3px; }
+    .step { position: relative; display: grid; grid-template-columns: 38px 1fr; gap: 18px; padding: 14px 0; }
+    .step:first-of-type { padding-top: 10px; }
+    .step:last-of-type { padding-bottom: 12px; }
     .step-number {
       display: grid;
       place-items: center;
-      width: 37px;
-      height: 37px;
-      border: 1px solid #bdd5c8;
+      width: 36px;
+      height: 36px;
+      border: 1px solid #c5ddd1;
       border-radius: 50%;
+      background: #f0f8f3;
       color: var(--teal-dark);
       font-size: 12px;
       font-weight: 800;
     }
-    .step h3 { margin: 1px 0 6px; font-size: 15px; }
+    .step h3 { margin: 1px 0 5px; font-size: 14px; }
     .step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
+    .step strong { overflow-wrap: anywhere; }
+    .steps-download { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 15px; margin: 10px 0 0 56px; padding-top: 17px; border-top: 1px solid var(--line); }
+    .steps-download .button { min-height: 40px; }
+    .steps-download-note { color: var(--muted); font-size: 11px; line-height: 1.55; }
+    [dir="rtl"] .steps-heading { padding-inline: 57px 0; }
+    [dir="rtl"] .steps-download { margin-inline: 56px 0; }
     .download { padding-block: 76px; }
     .download-panel {
       display: grid;
@@ -338,6 +364,12 @@
       .card { min-height: 0; }
       .approach-grid { grid-template-columns: 1fr; gap: 28px; }
       .approach-aside { position: static; }
+      .steps { padding: 20px 19px 18px; }
+      .steps::before { inset-inline-start: 37px; }
+      .steps-heading { padding-inline-start: 48px; }
+      .steps-download { margin-inline-start: 48px; }
+      [dir="rtl"] .steps-heading { padding-inline: 48px 0; }
+      [dir="rtl"] .steps-download { margin-inline: 48px 0; }
       .download-panel { grid-template-columns: 1fr; padding: 27px 23px; }
       .download-actions { width: 100%; }
       .download-actions .button { flex: 1; }
@@ -507,22 +539,30 @@
           <div class="note-card"><p data-i18n="approach-note">The downloadable edition includes the applications and charting library in one HTML file. The suite itself does not need an internet connection once downloaded; publication links do.</p></div>
         </div>
         <div class="steps">
+          <div class="steps-heading">
+            <div class="steps-kicker" data-i18n="setup-kicker">QUICK SETUP</div>
+            <h3 data-i18n="setup-title">Ready in three simple steps</h3>
+          </div>
           <article class="step">
             <div class="step-number">01</div>
-            <div><h3 data-i18n="step-one-title">Choose a working mode</h3><p data-i18n="step-one-copy">Launch the combined application online or open an individual tool directly from this site.</p></div>
+            <div><h3 data-i18n="step-one-title">Download the portable suite</h3><p data-i18n="step-one-copy">Save the ZIP package to your computer or USB drive.</p></div>
           </article>
           <article class="step">
             <div class="step-number">02</div>
-            <div><h3 data-i18n="step-two-title">Select a laboratory module</h3><p data-i18n="step-two-copy">Switch between general calculations, GC‑MS analysis, and HPLC validation from the suite navigation.</p></div>
+            <div><h3 data-i18n="step-two-title">Extract the ZIP file</h3><p data-i18n="step-two-copy">Use your computer’s built-in extractor to open the downloaded package.</p></div>
           </article>
           <article class="step">
             <div class="step-number">03</div>
-            <div><h3 data-i18n="step-three-title">Keep a portable copy</h3><p data-i18n="step-three-copy">Download the ZIP, extract the HTML file, and open it in a recent browser. No installer is needed.</p></div>
+            <div><h3 data-i18n="step-three-title">Open the HTML file</h3><p data-i18n="step-three-copy">Double-click <strong>Lab_Technician_Suite_Offline.html</strong> and choose a recent browser if asked.</p></div>
           </article>
           <article class="step">
             <div class="step-number">04</div>
-            <div><h3 data-i18n="step-four-title">Review and document results</h3><p data-i18n="step-four-copy">Use the built-in reports and charts as working aids; save any results or reports you need to keep separately.</p></div>
+            <div><h3 data-i18n="step-four-title">Use it offline</h3><p data-i18n="step-four-copy">No installer is needed. Most tools work offline; the 3D viewer and external links need internet.</p></div>
           </article>
+          <div class="steps-download">
+            <a class="button" href="Lab_Technician_Suite_Offline.zip" download><span aria-hidden="true">↓</span><span data-i18n="setup-download">Download offline ZIP</span></a>
+            <span class="steps-download-note" data-i18n="setup-note">Extract the ZIP, then open the HTML file.</span>
+          </div>
         </div>
       </div>
     </section>
@@ -625,11 +665,13 @@
         "gcms3d-title":"Interactive 3D GC-MS methods guide","gcms3d-copy":"Explore essential-oil GC-MS concepts through a 3D model, short lessons, and knowledge checks in English or Arabic.",
         "gcms3d-point-one":"11 guided lessons with interactive 3D diagrams","gcms3d-point-two":"Retention indices, identification, and quality control","gcms3d-point-three":"Educational examples with method-specific cautions","open-module":"Open this module",
         "approach-label":"Designed for access","approach-title":"Use it online. Take it offline.","approach-copy":"Start in the browser, then keep a self-contained copy of the suite on your computer or USB drive for offline use.",
-        "approach-note":"The downloadable edition includes the applications and charting library in one HTML file. The suite itself does not need an internet connection once downloaded; publication links do.",
-        "step-one-title":"Choose a working mode","step-one-copy":"Launch the combined application online or open an individual tool directly from this site.",
-        "step-two-title":"Select a laboratory module","step-two-copy":"Switch between general calculations, GC‑MS analysis, and HPLC validation from the suite navigation.",
-        "step-three-title":"Keep a portable copy","step-three-copy":"Download the ZIP, extract the HTML file, and open it in a recent browser. No installer is needed.",
-        "step-four-title":"Review and document results","step-four-copy":"Use the built-in reports and charts as working aids; save any results or reports you need to keep separately.",
+        "approach-note":"The portable suite opens as a single HTML file without an installer. Most tools work offline; the 3D viewer and external publication links need internet.",
+        "setup-kicker":"QUICK SETUP","setup-title":"Ready in three simple steps",
+        "step-one-title":"Download the portable suite","step-one-copy":"Save the ZIP package to your computer or USB drive.",
+        "step-two-title":"Extract the ZIP file","step-two-copy":"Use your computer’s built-in extractor to open the downloaded package.",
+        "step-three-title":"Open the HTML file","step-three-copy":"Double-click <strong>Lab_Technician_Suite_Offline.html</strong> and choose a recent browser if asked.",
+        "step-four-title":"Use it offline","step-four-copy":"No installer is needed. Most tools work offline; the 3D viewer and external links need internet.",
+        "setup-download":"Download offline ZIP","setup-note":"Extract the ZIP, then open the HTML file.",
         "download-label":"Portable edition","download-title":"Your laboratory toolkit, ready to travel.","download-copy":"Save the complete offline suite to your computer or USB drive. It is a single HTML document with no setup wizard or separate runtime installation.",
         "download-zip":"Download ZIP","download-html":"HTML file","research-label":"Background reading","research-title":"Research behind the tools.",
         "research-copy":"Explore the associated publications and scientific references. External links open the source publisher or reference.",
@@ -664,11 +706,13 @@
         "gcms3d-title":"دليل تفاعلي ثلاثي الأبعاد لطرق GC-MS","gcms3d-copy":"استكشف مفاهيم تحليل الزيوت العطرية بـ GC-MS من خلال نموذج ثلاثي الأبعاد ودروس قصيرة وأسئلة باللغتين العربية والإنجليزية.",
         "gcms3d-point-one":"11 درسًا موجّهًا مع رسوم ثلاثية الأبعاد تفاعلية","gcms3d-point-two":"مؤشرات الاحتجاز والتعرّف على المركبات وضبط الجودة","gcms3d-point-three":"أمثلة تعليمية وتنبيهات تراعي اختلاف الطرق","open-module":"افتح هذه الأداة",
         "approach-label":"مصمم لسهولة الوصول","approach-title":"استخدمه عبر الإنترنت أو دون اتصال.","approach-copy":"ابدأ من المتصفح، ثم احتفظ بنسخة كاملة من البرنامج على الكمبيوتر أو الفلاشة لاستخدامها دون اتصال.",
-        "approach-note":"تضم النسخة القابلة للتنزيل التطبيقات ومكتبة الرسوم البيانية داخل ملف HTML واحد. لا يحتاج البرنامج إلى الإنترنت بعد تنزيله، لكن روابط الأبحاث الخارجية تحتاج إليه.",
-        "step-one-title":"اختر طريقة الاستخدام","step-one-copy":"شغّل التطبيق الموحّد عبر الإنترنت أو افتح أداة محددة مباشرة من هذا الموقع.",
-        "step-two-title":"اختر أداة المختبر","step-two-copy":"تنقّل من واجهة البرنامج بين الحسابات العامة وتحليل GC‑MS والتحقق من HPLC.",
-        "step-three-title":"احتفظ بنسخة محمولة","step-three-copy":"نزّل ملف ZIP، واستخرج ملف HTML، ثم افتحه بمتصفح حديث. لا حاجة إلى تثبيت برنامج.",
-        "step-four-title":"راجع النتائج ووثّقها","step-four-copy":"استخدم التقارير والرسوم المضمّنة كأدوات مساعدة، واحفظ منفصلًا أي نتائج أو تقارير تريد الاحتفاظ بها.",
+        "approach-note":"تفتح النسخة المحمولة كملف HTML واحد دون الحاجة إلى مُثبّت. تعمل معظم الأدوات دون اتصال، بينما يحتاج عارض 3D وروابط الأبحاث الخارجية إلى الإنترنت.",
+        "setup-kicker":"إعداد سريع","setup-title":"ابدأ بثلاث خطوات بسيطة",
+        "step-one-title":"نزّل النسخة المحمولة","step-one-copy":"احفظ ملف ZIP على الكمبيوتر أو الفلاشة.",
+        "step-two-title":"فك ضغط الملف","step-two-copy":"استخدم أداة فك الضغط المضمّنة في جهازك لفتح الحزمة.",
+        "step-three-title":"افتح ملف HTML","step-three-copy":"انقر مرتين على <strong>Lab_Technician_Suite_Offline.html</strong> واختر متصفحًا حديثًا عند الطلب.",
+        "step-four-title":"استخدمه دون اتصال","step-four-copy":"لا حاجة إلى مُثبّت. تعمل معظم الأدوات دون إنترنت؛ يحتاج عارض 3D والروابط الخارجية إلى اتصال.",
+        "setup-download":"تنزيل ZIP للاستخدام دون اتصال","setup-note":"فك ضغط ZIP، ثم افتح ملف HTML.",
         "download-label":"نسخة محمولة","download-title":"أدوات المختبر معك أينما ذهبت.","download-copy":"احفظ البرنامج الكامل دون اتصال على الكمبيوتر أو الفلاشة. إنه ملف HTML واحد ولا يحتاج إلى معالج تثبيت أو بيئة تشغيل منفصلة.",
         "download-zip":"تنزيل ZIP","download-html":"ملف HTML","research-label":"للاطلاع","research-title":"الأبحاث والمراجع العلمية.",
         "research-copy":"اطّلع على الأبحاث والمراجع العلمية المرتبطة بالأدوات. تفتح الروابط الخارجية صفحة الناشر أو المرجع.",
@@ -703,11 +747,13 @@
         "gcms3d-title":"Interaktiver 3D-Leitfaden zu GC-MS-Methoden","gcms3d-copy":"Entdecken Sie GC-MS-Konzepte für ätherische Öle anhand eines 3D-Modells, kurzer Lektionen und Lernkontrollen auf Englisch oder Arabisch.",
         "gcms3d-point-one":"11 geführte Lektionen mit interaktiven 3D-Diagrammen","gcms3d-point-two":"Retentionsindizes, Identifizierung und Qualitätskontrolle","gcms3d-point-three":"Lehrbeispiele mit methodenspezifischen Hinweisen","open-module":"Modul öffnen",
         "approach-label":"Einfach zugänglich","approach-title":"Online nutzen. Offline weiterarbeiten.","approach-copy":"Starten Sie im Browser und speichern Sie anschließend eine vollständige Kopie der Suite für die Offline-Nutzung auf Ihrem Computer oder USB-Stick.",
-        "approach-note":"Die herunterladbare Version enthält die Anwendungen und die Diagrammbibliothek in einer einzigen HTML-Datei. Nach dem Download benötigt die Suite keine Internetverbindung; externe Publikationslinks schon.",
-        "step-one-title":"Nutzungsmodus wählen","step-one-copy":"Starten Sie die kombinierte Anwendung online oder öffnen Sie ein einzelnes Werkzeug direkt auf dieser Website.",
-        "step-two-title":"Labormodul auswählen","step-two-copy":"Wechseln Sie über die Navigation der Suite zwischen allgemeinen Berechnungen, GC-MS-Analysen und HPLC-Validierung.",
-        "step-three-title":"Portable Kopie speichern","step-three-copy":"Laden Sie die ZIP-Datei herunter, entpacken Sie die HTML-Datei und öffnen Sie sie in einem aktuellen Browser. Eine Installation ist nicht erforderlich.",
-        "step-four-title":"Ergebnisse prüfen und dokumentieren","step-four-copy":"Nutzen Sie die integrierten Berichte und Diagramme als Arbeitshilfen und speichern Sie wichtige Ergebnisse oder Berichte separat.",
+        "approach-note":"Die portable Suite öffnet sich ohne Installationsprogramm als einzelne HTML-Datei. Die meisten Werkzeuge funktionieren offline; der 3D-Viewer und externe Publikationslinks benötigen Internet.",
+        "setup-kicker":"SCHNELLSTART","setup-title":"In drei einfachen Schritten startklar",
+        "step-one-title":"Portable Suite herunterladen","step-one-copy":"Speichern Sie das ZIP-Archiv auf Ihrem Computer oder USB-Stick.",
+        "step-two-title":"ZIP-Datei entpacken","step-two-copy":"Entpacken Sie das heruntergeladene Archiv mit dem integrierten Werkzeug Ihres Computers.",
+        "step-three-title":"HTML-Datei öffnen","step-three-copy":"Doppelklicken Sie auf <strong>Lab_Technician_Suite_Offline.html</strong> und wählen Sie bei Bedarf einen aktuellen Browser aus.",
+        "step-four-title":"Offline verwenden","step-four-copy":"Ein Installationsprogramm ist nicht erforderlich. Die meisten Werkzeuge funktionieren offline; der 3D-Viewer und externe Links benötigen Internet.",
+        "setup-download":"Offline-ZIP herunterladen","setup-note":"ZIP entpacken und anschließend die HTML-Datei öffnen.",
         "download-label":"Portable Version","download-title":"Ihr Laborwerkzeugkasten – überall einsatzbereit.","download-copy":"Speichern Sie die vollständige Offline-Suite auf Ihrem Computer oder USB-Stick. Sie besteht aus einer einzigen HTML-Datei und benötigt weder Installationsprogramm noch separate Laufzeitumgebung.",
         "download-zip":"ZIP herunterladen","download-html":"HTML-Datei","research-label":"Hintergrundwissen","research-title":"Die Forschung hinter den Werkzeugen.",
         "research-copy":"Entdecken Sie die zugehörigen Veröffentlichungen und wissenschaftlichen Referenzen. Externe Links führen zur jeweiligen Verlags- oder Referenzseite.",
