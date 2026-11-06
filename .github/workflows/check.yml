@@ -1,0 +1,44 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate portable suite HTML
+        run: |
+          test -s Lab_Technician_Suite_Offline.html
+          grep -qi '<!doctype html>' Lab_Technician_Suite_Offline.html
+      - name: Report embedded app payload sizes
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          import re
+
+          html = pathlib.Path("Lab_Technician_Suite_Offline.html").read_text(encoding="utf-8")
+          payloads = dict(re.findall(r'(lab|gcms|hplc|gcms3d):\s*"([A-Za-z0-9_+/=]+)"', html))
+          expected = ("lab", "gcms", "hplc", "gcms3d")
+          if set(payloads) != set(expected):
+              raise SystemExit(f"Expected payloads {expected}; found {tuple(payloads)}")
+          for name in expected:
+              payload = payloads[name]
+              kind = "gz" if payload.startswith("gz_") else "raw"
+              print(f"{name}: {len(payload)} characters ({kind})")
+          PY
+      - name: Check frozen UALS strings
+        run: |
+          set -euo pipefail
+          if [ "$(git rev-parse --abbrev-ref HEAD)" != "main" ]; then
+            git branch -f main origin/main
+          fi
+          git show main:Lab_Technician_Suite_Offline.html | grep -oE 'UALS[^<"]{0,80}' | sort -u > /tmp/old.txt
+          grep -oE 'UALS[^<"]{0,80}' Lab_Technician_Suite_Offline.html | sort -u > /tmp/new.txt
+          diff -u /tmp/old.txt /tmp/new.txt
