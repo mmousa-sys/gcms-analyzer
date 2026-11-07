@@ -32,8 +32,9 @@
   #homeLink{
     position:fixed;top:14px;right:16px;z-index:100;padding:9px 12px;border-radius:8px;
     background:rgba(12,12,20,.9);color:#fff;text-decoration:none;
-    font:600 13px "Segoe UI",Tahoma,Arial,sans-serif
+    font:600 13px "Segoe UI",Tahoma,Arial,sans-serif;display:flex;align-items:center;gap:8px
   }
+  #homeLink img{width:28px;height:28px;border-radius:7px;object-fit:cover}
   #homeLink:hover,#homeLink:focus-visible{background:#263548;outline:2px solid #9fc5ff;outline-offset:2px}
   
   #hud{
@@ -198,7 +199,7 @@
 </head>
 <body>
 <div id="appStatus" role="status" aria-live="polite">Loading the 3D lesson… An internet connection is required to load the 3D libraries.</div>
-<a id="homeLink" href="./" data-i18n="home">← UALS home</a>
+<a id="homeLink" href="./"><img src="uals-logo.svg" alt=""> <span data-i18n="home">← UALS home</span></a>
 <canvas id="canvas" aria-label="Interactive 3D model illustrating the current GC-MS lesson"></canvas>
 <div id="info3d" role="status" aria-live="polite"></div>
 
