@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">UALS logo</title>
+  <desc id="desc">A mint analytical hexagon with a chromatogram trace on a deep teal background.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15383c"/>
+      <stop offset="1" stop-color="#10272b"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d5f5e4"/>
+      <stop offset="1" stop-color="#73cdb5"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#background)"/>
+  <path d="M256 78 405 164v172l-149 86-149-86V164z"
+        fill="none" stroke="url(#mark)" stroke-linejoin="round" stroke-width="15"/>
+  <circle cx="256" cy="78" r="13" fill="#d3a548"/>
+  <circle cx="405" cy="164" r="11" fill="#b7ead3"/>
+  <circle cx="405" cy="336" r="11" fill="#b7ead3"/>
+  <circle cx="256" cy="422" r="11" fill="#b7ead3"/>
+  <circle cx="107" cy="336" r="11" fill="#b7ead3"/>
+  <circle cx="107" cy="164" r="11" fill="#b7ead3"/>
+  <path d="M151 273h55l25-67 42 129 35-91 21 29h32"
+        fill="none" stroke="#f8faf8" stroke-linecap="round" stroke-linejoin="round" stroke-width="17"/>
+  <circle cx="273" cy="335" r="8" fill="#d3a548"/>
+</svg>
